@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { Resto } from './resto';
-import { AppState } from './services/state';
-import { GetDataService } from './get-data.service';
+import { Resto } from './reducers/resto';
+import { AppState } from './reducers/state';
+import { GetDataService } from './services/get-data.service';
 import { DATA } from './reducers/restos_reducer';
+import { ListComponent } from './list/list.component';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +15,16 @@ import { DATA } from './reducers/restos_reducer';
   providers: [ GetDataService ]
 })
 export class AppComponent implements OnInit {
-  // store: Observable<Resto[]>
   title : String;
+  restos_list : Observable<Resto[]>;  // this will be the filtered list
 
   constructor(public store:Store<AppState>, private data:GetDataService) {
     this.title = 'app works!';
-    this.store.subscribe(data => {
-      console.log(data);
-      if (data.restos.length > 0) {
-        console.log(data);
-        this.title = data.restos[0].name;
-      }
-    })
+
+    this.restos_list = this.store.map(state => {
+      console.log(state);
+      return state.restos.slice(0, state.filters.count);
+    });
   }
 
   ngOnInit(): void {

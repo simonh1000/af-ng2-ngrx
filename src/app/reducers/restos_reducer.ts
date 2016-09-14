@@ -1,7 +1,7 @@
 // restos.ts
 import { ActionReducer, Action } from '@ngrx/store';
 // import { Restos } from '../restos';
-import { Resto } from '../resto';
+import { Resto } from './resto';
 
 export const DATA = 'DATA';
 

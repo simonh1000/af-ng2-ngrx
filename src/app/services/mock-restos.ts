@@ -1,4 +1,4 @@
-import { Resto } from './resto';
+import { Resto } from '../reducers/resto';
 
 export const RESTOS: Resto[] = [
     { name: "r1" },

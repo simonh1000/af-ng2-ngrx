@@ -4,17 +4,30 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { DATA, restosReducer } from './reducers/restos_reducer';
+import { restosReducer } from './reducers/restos_reducer';
+import { filtersReducer } from './reducers/filters_reducer';
 import { AppComponent } from './app.component';
-import { GetDataService } from './get-data.service';
+import { GetDataService } from './services/get-data.service';
+import { ListComponent } from './list/list.component';
+import { FiltersComponent } from './filters/filters.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ListComponent,
+    FiltersComponent
   ],
   imports: [
     BrowserModule,
-    StoreModule.provideStore({ restos: restosReducer }, { restos: [] }),
+    StoreModule.provideStore({ 
+      restos: restosReducer,
+      filters : filtersReducer
+    }, { 
+      restos: [],
+      filters: {
+        count: 1
+      }
+    }),
     FormsModule,
     HttpModule
   ],
