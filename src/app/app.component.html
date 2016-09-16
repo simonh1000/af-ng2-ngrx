@@ -2,6 +2,7 @@
   {{title}}
 </h1>
 
-<app-filters></app-filters>
+<!--<ngrx-devtools></ngrx-devtools>-->
+<app-filters [filters]="filters | async" (action)="store.dispatch($event)"></app-filters>
 
 <app-list [restos]="restos_list | async"></app-list>

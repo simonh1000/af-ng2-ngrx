@@ -1,6 +1,6 @@
-import { Resto } from '../reducers/resto';
+import { JsonResto } from '../reducers/resto';
 
-export const RESTOS: Resto[] = [
+export const RESTOS: JsonResto[] = [
     { name: "r1" },
     { name: "r2" }
 ];

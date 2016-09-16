@@ -15,7 +15,8 @@ export class GetDataService {
 
   getData() {
     return Observable.create(observer => {
-      observer.next(RESTOS);
+      let mapped_restos = RESTOS.map(r => Object.assign(r, {open: false}));
+      observer.next(mapped_restos);
     });
   }
 

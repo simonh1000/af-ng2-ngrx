@@ -7,6 +7,7 @@ import { AppState } from './reducers/state';
 import { GetDataService } from './services/get-data.service';
 import { DATA } from './reducers/restos_reducer';
 import { ListComponent } from './list/list.component';
+import { Filters } from './reducers/filters';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +18,17 @@ import { ListComponent } from './list/list.component';
 export class AppComponent implements OnInit {
   title : String;
   restos_list : Observable<Resto[]>;  // this will be the filtered list
+  filters: Observable<Filters>;  // this will be the filtered list
 
   constructor(public store:Store<AppState>, private data:GetDataService) {
     this.title = 'app works!';
 
     this.restos_list = this.store.map(state => {
-      console.log(state);
+      console.log("applying filter");
       return state.restos.slice(0, state.filters.count);
     });
+
+    this.filters = this.store.select(state => state.filters);
   }
 
   ngOnInit(): void {
