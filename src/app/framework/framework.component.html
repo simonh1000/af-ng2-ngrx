@@ -1,0 +1,8 @@
+<div>
+  <span (click)="goDam()">Dam</span>
+</div>
+
+
+<app-filters [filters]="filters | async" (action)="store.dispatch($event)"></app-filters>
+
+<app-list [restos]="restos_list | async"></app-list>

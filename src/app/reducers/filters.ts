@@ -2,6 +2,8 @@ export interface Filters {
     search: string,
     location: string,
     cuisine: string,
-    price: number[], 
+    budget: boolean,
+    midrange: boolean,
+    finedining: boolean,
     count: number
 }

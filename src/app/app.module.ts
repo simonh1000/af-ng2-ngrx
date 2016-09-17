@@ -6,18 +6,21 @@ import { HttpModule } from '@angular/http';
 import { Store, StoreModule } from '@ngrx/store';
 // import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
-import { restosReducer } from './reducers/restos_reducer';
-import { filtersReducer, initFilters } from './reducers/filters_reducer';
+import { routing } from './app.routing';
 import { AppComponent } from './app.component';
-import { GetDataService } from './services/get-data.service';
+import { FrameworkComponent } from './framework/framework.component';
 import { ListComponent } from './list/list.component';
 import { FiltersComponent } from './filters/filters.component';
+import { restosReducer } from './reducers/restos_reducer';
+import { filtersReducer, initFilters } from './reducers/filters_reducer';
+import { GetDataService } from './services/get-data.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
-    FiltersComponent
+    FiltersComponent,
+    FrameworkComponent
   ],
   imports: [
     BrowserModule,
@@ -26,8 +29,9 @@ import { FiltersComponent } from './filters/filters.component';
       filters : filtersReducer
     }, { 
       restos: [],
-      filters: initFilters
+      filters: Object.assign({},initFilters)
     }),
+    routing,
     FormsModule,
     HttpModule
   ],

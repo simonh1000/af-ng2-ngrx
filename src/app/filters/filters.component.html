@@ -50,10 +50,10 @@
                  <div class="col-sm-8">
                     <span class="visible-xs-inline">&euro;</span>
                     <label *ngFor="let val of prices, let i = index" class="radio-inline">
-                        <span class="hidden-xs">{{val.name}}</span>
+                        <span class="hidden-xs">{{val.key}} {{val.name}}</span>
                         <span class="visible-xs-inline">{{i+1}}</span>
-                        <!--<input type="checkbox" [(ngModel)]="price[i]" name="price" />-->
-                        <input type="checkbox" [(ngModel)]="val.state" name="price" />
+                        <input type="checkbox" [(ngModel)]="cmpFilters[val.key]" name="price" />
+                        <!--<input type="checkbox" [(ngModel)]="val.state" name="price" />-->
                     </label>
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-4">
                     <label class="sr-only">find me a restaurant</label>
-                    <button class="afbutton reverse visible-xs-inline" (click)="setCriteria()">find me a restaurant!</button>
+                    <button class="afbutton reverse visible-xs-inline" (click)="setCriteria($event)">find me a restaurant!</button>
                     <!--<button class="afbutton hidden-xs" (click)="setCriteria()">find me a restaurant!</button>-->
                 </div>
             </div>
