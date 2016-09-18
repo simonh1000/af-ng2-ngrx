@@ -1,9 +1,6 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-
-import { AppState } from '../reducers/state';
 import { Filters } from '../reducers/filters';
 import { NEW_FILTERS, initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
@@ -15,14 +12,10 @@ import { fromUrl } from './parser';
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css']
 })
-export class FiltersComponent implements OnChanges {
+export class FiltersComponent implements OnInit, OnChanges {
   @Input() filters: Filters;
   @Output() action = new EventEmitter();
-  // search: string;
-  // location: string;
-  // cuisine: string;
-  // price: boolean[];
-  cmpFilters: Filters;
+  cmpFilters: Filters = initFilters;
 
   // Maps of dictionary to create select elements
   areas: Array<{key:string, name: string}> = [];
@@ -31,7 +24,6 @@ export class FiltersComponent implements OnChanges {
 
   constructor(private route: ActivatedRoute, private router: Router) {
     //   Create the selects data
-    this.areas.push({key: "all areas", name: "All Areas"});
     for (let k in Dictionary.areas) {
       this.areas.push({key: k, name: Dictionary.areas[k].name})
     }
@@ -55,22 +47,28 @@ export class FiltersComponent implements OnChanges {
     });
   }
 
-  ngOnChanges() {
-    console.log("onChanges - new filters:", this.filters);
-    this.cmpFilters = Object.assign({},this.filters);
-    // ???
-    // let link = ['/recommendations', toUrl(this.cmpFilters)];
-    // this.router.navigate(link);
+  ngOnChanges(changes: SimpleChanges) {
+    // When app loads, ngOnChanges is triggered with the default, initial value of filters
+    // Without the if-statement, this will cause a navigation to "/",
+    // which would overwrite whatever might be existing url
+    if (typeof changes['filters'].previousValue.budget != 'undefined') {
+      this.cmpFilters = Object.assign({}, this.filters);
+      // When the filters change, we need to update the url
+      console.log("onChanges - triggering router");
+      let link = ['/recommendations', toUrl( this.cmpFilters)];
+      this.router.navigate(link);
+    }
   }
 
   setCriteria($event:Event) {
+    console.log("setCriteria")
     $event.preventDefault();
     let link = ['/recommendations', toUrl(this.cmpFilters)];
     this.router.navigate(link);
 
     this.action.emit({
       type: NEW_FILTERS,
-      payload: this.cmpFilters
+      payload: Object.assign([], this.cmpFilters)
     });
   }
 }

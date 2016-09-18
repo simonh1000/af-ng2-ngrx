@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../reducers/state';
 
 @Component({
-  selector: 'app-list',
+  selector: 'resto-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
