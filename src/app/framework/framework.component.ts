@@ -10,6 +10,7 @@ import { initFilters, NEW_FILTERS } from '../reducers/filters_reducer';
 import { ListComponent } from '../list/list.component';
 import { Filters } from '../reducers/filters';
 import { toUrl } from '../filters/encoder';
+import { filter_restos } from '../filters/apply_filters';
 
 @Component({
   selector: 'app-framework',
@@ -23,18 +24,25 @@ export class FrameworkComponent implements OnInit {
   filters: Observable<Filters>;
   rotm: Observable<Resto>;
   rotms: Observable<Resto[]>;
+  // selectedRestos: Observable<Resto[]>;
   selectedResto: Observable<Resto>;
   top5: Observable<boolean>;
   not_top5: Observable<boolean>;
 
   constructor(public store:Store<AppState>, private data:GetDataService) {
-    this.restos_list = this.store.select(state => state.restos);
+    this.restos_list = this.store.select(filter_restos);
+    // this.restos_list = this.store.select(state => state.restos);
     this.filters = this.store.select(state => state.filters);
-    this.selectedResto = this.store.select(state => state.selectedResto[0])
-    this.top5 = this.store.select(state => state.filters).map(v => toUrl(v) === "");
-    this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== "");
-    this.rotm = this.store.select(state => state.restos[0]);
-    this.rotms = this.store.select(state => state.restos.slice(1));
+
+    // this.selectedRestos = this.store.select(state => filter_restos(state));
+
+    this.selectedResto = this.store.select(state => state.selectedResto[0]);
+
+    this.top5 = this.store.select(state => state.filters).map(v => toUrl(v) === '');
+    this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
+
+    this.rotm = this.restos_list.map(rs => rs[0]);
+    this.rotms = this.restos_list.map(rs => rs.slice(1));
   }
 
   ngOnInit(): void {

@@ -1,5 +1,4 @@
 import { Filters } from '../reducers/filters';
-// import { Dictionary } from './dictionary';
 
 export function toUrl(filters: Filters): string {
     let encoders = [search, cuisine, location, price];

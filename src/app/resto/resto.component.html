@@ -1,5 +1,52 @@
+<p>
     {{resto.rname}}
-    <button (click)="action.next({type: 'TOGGLE', payload: resto.qname})">Open</button>
-  <div *ngIf="resto.open">
-    I'm open
-  </div>
+</p>
+
+	<!--<span class='resto-index'>{{toAlphaIndex(idx)}} </span>-->
+<!--<h4>
+	<a href='.{{resto.link}}' target='_self'>{{resto.rname}}</a>
+	<span *ngIf='cuisines[resto.cuisine]'>({{cuisines[resto.cuisine].name}})</span>
+	<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
+</h4>
+<div class='scores'>
+	<span class='rating'>
+		{{'★'.repeat(resto.rating)}}<span class='feint'>{{'★'.repeat(5 - resto.rating)}}</span>
+	</span>
+	<span class='price'>
+		{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
+	</span>
+	<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>AF&nbsp;recommended</span>
+</div>
+
+<p class='comment basker'>
+	{{resto.comment}}
+	<span class='more' (click)='action.next({type: "TOGGLE", payload: resto.qname})'>
+		...<span *ngIf='open'>less</span><span *ngIf='!open'>more</span>&nbsp;info
+	</span>
+</p>
+
+<div class='resto_meta_more closable closed' [ngClass]='{"closed":!open}'>
+	<div class='meta-container'>
+		<span class='responsive'>
+			{{resto.address}} <span *ngIf='resto.area'> ({{areas[resto.area].name}})</span>
+		</span>
+
+		<span *ngIf='resto.tel'>
+			<span class='hidden-xs'> / </span>
+			<a class='telno' href='tel:{{resto.tel}}'>{{resto.tel}}</a>
+		</span>
+
+		<span class='links'>
+			<span *ngIf='resto.tel && resto.website'> / </span>
+
+			<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website")'>website</span>
+
+			<span *ngIf='resto.booking'>
+					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link")'>book now</span>
+			</span>
+
+			<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
+			</span>
+		</span>
+	</div>
+</div>-->

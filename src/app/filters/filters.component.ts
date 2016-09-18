@@ -25,12 +25,16 @@ export class FiltersComponent implements OnInit, OnChanges {
   constructor(private route: ActivatedRoute, private router: Router) {
     //   Create the selects data
     for (let k in Dictionary.areas) {
-      this.areas.push({key: k, name: Dictionary.areas[k].name})
+      if (k) {
+        this.areas.push({key: k, name: Dictionary.areas[k].name})
+      }
     }
 
-    this.cuisines.push({key: "all cuisines", name: "All Cuisines"});
+    this.cuisines.push({key: 'all cuisines', name: 'All Cuisines'});
     for (let k in Dictionary.cuisines) {
-      this.cuisines.push({key: k, name: Dictionary.cuisines[k].name})
+      if (k) {
+        this.cuisines.push({key: k, name: Dictionary.cuisines[k].name})
+      }
     }
 
     this.prices = Dictionary.prices.map(p => Object.assign(p, {state: false}))
@@ -38,7 +42,7 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   // On init, send route params to store
   ngOnInit() {
-    console.log("filters: ngOnInit - sending params to store");
+    console.log('filters: ngOnInit - sending params to store');
     this.route.params.forEach((params: Params) => {
       this.action.next({
         type: NEW_FILTERS,
@@ -49,19 +53,19 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     // When app loads, ngOnChanges is triggered with the default, initial value of filters
-    // Without the if-statement, this will cause a navigation to "/",
+    // Without the if-statement, this will cause a navigation to '/',
     // which would overwrite whatever might be existing url
     if (typeof changes['filters'].previousValue.budget != 'undefined') {
       this.cmpFilters = Object.assign({}, this.filters);
       // When the filters change, we need to update the url
-      console.log("onChanges - triggering router");
+      console.log('onChanges - triggering router');
       let link = ['/recommendations', toUrl( this.cmpFilters)];
       this.router.navigate(link);
     }
   }
 
-  setCriteria($event:Event) {
-    console.log("setCriteria")
+  setCriteria($event: Event) {
+    console.log('setCriteria')
     $event.preventDefault();
     let link = ['/recommendations', toUrl(this.cmpFilters)];
     this.router.navigate(link);

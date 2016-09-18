@@ -6,19 +6,19 @@ interface Cuisine {
 }
 interface Price {
     key: string;
-    name: string;    
+    name: string;
     suffix: string;
 }
 
 export interface IDictionary {
-    amsterdamCenter : number[];
-    amsterdamBounds : Array<number[]>;
-    prices : Price[];
+    amsterdamCenter: number[];
+    amsterdamBounds: Array<number[]>;
+    prices: Price[];
     cuisines: Object;
     areas: Object;
 }
 
-export const Dictionary : IDictionary = {
+export const Dictionary: IDictionary = {
     'amsterdamCenter': [52.37, 4.895],
     'amsterdamBounds': [[52.335759, 4.834671], [52.412472, 4.956894]],
     'prices': [
@@ -26,7 +26,7 @@ export const Dictionary : IDictionary = {
             'key': 'budget',
             'name': 'Budget',
             'suffix': 'Restaurants'
-        },{
+        }, {
             'key': 'midrange',
             'name': 'Mid-range',
             'suffix': 'Restaurants'

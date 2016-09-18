@@ -1,5 +1,1 @@
-<ul>
-  <li *ngFor="let resto of restos">
-      <app-resto [resto]="resto" (action)="action.next($event)"></app-resto>
-  </li>
-</ul>
+<app-resto *ngFor='let resto of restos' [resto]='resto' (action)='action.next($event)'></app-resto>
