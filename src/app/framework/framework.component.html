@@ -4,5 +4,10 @@
 
 
 <app-filters [filters]="filters | async" (action)="store.dispatch($event)"></app-filters>
+<app-map [restos]="restos_list | async" (action)="store.dispatch($event)"></app-map>
+<div *ngIf="selectedResto | async" class="selected-resto">
+  <app-resto [resto]="selectedResto | async" (action)="store.dispatch($event)"></app-resto>
+</div>
 
-<app-list [restos]="restos_list | async"></app-list>
+<!--<list-title [filters]="filters | async"></list-title>-->
+<app-list [restos]="restos_list | async" (action)="store.dispatch($event)"></app-list>

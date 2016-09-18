@@ -12,24 +12,31 @@ import { FrameworkComponent } from './framework/framework.component';
 import { ListComponent } from './list/list.component';
 import { FiltersComponent } from './filters/filters.component';
 import { restosReducer } from './reducers/restos_reducer';
+import { selectedReducer } from './reducers/selected_reducer';
 import { filtersReducer, initFilters } from './reducers/filters_reducer';
 import { GetDataService } from './services/get-data.service';
+import { RestoComponent } from './resto/resto.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListComponent,
     FiltersComponent,
-    FrameworkComponent
+    FrameworkComponent,
+    RestoComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
     StoreModule.provideStore({ 
       restos: restosReducer,
-      filters : filtersReducer
+      filters : filtersReducer,
+      selectedResto: selectedReducer
     }, { 
       restos: [],
-      filters: Object.assign({},initFilters)
+      filters: Object.assign({},initFilters),
+      selectedResto: []
     }),
     routing,
     FormsModule,

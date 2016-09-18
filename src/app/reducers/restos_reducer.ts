@@ -14,7 +14,7 @@ export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], actio
         case TOGGLE:
             console.log('TOGGLE', state)
             return state.map(r => {
-                if (r.name == action.payload) { 
+                if (r.qname == action.payload) { 
                     return Object.assign(r, {open: !r.open})
                 } else return r
             });

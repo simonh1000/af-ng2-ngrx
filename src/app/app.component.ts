@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

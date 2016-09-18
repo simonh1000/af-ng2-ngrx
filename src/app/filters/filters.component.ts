@@ -30,6 +30,7 @@ export class FiltersComponent implements OnChanges {
   prices: Array<{key:string, name: string, state: boolean}> = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {
+    //   Create the selects data
     this.areas.push({key: "all areas", name: "All Areas"});
     for (let k in Dictionary.areas) {
       this.areas.push({key: k, name: Dictionary.areas[k].name})
@@ -40,14 +41,12 @@ export class FiltersComponent implements OnChanges {
       this.cuisines.push({key: k, name: Dictionary.cuisines[k].name})
     }
 
-    // for (let p in Dictionary.prices) {
-    //   this.prices.push({key: p, name: Dictionary.prices[p].name, state: true})
-    // }
     this.prices = Dictionary.prices.map(p => Object.assign(p, {state: false}))
   }
 
   // On init, send route params to store
   ngOnInit() {
+    console.log("filters: ngOnInit - sending params to store");
     this.route.params.forEach((params: Params) => {
       this.action.next({
         type: NEW_FILTERS,
@@ -57,8 +56,11 @@ export class FiltersComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log("on changes", this.filters);
+    console.log("onChanges - new filters:", this.filters);
     this.cmpFilters = Object.assign({},this.filters);
+    // ???
+    // let link = ['/recommendations', toUrl(this.cmpFilters)];
+    // this.router.navigate(link);
   }
 
   setCriteria($event:Event) {
@@ -69,6 +71,6 @@ export class FiltersComponent implements OnChanges {
     this.action.emit({
       type: NEW_FILTERS,
       payload: this.cmpFilters
-    })
+    });
   }
 }

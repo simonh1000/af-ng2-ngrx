@@ -1,0 +1,5 @@
+    {{resto.rname}}
+    <button (click)="action.next({type: 'TOGGLE', payload: resto.qname})">Open</button>
+  <div *ngIf="resto.open">
+    I'm open
+  </div>

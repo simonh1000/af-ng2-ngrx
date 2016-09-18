@@ -1,7 +1,37 @@
 export interface JsonResto {
-    name: string
+    rname: string,
+    qname: string,
+    address: string,
+    tel: string,
+    website: string,
+    area: string,
+    cuisine: string,
+    price: number,
+    comment: string,
+    link: string,
+    booking?: string,
+    rating: number,
+    date: string,
+    recommendation: number,
+    lat: number,
+    lng: number
 }
 export interface Resto {
-    name: string,
+    rname: string,
+    qname: string,
+    address: string,
+    tel: string,
+    website: string,
+    area: string,
+    cuisine: string,
+    price: number,
+    comment: string,
+    link: string,
+    booking?: string,
+    rating: number,
+    date: string,
+    recommendation: number,
+    lat: number,
+
     open: boolean
 }

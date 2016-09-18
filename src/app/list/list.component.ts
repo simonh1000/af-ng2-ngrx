@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Resto } from '../reducers/resto';
 import { Store } from '@ngrx/store';
@@ -12,10 +12,10 @@ import { AppState } from '../reducers/state';
 })
 export class ListComponent implements OnInit {
   @Input() restos: Resto[];
+  @Output() action = new EventEmitter();
 
-  constructor(public store:Store<AppState>) { }
+  constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

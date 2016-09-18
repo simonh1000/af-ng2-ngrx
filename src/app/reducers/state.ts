@@ -3,5 +3,6 @@ import { Filters } from './filters';
 
 export interface AppState {
     restos: Resto[],
-    filters: Filters
+    filters: Filters,
+    selectedResto: Resto[]
 }

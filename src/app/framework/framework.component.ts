@@ -18,38 +18,39 @@ import { Filters } from '../reducers/filters';
 })
 export class FrameworkComponent implements OnInit {
 
-  title : String;
   restos_list : Observable<Resto[]>;  // this will be the filtered list
   filters: Observable<Filters>;  // this will be the filtered list
+  selectedResto: Observable<Resto>;
 
   constructor(public store:Store<AppState>, private data:GetDataService) {
-    this.title = 'app works!';
+    this.restos_list = this.store.select(state => state.restos.slice(0, state.filters.count))
 
-    this.restos_list = this.store.map(state => {
-      console.log("applying filter");
-      return state.restos.slice(0, state.filters.count);
-    });
+    // this.restos_list = this.store.map(state => {
+    //   console.log("applying filter");
+    //   return state.restos.slice(0, state.filters.count);
+    // });
 
     this.filters = this.store.select(state => state.filters);
+    this.selectedResto = this.store.select(state => state.selectedResto[0])
   }
 
   ngOnInit(): void {
     this.data.getData()
-    .subscribe(
-        data => {
-          console.log("Data returned");
-          this.store.dispatch({type: DATA, payload: data})
-        });
+    .subscribe( data => {
+        console.log("Data returned");
+        this.store.dispatch({
+          type: DATA,
+          payload: data
+        })
+      });
   }
 
   goDam() {
-    console.log(initFilters);
     let filters = Object.assign(initFilters, {location: 'dam'});
-    console.log(filters);
 
     this.store.dispatch({
-      type: NEW_FILTERS, 
-      payload: filters 
+      type: NEW_FILTERS,
+      payload: filters
     })
   }
 }

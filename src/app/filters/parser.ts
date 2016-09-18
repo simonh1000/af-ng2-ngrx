@@ -4,13 +4,13 @@ import { initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
-    let us = urlString.split('_')
+    if (urlString) {
+        return urlString.split('_')
                 .map(parser)
-                .reduce( flattener, initFilters )
-    console.log('fromUrl', us);
-    
-    // return Object.assign(initFilters, us);
-    return us;
+                .reduce( flattener, Object.assign({},initFilters) )
+    } else {
+        return Object.assign({}, initFilters);
+    }
 }
 
 function flattener(acc, v) {

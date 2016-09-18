@@ -3,7 +3,7 @@
 </p>
 
 <ul>
-  <li *ngFor="let resto of restos" (click)="store.dispatch({type: 'TOGGLE', payload: resto.name})">
-    {{resto.name}} <span *ngIf="resto.open">I'm open</span>
+  <li *ngFor="let resto of restos">
+      <app-resto [resto]="resto" (action)="action.next($event)"></app-resto>
   </li>
 </ul>
