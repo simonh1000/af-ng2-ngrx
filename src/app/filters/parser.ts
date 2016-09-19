@@ -4,11 +4,10 @@ import { initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
-    console.log("fromUrl", urlString);
     if (urlString) {
         return urlString.split('_')
                 .map(parser)
-                .reduce( flattener, Object.assign({}, initFilters) )
+                .reduce( flattener, Object.assign({},initFilters) )
     } else {
         return Object.assign({}, initFilters);
     }
@@ -21,7 +20,7 @@ function flattener(acc, v) {
     } else {
         return Object.assign(acc, v)
     }
-}
+} 
 
 function parser(s: string): Object {
     let parsers = [locationParser, cuisineParser, priceParser, searchParser];

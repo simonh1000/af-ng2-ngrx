@@ -1,6 +1,9 @@
-import { Component, OnChanges, OnInit, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../reducers/state';
 import { Filters } from '../reducers/filters';
 import { NEW_FILTERS, initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
@@ -12,10 +15,14 @@ import { fromUrl } from './parser';
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css']
 })
-export class FiltersComponent implements OnInit, OnChanges {
+export class FiltersComponent implements OnChanges {
   @Input() filters: Filters;
   @Output() action = new EventEmitter();
-  cmpFilters: Filters = initFilters;
+  // search: string;
+  // location: string;
+  // cuisine: string;
+  // price: boolean[];
+  cmpFilters: Filters;
 
   // Maps of dictionary to create select elements
   areas: Array<{key:string, name: string}> = [];
@@ -24,17 +31,14 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   constructor(private route: ActivatedRoute, private router: Router) {
     //   Create the selects data
+    this.areas.push({key: "all areas", name: "All Areas"});
     for (let k in Dictionary.areas) {
-      if (k) {
-        this.areas.push({key: k, name: Dictionary.areas[k].name})
-      }
+      this.areas.push({key: k, name: Dictionary.areas[k].name})
     }
 
-    this.cuisines.push({key: 'all cuisines', name: 'All Cuisines'});
+    this.cuisines.push({key: "all cuisines", name: "All Cuisines"});
     for (let k in Dictionary.cuisines) {
-      if (k) {
-        this.cuisines.push({key: k, name: Dictionary.cuisines[k].name})
-      }
+      this.cuisines.push({key: k, name: Dictionary.cuisines[k].name})
     }
 
     this.prices = Dictionary.prices.map(p => Object.assign(p, {state: false}))
@@ -42,7 +46,7 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   // On init, send route params to store
   ngOnInit() {
-    console.log('filters: ngOnInit - sending params to store');
+    console.log("filters: ngOnInit - sending params to store");
     this.route.params.forEach((params: Params) => {
       this.action.next({
         type: NEW_FILTERS,
@@ -51,28 +55,22 @@ export class FiltersComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    // When app loads, ngOnChanges is triggered with the default, initial value of filters
-    // Without the if-statement, this will cause a navigation to '/',
-    // which would overwrite whatever might be existing url
-    if (typeof changes['filters'].previousValue.budget != 'undefined') {
-      this.cmpFilters = Object.assign({}, this.filters);
-      // When the filters change, we need to update the url
-      console.log('onChanges - triggering router');
-      let link = ['/recommendations', toUrl( this.cmpFilters)];
-      this.router.navigate(link);
-    }
+  ngOnChanges() {
+    console.log("onChanges - new filters:", this.filters);
+    this.cmpFilters = Object.assign({},this.filters);
+    // ???
+    // let link = ['/recommendations', toUrl(this.cmpFilters)];
+    // this.router.navigate(link);
   }
 
-  setCriteria($event: Event) {
-    console.log('setCriteria')
+  setCriteria($event:Event) {
     $event.preventDefault();
     let link = ['/recommendations', toUrl(this.cmpFilters)];
     this.router.navigate(link);
 
     this.action.emit({
       type: NEW_FILTERS,
-      payload: Object.assign([], this.cmpFilters)
+      payload: this.cmpFilters
     });
   }
 }

@@ -9,8 +9,6 @@ import { DATA } from '../reducers/restos_reducer';
 import { initFilters, NEW_FILTERS } from '../reducers/filters_reducer';
 import { ListComponent } from '../list/list.component';
 import { Filters } from '../reducers/filters';
-import { toUrl } from '../filters/encoder';
-import { filter_restos } from '../filters/apply_filters';
 
 @Component({
   selector: 'app-framework',
@@ -20,29 +18,20 @@ import { filter_restos } from '../filters/apply_filters';
 })
 export class FrameworkComponent implements OnInit {
 
-  restos_list: Observable<Resto[]>;  // this will be the filtered list
-  filters: Observable<Filters>;
-  rotm: Observable<Resto>;
-  rotms: Observable<Resto[]>;
-  // selectedRestos: Observable<Resto[]>;
+  restos_list : Observable<Resto[]>;  // this will be the filtered list
+  filters: Observable<Filters>;  // this will be the filtered list
   selectedResto: Observable<Resto>;
-  top5: Observable<boolean>;
-  not_top5: Observable<boolean>;
 
   constructor(public store:Store<AppState>, private data:GetDataService) {
-    this.restos_list = this.store.select(filter_restos);
-    // this.restos_list = this.store.select(state => state.restos);
+    this.restos_list = this.store.select(state => state.restos.slice(0, state.filters.count))
+
+    // this.restos_list = this.store.map(state => {
+    //   console.log("applying filter");
+    //   return state.restos.slice(0, state.filters.count);
+    // });
+
     this.filters = this.store.select(state => state.filters);
-
-    // this.selectedRestos = this.store.select(state => filter_restos(state));
-
-    this.selectedResto = this.store.select(state => state.selectedResto[0]);
-
-    this.top5 = this.store.select(state => state.filters).map(v => toUrl(v) === '');
-    this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
-
-    this.rotm = this.restos_list.map(rs => rs[0]);
-    this.rotms = this.restos_list.map(rs => rs.slice(1));
+    this.selectedResto = this.store.select(state => state.selectedResto[0])
   }
 
   ngOnInit(): void {
@@ -57,15 +46,11 @@ export class FrameworkComponent implements OnInit {
   }
 
   goDam() {
-    this.quickLink({location: 'dam'});
-  }
+    let filters = Object.assign(initFilters, {location: 'dam'});
 
-  quickLink(obj) {
-      let filters = Object.assign({}, initFilters, obj);
-
-      this.store.dispatch({
-        type: NEW_FILTERS,
-        payload: filters
-      })
+    this.store.dispatch({
+      type: NEW_FILTERS,
+      payload: filters
+    })
   }
 }

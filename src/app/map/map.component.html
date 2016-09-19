@@ -1,9 +1,3 @@
 <p>
   map works!
 </p>
-
-<ul>
-  <li *ngFor="let resto of restos">
-      <span (click)="action.next({type: 'SELECT_RESTO', payload: resto})">{{resto.rname}}</span>
-  </li>
-</ul>

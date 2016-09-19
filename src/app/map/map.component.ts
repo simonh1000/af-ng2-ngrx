@@ -10,6 +10,7 @@ export class MapComponent implements OnInit {
   @Input() restos: Resto[];
   @Output() action = new EventEmitter();
 
+
   constructor() { }
 
   ngOnInit() {
