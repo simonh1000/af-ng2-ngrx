@@ -1,9 +1,12 @@
 /// <reference path="../../../typings/globals/google.maps/index.d.ts" />
 
-import { Component, OnInit, OnChanges, SimpleChange, Input, Output, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChange,
+         Input, Output, ChangeDetectionStrategy,
+         NgZone, EventEmitter } from '@angular/core';
 import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
 import { MAP_READY } from '../reducers/map_reducer';
+import { SELECT_RESTO } from '../reducers/selected_reducer';
 
 @Component({
   selector: 'app-map',
@@ -17,8 +20,7 @@ export class MapComponent implements OnInit, OnChanges {
   map: google.maps.Map;
   markers: Array<google.maps.Marker> = [];
 
-  constructor() {
-   }
+  constructor(private _ngZone: NgZone) { }
 
   ngOnInit() {
     let d = Dictionary['amsterdamCenter'];
@@ -28,11 +30,11 @@ export class MapComponent implements OnInit, OnChanges {
     };
     this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
     google.maps.event.addListenerOnce(this.map, 'idle',
-      () => this.action.next({type: MAP_READY}) );
+      () => (this._ngZone.run( () => this.action.next({type: MAP_READY}) ) ) );
   }
 
   ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-    // console.log('onChanges - recommendations = ' + JSON.stringify(changes['restos'].currentValue));
+    console.log('map.onChanges');
     if (this.map) {
       this.makeMarkers();
     }
@@ -71,11 +73,13 @@ export class MapComponent implements OnInit, OnChanges {
       google.maps.event.addListener(
         this.markers[idx],
         'click',
-        (i => {
+        (resto => {
           // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
           // this.ngZone.run( () => this.select.next(i) );
-          console.log(idx)
-        }).bind(null, idx)
+          this._ngZone.run( () => this.action.next({type: SELECT_RESTO, payload: resto}) );
+          // this.action.next({type: SELECT_RESTO, payload: resto});
+          console.log(resto);
+        }).bind(null, r)
       );
 
       marker.setMap(this.map);

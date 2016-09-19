@@ -5,7 +5,7 @@
 
 <app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
 
-<app-map [restos]='restos_list | async' (action)='store.dispatch($event)'></app-map>
+<app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>
 
 <div *ngIf='selectedResto | async' class='selected-resto'>
   <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>

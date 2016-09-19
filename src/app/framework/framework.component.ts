@@ -23,6 +23,7 @@ import { filter_restos } from '../filters/apply_filters';
 export class FrameworkComponent implements OnInit {
 
   restos_list: Observable<Resto[]>;  // this will be the filtered list
+  map_restos_list: Observable<Resto[]>;  // this will be the filtered list
   filters: Observable<Filters>;
   rotm: Observable<Resto>;
   rotms: Observable<Resto[]>;
@@ -33,18 +34,23 @@ export class FrameworkComponent implements OnInit {
 
   constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
     this.restos_list = this.store.select(filter_restos);
-    // this.restos_list = this.store.select(state => state.restos);
-    this.filters = this.store.select(state => state.filters);
+    this.map_restos_list = this.store.select(state => {
+      if (state.mapReady) {
+        let l = filter_restos(state);
+        console.log(l);
+        return l;
+      } else { return []; }
+    });
 
-    // this.selectedRestos = this.store.select(state => filter_restos(state));
-
-    this.selectedResto = this.store.select(state => state.selectedResto[0]);
+    this.rotm = this.restos_list.map(rs => rs[0]);
+    this.rotms = this.restos_list.map(rs => rs.slice(1));
 
     this.top5 = this.store.select(state => state.filters).map(v => toUrl(v) === '');
     this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
 
-    this.rotm = this.restos_list.map(rs => rs[0]);
-    this.rotms = this.restos_list.map(rs => rs.slice(1));
+    this.filters = this.store.select(state => state.filters);
+
+    this.selectedResto = this.store.select(state => state.selectedResto[0]);
 
     geo.getGeo();
   }

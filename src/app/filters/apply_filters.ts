@@ -14,27 +14,27 @@ function stateToFilter(state: Filters): ((Resto) => boolean) {
         cuisine(state.cuisine)
     );
 
-    if (filters.length == 0) {
+    if (filters.length === 0) {
         return (r => true);
     } else {
-        return (resto => filters.every(fn => fn(resto)))
+        return (resto => filters.every(fn => fn(resto)));
     }
 }
 
 // Cuisine filter
 function cuisine(tgt: string): ((Resto) => boolean)[] {
-    if (tgt == "all cuisines") {
+    if (tgt === 'all cuisines') {
         return [];
     } else {
-        return [resto => resto.cuisine == tgt]
+        return [resto => resto.cuisine === tgt];
     }
 }
 // Location filter
 function location(loc: string): ((Resto) => boolean)[] {
-    if (loc == "Amsterdam") {
+    if (loc === 'Amsterdam') {
         return [];
     } else {
-        return [resto => resto.area == loc]
+        return [resto => resto.area === loc];
     }
 }
 // Price filters
@@ -45,7 +45,7 @@ function price(state: Filters): ((Resto) => boolean)[] {
         price_filter(state, 'finedining')
     );
 
-    if (filters.length == 0) {
+    if (filters.length === 0) {
         return [];
     } else {
         // return [];
@@ -55,14 +55,14 @@ function price(state: Filters): ((Resto) => boolean)[] {
 
 function price_filter(state: Filters, key: string): ((Resto) => boolean)[] {
     let ii;
-    switch(key) {
+    switch (key) {
         case 'budget': ii = 1; break;
         case 'midrange': ii = 2; break;
         case 'finedining': ii = 3; break;
         default: ii = 0;
     }
     if (state[key]) {
-        return [(r => r.price === ii)]
+        return [(r => r.price === ii)];
     } else {
         return [];
     }

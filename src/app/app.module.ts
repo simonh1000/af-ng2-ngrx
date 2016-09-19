@@ -37,11 +37,12 @@ import { GeoService } from './services/geo.service';
       restos: restosReducer,
       filters : filtersReducer,
       selectedResto: selectedReducer,
-      mapReducer
+      mapReady: mapReducer
     }, {
       restos: [],
       filters: Object.assign({}, initFilters),
-      selectedResto: []
+      selectedResto: [],
+      mapReady: false
     }),
     routing,
     FormsModule,
