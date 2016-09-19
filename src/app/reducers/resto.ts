@@ -32,6 +32,7 @@ export interface Resto {
     date: string,
     recommendation: number,
     lat: number,
+    lng: number,
 
     open: boolean
 }

@@ -50,7 +50,7 @@
                  <div class="col-sm-8">
                     <span class="visible-xs-inline">&euro;</span>
                     <label *ngFor="let val of prices, let i = index" class="radio-inline">
-                        <span class="hidden-xs">{{val.key}} {{val.name}} {{cmpFilters[val.key]}}</span>
+                        <span class="hidden-xs">{{val.name}}</span>
                         <span class="visible-xs-inline">{{i+1}}</span>
                         <input type="checkbox" [(ngModel)]="cmpFilters[val.key]" name="{{val.key}}" />
                         <!--<input type="checkbox" [(ngModel)]="val.state" name="price" />-->

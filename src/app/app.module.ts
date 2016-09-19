@@ -11,12 +11,16 @@ import { AppComponent } from './app.component';
 import { FrameworkComponent } from './framework/framework.component';
 import { ListComponent } from './list/list.component';
 import { FiltersComponent } from './filters/filters.component';
+import { MapComponent } from './map/map.component';
+import { RestoComponent } from './resto/resto.component';
+
 import { restosReducer } from './reducers/restos_reducer';
+import { mapReducer } from './reducers/map_reducer';
 import { selectedReducer } from './reducers/selected_reducer';
 import { filtersReducer, initFilters } from './reducers/filters_reducer';
+
 import { GetDataService } from './services/get-data.service';
-import { RestoComponent } from './resto/resto.component';
-import { MapComponent } from './map/map.component';
+import { GeoService } from './services/geo.service';
 
 @NgModule({
   declarations: [
@@ -29,20 +33,21 @@ import { MapComponent } from './map/map.component';
   ],
   imports: [
     BrowserModule,
-    StoreModule.provideStore({ 
+    StoreModule.provideStore({
       restos: restosReducer,
       filters : filtersReducer,
-      selectedResto: selectedReducer
-    }, { 
+      selectedResto: selectedReducer,
+      mapReducer
+    }, {
       restos: [],
-      filters: Object.assign({},initFilters),
+      filters: Object.assign({}, initFilters),
       selectedResto: []
     }),
     routing,
     FormsModule,
     HttpModule
   ],
-  providers: [ GetDataService ],
+  providers: [ GetDataService, GeoService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

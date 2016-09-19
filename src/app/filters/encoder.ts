@@ -1,10 +1,9 @@
 import { Filters } from '../reducers/filters';
-import { Dictionary } from './dictionary';
 
 export function toUrl(filters: Filters): string {
     let encoders = [search, cuisine, location, price];
     return flatten(encoders.map(fn => fn(filters)))
-        .join('_')
+        .join('_');
 }
 
 function flatten(arr: any[][]): any[] {
@@ -14,17 +13,17 @@ function flatten(arr: any[][]): any[] {
 }
 
 function search(filters: Filters): string[] {
-    if (filters.search == "")
-        return [] 
-    else return [filters.search];
+    if (filters.search === '') {
+        return [];
+    } else { return [filters.search]; }
 }
 
 function location(filters: Filters): string[] {
-    return (filters.location == 'Amsterdam') ? [] : [filters.location]
+    return (filters.location === 'Amsterdam') ? [] : [filters.location]
 }
 
 function cuisine(filters: Filters): string[] {
-    return (filters.cuisine == 'all cuisines') ? [] : [filters.cuisine]
+    return (filters.cuisine === 'all cuisines') ? [] : [filters.cuisine]
 }
 
 function price(filters: Filters): string[] {

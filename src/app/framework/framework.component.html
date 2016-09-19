@@ -1,13 +1,24 @@
 <div>
-  <span (click)="goDam()">Dam</span>
+  <span (click)='goDam()'>Dam</span>
 </div>
 
 
-<app-filters [filters]="filters | async" (action)="store.dispatch($event)"></app-filters>
-<app-map [restos]="restos_list | async" (action)="store.dispatch($event)"></app-map>
-<div *ngIf="selectedResto | async" class="selected-resto">
-  <app-resto [resto]="selectedResto | async" (action)="store.dispatch($event)"></app-resto>
+<app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
+
+<app-map [restos]='restos_list | async' (action)='store.dispatch($event)'></app-map>
+
+<div *ngIf='selectedResto | async' class='selected-resto'>
+  <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>
 </div>
 
-<!--<list-title [filters]="filters | async"></list-title>-->
-<app-list [restos]="restos_list | async" (action)="store.dispatch($event)"></app-list>
+<div *ngIf='top5 | async'>
+  <h1>top5</h1>
+  <app-resto [resto]='rotm | async' (action)='store.dispatch($event)'></app-resto>
+  <h2>the rest</h2>
+  <resto-list [restos]='rotms | async' (action)='store.dispatch($event)'></resto-list>
+</div>
+
+<div *ngIf='not_top5 | async'>
+  <h2>another title</h2>
+  <resto-list [restos]='restos_list | async' (action)='store.dispatch($event)'></resto-list>
+</div>

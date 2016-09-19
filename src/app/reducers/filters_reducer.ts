@@ -4,24 +4,25 @@ import { Filters } from './filters';
 
 export const SWITCH = 'SWITCH';
 export const NEW_FILTERS = 'NEW_FILTERS';
+export const GEO = 'GEO';
 
-export const initFilters : Filters = {
-    search: "",
-    location: "Amsterdam",
-    cuisine: "all cuisines",
+export const initFilters: Filters = {
+    search: '',
+    location: 'Amsterdam',
+    cuisine: 'all cuisines',
     budget: false,
     midrange: false,
     finedining: false,
-    count: 1
-}
+    geo: {lat: -999, lng: -999}
+};
 
-export const filtersReducer: ActionReducer<Filters> = (state: Filters = initFilters, action: Action) => {
+export const filtersReducer: ActionReducer<Filters> = (state: Filters, action: Action) => {
     switch (action.type) {
         case NEW_FILTERS:
-            console.log("filtersReducer", action)
-            if (state.count == 2) {
-                return Object.assign(action.payload, { count: 1 })
-            } else return Object.assign(action.payload, { count: 2 });
+            console.log('NEW_FILTERS', action.payload);
+            return Object.assign({}, action.payload);
+        case GEO:
+            return Object.assign({}, action.payload);
 
         default:
             return state;
