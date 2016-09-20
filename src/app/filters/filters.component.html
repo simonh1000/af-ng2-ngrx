@@ -1,12 +1,15 @@
 <div class='criteriaContainer'>
 
-    <!--<div class='searchBtnContainer visible-xs'>
+    <div class='searchBtnContainer visible-xs'>
         <button
+            class='afbutton'
+            (click)='overlay=!overlay'>search criteria</button>
+        <!--<button
             class='afbutton'
             (click)='overlay=!overlay'
             scroll-on-click
-            data-selector='body'>search criteria</button>
-    </div>-->
+            data-selector='body'>search criteria</button>-->
+    </div>
 
     <div class='criteria closed' [ngClass]='{"closed": !overlay}'>
         <form class='form-horizontal'>
@@ -62,7 +65,7 @@
                 <div class='col-sm-6 col-sm-offset-4'>
                     <label class='sr-only'>find me a restaurant</label>
                     <button class='afbutton reverse visible-xs-inline' (click)='setCriteria($event)'>find me a restaurant!</button>
-                    <!--<button class='afbutton hidden-xs' (click)='setCriteria()'>find me a restaurant!</button>-->
+                    <button class='afbutton hidden-xs' (click)='setCriteria($event)'>find me a restaurant!</button>
                 </div>
             </div>
         </form>

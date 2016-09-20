@@ -2,10 +2,11 @@
   <span (click)='goDam()'>Dam</span>
 </div>
 
+<div id="filter-map">
+  <app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
 
-<app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
-
-<app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>
+  <app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>
+</div>
 
 <div *ngIf='selectedResto | async' class='selected-resto'>
   <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>

@@ -1,0 +1,16 @@
+#map {
+    display: block;
+    width: 100%;
+    height: 220px;
+}
+
+
+@media (min-width: 640px) {
+
+#map {
+    // display: block;
+    // width: 400px;
+    height: 400px;
+}
+
+}

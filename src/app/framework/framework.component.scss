@@ -1,0 +1,19 @@
+#filter-map {
+    display: flex;
+    flex-direction: column
+}
+
+@media (min-width: 640px) {
+
+#filter-map {
+    flex-direction: initial;
+    app-filters {
+        flex: 1;
+    }
+    app-map {
+        width: 400px;
+    }
+
+}
+
+}

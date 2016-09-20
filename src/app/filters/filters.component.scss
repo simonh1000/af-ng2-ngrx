@@ -1,0 +1,92 @@
+$brand-primary: red;
+$afradius: 5px;
+$v-rhythm: 16pt;
+$screen-sm: 640px;
+
+
+.criteriaContainer {
+    margin-top: -3px;
+    margin-bottom: 19px;
+    position: relative;
+}
+.criteria {
+    overflow-y: hidden;
+    position: absolute; // floats on top of map
+    margin-top: 3px;
+    border-radius: $afradius;
+    z-index: 10;
+    width: 80%;
+    background-color: rgba($brand-primary, 0.8);
+    color: white;
+    padding: 0 $v-rhythm;
+
+    max-height: 24em;
+    transition-property: max-height;
+    transition-duration: 1.3s;
+    transition-timing-function: ease;
+
+    &.closed {
+        // display: block;
+        max-height: 0
+    }
+
+    .form-group {
+        // width: 100%;
+        display: block;
+
+        .control-label {   // 'search by x'
+            font-family: baskerville;
+            text-align: left;
+        }
+
+        label.checkbox-inline {
+            // font-weight: bold;
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: 400;
+        }
+    }
+
+    &>:first-child {
+        margin-top: 10px
+    }
+    &>:last-child {
+        margin-bottom: 10px;
+    }
+    .reverse {
+        background-color: white;
+        color: $brand-primary;
+        width: 100%;
+        text-align: left;
+    }
+    .radio-inline {
+        padding-left: 0;
+        input {
+            vertical-align: sub;
+            margin-left: 2px;
+        }
+    }
+}
+
+
+@media (min-width: $screen-sm) {
+    .criteria {
+        position: inherit;
+        background-color: inherit;
+        color: black;
+        padding-left: 0;
+        width: 100%;
+        // Use default Bootstrap font to get better text alignment on select
+        // .form-control {
+        //     font-family: helvetica;
+        // }
+        span {
+            text-transform: lowercase;
+        }
+        .form-group {
+            padding: 5px 0;
+        }
+        &.closed {  // always open for sm+ screens
+            max-height: none;
+        }
+    }
+}

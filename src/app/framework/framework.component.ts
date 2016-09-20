@@ -17,7 +17,7 @@ import { filter_restos } from '../filters/apply_filters';
 @Component({
   selector: 'app-framework',
   templateUrl: './framework.component.html',
-  styleUrls: ['./framework.component.css'],
+  styleUrls: ['./framework.component.scss'],
   providers: [ GetDataService ]
 })
 export class FrameworkComponent implements OnInit {

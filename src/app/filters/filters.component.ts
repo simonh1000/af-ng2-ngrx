@@ -10,12 +10,13 @@ import { fromUrl } from './parser';
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.css']
+  styleUrls: ['./filters.component.scss']
 })
 export class FiltersComponent implements OnInit, OnChanges {
   @Input() filters: Filters;
   @Output() action = new EventEmitter();
   cmpFilters: Filters = initFilters;
+  overlay: boolean = false;
 
   // Maps of dictionary to create select elements
   areas: Array<{key: string, name: string}> = [];
@@ -55,7 +56,7 @@ export class FiltersComponent implements OnInit, OnChanges {
     // When app loads, ngOnChanges is triggered with the default, initial value of filters
     // Without the if-statement, this will cause a navigation to '/',
     // which would overwrite whatever might be existing url
-    if (typeof changes['filters'].previousValue.budget != 'undefined') {
+    if (typeof changes['filters'].previousValue.budget !== 'undefined') {
       this.cmpFilters = Object.assign({}, this.filters);
       // When the filters change, we need to update the url
       console.log('onChanges - triggering router');

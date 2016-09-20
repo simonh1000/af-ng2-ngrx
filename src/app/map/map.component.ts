@@ -11,7 +11,7 @@ import { SELECT_RESTO } from '../reducers/selected_reducer';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, OnChanges {
   @Input() restos: Resto[];
