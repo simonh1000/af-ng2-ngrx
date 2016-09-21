@@ -1,1 +1,3 @@
+<h2 *ngIf='restos.length > 0'>{{title}}</h2>
+<h2 *ngIf='restos.length == 0'>No restaurants match your query</h2>
 <app-resto *ngFor='let resto of restos' [resto]='resto' (action)='action.next($event)'></app-resto>

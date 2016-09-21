@@ -31,6 +31,7 @@ export class FrameworkComponent implements OnInit {
   selectedResto: Observable<Resto>;
   top5: Observable<boolean>;
   not_top5: Observable<boolean>;
+  title: Observable<string>;
 
   constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
     this.restos_list = this.store.select(filter_restos);
@@ -49,6 +50,8 @@ export class FrameworkComponent implements OnInit {
     this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
 
     this.filters = this.store.select(state => state.filters);
+    // this.title = this.store.select(state => state.filters).map(this.filtersToTitle);
+    this.title = this.filters.map(f => this.filtersToTitle(f));
 
     this.selectedResto = this.store.select(state => state.selectedResto[0]);
 
@@ -76,6 +79,10 @@ export class FrameworkComponent implements OnInit {
       this.store.dispatch({
         type: NEW_FILTERS,
         payload: filters
-      })
+      });
+  }
+
+  filtersToTitle(filters) {
+    return 'another title';
   }
 }
