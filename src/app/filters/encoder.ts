@@ -19,11 +19,12 @@ function search(filters: Filters): string[] {
 }
 
 function location(filters: Filters): string[] {
-    return (filters.location === 'Amsterdam') ? [] : [filters.location]
+    // return [];
+    return (filters.location === 'amsterdam') ? [] : [filters.location];
 }
 
 function cuisine(filters: Filters): string[] {
-    return (filters.cuisine === 'all cuisines') ? [] : [filters.cuisine]
+    return (filters.cuisine === 'all cuisines') ? [] : [filters.cuisine];
 }
 
 function price(filters: Filters): string[] {

@@ -164,7 +164,7 @@ export const Dictionary: IDictionary = {
         }
     },
     'areas': {
-        'Amsterdam': {
+        'amsterdam': {
             'name': 'Amsterdam',
             'lat': 52.37,
             'lng': 4.895
@@ -174,52 +174,52 @@ export const Dictionary: IDictionary = {
             'lat': 52.3713023,
             'lng': 4.89286422
         },
-        'Jordaan': {
+        'jordaan': {
             'name': 'Jordaan',
             'lat': 52.3759135,
             'lng': 4.88531112
         },
-        'Leidseplein': {
+        'leidseplein': {
             'name': 'Leidseplein',
             'lat': 52.3640176,
             'lng': 4.88222122
         },
-        'Nieuwmarkt': {
+        'nieuwmarkt': {
             'name': 'Nieuwmarkt',
             'lat': 52.3726909,
             'lng': 4.90024566
         },
-        'Noord': {
+        'noord': {
             'name': 'Noord',
             'lat': 52.4,
             'lng': 4.9
         },
-        'Oud-West': {
+        'oud-west': {
             'name': 'Oud-West',
             'lat': 52.3664809,
             'lng': 4.87243652
         },
-        'De-Pijp': {
+        'de-pijp': {
             'name': 'De Pijp',
             'lat': 52.3553688,
             'lng': 4.89252090
         },
-        'Rembrandtplein': {
+        'rembrandtplein': {
             'name': 'Rembrandtplein',
             'lat': 52.3665857,
             'lng': 4.89320755
         },
-        'Westerpark': {
+        'westerpark': {
             'name': 'Westerpark',
             'lat': 52.3861823,
             'lng': 4.88136291
         },
-        'Oostwatergraafsmeer': {
+        'oostwatergraafsmeer': {
             'name': 'Oost\/Watergraafsmeer',
             'lat': 52.3532719,
             'lng': 4.920158
         },
-        'Zuid': {
+        'zuid': {
             'name': 'Zuid',
             'lat': 52.3,
             'lng': 4.9

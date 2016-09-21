@@ -31,7 +31,7 @@ function cuisine(tgt: string): ((Resto) => boolean)[] {
 }
 // Location filter
 function location(loc: string): ((Resto) => boolean)[] {
-    if (loc === 'Amsterdam') {
+    if (loc === 'amsterdam') {
         return [];
     } else {
         return [resto => resto.area === loc];

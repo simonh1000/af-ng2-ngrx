@@ -14,21 +14,21 @@
     <div class='criteria closed' [ngClass]='{"closed": !overlay}'>
         <form class='form-horizontal'>
             <div class='form-group'>
-                <label class='col-sm-4 control-label'>search by name</label>
-                <div class='col-sm-6'>
+                <label class='col-sm-5 control-label'>search by name</label>
+                <div class='col-sm-7'>
                     <div class='input-group'>
                         <!--<input type='text' [(ngModel)]='search' class='form-control'>-->
                         <input type='text' [(ngModel)]='cmpFilters.search' name='search' class='form-control'>
                         <span class='input-group-btn'>
-                            <button type='button' class='btn btn-default' (click)='search=""'>⌫</button>
+                            <button type='button' class='btn btn-default' (click)='cmpFilters.search=""'>⌫</button>
                         </span>
                     </div>
                 </div>
             </div>
 
             <div class='form-group'>
-                <label class='col-sm-4 control-label'>search by location</label>
-                <div class='col-sm-6'>
+                <label class='col-sm-5 control-label'>search by location</label>
+                <div class='col-sm-7'>
                     <select [(ngModel)]='cmpFilters.location' name='location' class='form-control'>
                         <option *ngFor='let area of areas' [value]='area.key'>
                           {{area.name}}
@@ -38,8 +38,8 @@
             </div>
 
             <div class='form-group'>
-                <label class='col-sm-4 control-label'>search by cuisine</label>
-                <div class='col-sm-6'>
+                <label class='col-sm-5 control-label'>search by cuisine</label>
+                <div class='col-sm-7'>
                     <select [(ngModel)]='cmpFilters.cuisine' name='cuisine' class='form-control'>
                         <option *ngFor='let c of cuisines' [value]='c.key'>
                           {{c.name}}
@@ -49,8 +49,8 @@
             </div>
 
             <div class='form-group'>
-                <label class='col-sm-4 control-label'>filter by price range</label>
-                 <div class='col-sm-8'>
+                <label class='col-sm-5 control-label'>filter by price range</label>
+                 <div class='col-sm-7'>
                     <span class='visible-xs-inline'>&euro;</span>
                     <label *ngFor='let val of prices, let i = index' class='radio-inline'>
                         <span class='hidden-xs'>{{val.name}}</span>

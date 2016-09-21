@@ -12,7 +12,7 @@ export class GeoService {
   getGeo() {
     console.log('Geo - constructor');
 
-    navigator.geolocation.getCurrentPosition(pos => {
+    navigator.geolocation.watchPosition(pos => {
       // var inAmsterdam = true;
       let inAmsterdam =
         pos.coords.latitude > Dictionary.amsterdamBounds[0][0] &&
@@ -22,7 +22,11 @@ export class GeoService {
 
       if (inAmsterdam) {
         console.log('restos.getGeo: user IN Amsterdam', pos.coords);
-        this.store.dispatch({ type: GEO, payload: pos.coords });
+        this.store.dispatch({ type: GEO, payload: {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+          }
+        });
       } else {
         console.log('restos.getGeo: user NOT in Amsterdam');
       }

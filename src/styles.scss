@@ -1,10 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
-$brand-primary: red;
-$afradius: 5px;
-$v-rhythm: 16pt;
-$screen-sm: 640px;
 
 body {
     padding: 0 5px;
+    .container {
+        max-width: 900px;
+    }
 }

@@ -8,7 +8,7 @@ export const GEO = 'GEO';
 
 export const initFilters: Filters = {
     search: '',
-    location: 'Amsterdam',
+    location: 'amsterdam',
     cuisine: 'all cuisines',
     budget: false,
     midrange: false,
@@ -16,13 +16,13 @@ export const initFilters: Filters = {
     geo: {lat: -999, lng: -999}
 };
 
-export const filtersReducer: ActionReducer<Filters> = (state: Filters, action: Action) => {
+export const filtersReducer: ActionReducer<Filters> = (state: Filters = initFilters, action: Action) => {
     switch (action.type) {
         case NEW_FILTERS:
-            console.log('NEW_FILTERS', action.payload);
+            // console.log('NEW_FILTERS', action.payload);
             return Object.assign({}, action.payload);
         case GEO:
-            return Object.assign({}, action.payload);
+            return Object.assign(state, {geo: action.payload});
 
         default:
             return state;

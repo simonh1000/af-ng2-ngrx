@@ -4,7 +4,7 @@ import { initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
-    console.log("fromUrl", urlString);
+    console.log('fromUrl', urlString);
     if (urlString) {
         return urlString.split('_')
                 .map(parser)
@@ -16,7 +16,7 @@ export function fromUrl(urlString: string): Filters {
 
 function flattener(acc, v) {
     let k = Object.keys(v)[0];
-    if (k == 'price' && acc.price) {
+    if (k === 'price' && acc.price) {
         return Object.assign(acc, {price: acc.price.push(v.price[0])})
     } else {
         return Object.assign(acc, v)
@@ -31,26 +31,32 @@ function parser(s: string): Object {
 }
 
 function locationParser(s: string): Object {
-    if (Dictionary.areas[s])
-        return {location: s}
-    else return {};
+    if (Dictionary.areas[s]) {
+        return {location: s};
+    } else {
+        return {};
+    }
 }
 function cuisineParser(s: string): Object {
-    if (Dictionary.cuisines[s])
-        return {cuisine: s}
-    else return {};
+    if (Dictionary.cuisines[s]) {
+        return {cuisine: s};
+    } else {
+        return {};
+    }
 }
 
-function priceParser(s: string) : Object {
+function priceParser(s: string): Object {
     let priceKeys = Dictionary.prices.map(p => p.key);
     let priceAsInt = priceKeys.indexOf(s)
     if (priceAsInt > -1) {
         let obj = {};
         obj[s] = true;
         return obj;
-    } else return {};
+    } else {
+        return {};
+    }
 }
 
-function searchParser(s: string) : Object {
+function searchParser(s: string): Object {
     return {'search': s};
 }
