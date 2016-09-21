@@ -5,10 +5,11 @@ import { Dictionary } from '../filters/dictionary';
 @Component({
   selector: 'app-resto',
   templateUrl: './resto.component.html',
-  styleUrls: ['./resto.component.css']
+  styleUrls: ['./resto.component.scss']
 })
 export class RestoComponent {
   @Input() resto: Resto;
+  @Input() idx: number;
   @Output() action = new EventEmitter();
   cuisines: Object;
   areas: Object;
@@ -17,4 +18,9 @@ export class RestoComponent {
     this.cuisines = Dictionary.cuisines;
     this.areas = Dictionary.areas;
   }
+
+  toAlphaIndex(i) {
+    return String.fromCharCode('A'.charCodeAt(0) + parseInt(i, 10));
+  }
+
 }

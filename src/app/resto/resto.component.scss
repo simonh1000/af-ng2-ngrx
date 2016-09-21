@@ -1,0 +1,79 @@
+@import '../../variables';
+
+.resto-index {
+    color: $brand-primary-muted1;
+}
+h4 {
+    margin-bottom: 0 !important;
+    a {
+        color: black;
+    }
+}
+.scores {
+    display: flex;
+    justify-content: flex-start;
+}
+.recommended {  // 'af recommended' 'button'
+    font-style: italic;
+    font-size: 90%;
+    font-weight: normal;
+    color: white;
+    background-color: $brand-primary;
+    border-radius: $afradius;
+    padding: 4px 7px 1px 7px;
+    // margin-top: -5px;
+}
+string-fill {
+    font-size: 18px;
+    color: $brand-primary;
+    font-weight: normal;
+    display: inline;
+    margin-right: 20px;
+}
+.comment {
+    clear: both;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-style: italic;
+    line-height: $v-rhythm / 18px;
+    a { 			// map page only
+        // display: inline-block;
+        float: right;
+        line-height: $v-rhythm;
+        color: $brand-primary-muted1;
+        text-decoration: underline;
+    }
+}
+.resto_meta_more {
+    clear: both;  // ensures box always flows beneath floated "...more info"
+
+    .meta-container {
+        background-color: $brand-primary-muted2;
+        border-radius: $afradius;
+        text-align: center;
+        padding: 10px 5px;
+    }
+    // overflow: auto;
+    .links {
+        cursor: pointer;
+        color: $brand-secondary;
+        .website:hover, .booknow:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.closable {              // extra css for map page only
+    max-height: 80px;
+    overflow-y: hidden;
+    transition-property: max-height;
+    transition-duration: 1.3s;
+    transition-timing-function: ease;
+    &.closed {
+        transition-property: max-height;
+        transition-duration: 1.3s;
+        transition-timing-function: ease;
+        // padding: 0;
+        max-height: 0;
+    }
+}

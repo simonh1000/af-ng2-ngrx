@@ -6,7 +6,7 @@ import { Resto } from '../reducers/resto';
 @Component({
   selector: 'app-resto-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css'],
+  styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit {

@@ -17,7 +17,7 @@ import { SELECT_RESTO } from '../reducers/selected_reducer';
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    // @Input() selectedResto: Resto;
+    @Input() selectedResto: Resto;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
@@ -56,8 +56,10 @@ export class MapComponent implements OnInit, OnChanges {
             this.restos.forEach((r, idx) => {
                 let markerPos = new google.maps.LatLng(r.lat, r.lng);
                 let l = String.fromCharCode('A'.charCodeAt(0) + idx);
-                // let iconColour = (r.qname === this.selectedResto.qname) ? '/aa9090/' : '/aa94a1/';
-                let icon = 'http://www.googlemapsmarkers.com/v1/' + l + '/aa94a1/';
+                let iconColour =
+                        // '/aa94a1/'
+                        (this.selectedResto && r.qname === this.selectedResto.qname) ? '/aa0000/' : '/aa94a1/';
+                let icon = 'http://www.googlemapsmarkers.com/v1/' + l + iconColour;
 
                 let marker = new google.maps.Marker({
                     title: r.rname,

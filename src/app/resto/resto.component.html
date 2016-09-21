@@ -1,14 +1,11 @@
-<p>
-    {{resto.rname}}
-</p>
 
-	<!--<span class='resto-index'>{{toAlphaIndex(idx)}} </span>-->
-<!--<h4>
+<h4>
+	<span class='resto-index'>{{toAlphaIndex(idx)}} </span>
 	<a href='.{{resto.link}}' target='_self'>{{resto.rname}}</a>
 	<span *ngIf='cuisines[resto.cuisine]'>({{cuisines[resto.cuisine].name}})</span>
 	<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
 </h4>
-<div class='scores'>
+<!--<div class='scores'>
 	<span class='rating'>
 		{{'★'.repeat(resto.rating)}}<span class='feint'>{{'★'.repeat(5 - resto.rating)}}</span>
 	</span>

@@ -5,8 +5,8 @@
 <div id="filter-map">
   <app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
 
-  <app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>
-  <!--<app-map [restos]='map_restos_list | async' [selectedResto]='selectedResto | async' (action)='store.dispatch($event)'></app-map>-->
+  <!--<app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>-->
+  <app-map [restos]='map_restos_list | async' [selectedResto]='selectedResto | async' (action)='store.dispatch($event)'></app-map>
 </div>
 
 <div *ngIf='selectedResto | async' class='selected-resto'>
@@ -15,7 +15,7 @@
 
 <div *ngIf='top5 | async'>
   <h1>Restaurant of the Month</h1>
-  <app-resto [resto]='rotm | async' (action)='store.dispatch($event)'></app-resto>
+  <app-resto [resto]='rotm | async' [idx]='0' (action)='store.dispatch($event)'></app-resto>
   <app-resto-list [restos]='rotms | async' [title]='"Previous"' (action)='store.dispatch($event)'></app-resto-list>
 </div>
 
