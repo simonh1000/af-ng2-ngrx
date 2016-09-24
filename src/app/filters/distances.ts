@@ -1,12 +1,19 @@
 import { Point } from '../reducers/filters';
 import { Resto } from '../reducers/resto';
 
-export function setDistances(pt: Point, restos: Resto[]): Resto[] {
-    return restos
-        .map(r => {
-            let distance = getDistance(pt.lat, pt.lng, r.lat, r.lng);
-            return Object.assign(r, {distance: distance});
-        });
+function scorer(d, r): number {
+    let dd = Math.max(0, 5 - d);
+    return r + dd;
+}
+
+export function setDistance(pt: Point) {
+    return function(r: Resto): Resto {
+            let distance = getDistance(pt.lat, pt.lng, r.lat, r.lng) / 1000;
+            return Object.assign(r, {
+                distance: distance,
+                score: scorer(distance, r.rating)
+            });
+        };
 }
 
 function getDistance(lat1, lng1, lat, lng) {
@@ -23,3 +30,11 @@ function getDistance(lat1, lng1, lat, lng) {
     let d = R * c;
     return d; // returns the distance in meter
 }
+
+// export function setDistances(pt: Point, restos: Resto[]): Resto[] {
+//     return restos
+//         .map(r => {
+//             let distance = getDistance(pt.lat, pt.lng, r.lat, r.lng);
+//             return Object.assign(r, {distance: distance});
+//         });
+// }

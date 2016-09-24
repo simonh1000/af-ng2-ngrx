@@ -19,13 +19,11 @@ import { Point } from '../reducers/filters';
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
     @Input() selectedResto: Resto;
-    @Input() location: Point;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
     // markers: Array<google.maps.Marker> = [];
     markers: Array<any> = [];
-    prevLocation: google.maps.Circle;
 
     constructor(private _ngZone: NgZone) { }
 
@@ -40,13 +38,10 @@ export class MapComponent implements OnInit, OnChanges {
             () => (this._ngZone.run(() => this.action.next({ type: MAP_READY }))));
     }
 
-    ngOnChanges(changes: { changes: SimpleChange }) {
-        console.log('map.onChanges', changes);
+    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
+        console.log('map.onChanges');
         if (this.map) {
             this.addRestos();
-        }
-        if (changes['location'] && changes['location'].currentValue.lat > 0) {
-            this.addMyLocation(changes['location'].currentValue);
         }
     }
 
@@ -64,6 +59,8 @@ export class MapComponent implements OnInit, OnChanges {
                 let markerPos = new google.maps.LatLng(r.lat, r.lng);
                 let l = String.fromCharCode('A'.charCodeAt(0) + idx);
                 let iconColour =
+                        // '/aa94a1/'
+                        // (this.selectedResto && r.qname === this.selectedResto.qname) ? '/aa0000/' : '/aa94a1/';
                         (this.selectedResto && r.qname === this.selectedResto.qname) ? '#aa0000' : '#aa94a1';
 
                 // let marker = this.makeCircle(markerPos, iconColour, l);
@@ -75,7 +72,9 @@ export class MapComponent implements OnInit, OnChanges {
                     'click',
                     (resto => {
                         // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
+                        // this.ngZone.run( () => this.select.next(i) );
                         this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
+                        // this.action.next({type: SELECT_RESTO, payload: resto});
                         console.log(resto);
                     }).bind(null, r)
                 );
@@ -92,12 +91,25 @@ export class MapComponent implements OnInit, OnChanges {
             console.log('addRestos: No markers to draw');
         }
     }
+
     makeMarker(latlng: google.maps.LatLng, colour: string, label: string): google.maps.Marker {
+        // let markerLabel = new google.maps.MarkerLabel({
+
+        // })
+        // return new google.maps.Marker({
+        //     // title: r.rname,
+        //     position: pt,
+        //     color: colour,
+        //     // icon: 'http://www.googlemapsmarkers.com/v1/' + l + iconColour,
+        //     label: label
+        // });
+
         return new google.maps.Marker({
             position: latlng,
             label: label,
             icon: this.pinSymbol(colour)
         });
+
     }
 
     pinSymbol(color) {
@@ -114,23 +126,13 @@ export class MapComponent implements OnInit, OnChanges {
     // makeCircle(pt: Point): google.maps.Circle {
     makeCircle(pt: google.maps.LatLng, colour: string, label: string): google.maps.Circle {
         return new google.maps.Circle({
-            strokeColor: '#000099',
-            strokeOpacity: 0.8,
+            // strokeColor: '#FF0000',
+            // strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: colour,
             fillOpacity: 0.35,
             center: pt,
-            radius: 80
+            radius: 60
         });
-    }
-
-    addMyLocation(loc: Point) {
-        if (this.prevLocation) {
-            this.prevLocation.setMap(null);
-        }
-        let markerPos = new google.maps.LatLng(loc.lat, loc.lng);
-        let marker = this.makeCircle(markerPos, '#66ccff', '');
-        marker.setMap(this.map);
-        this.prevLocation = marker;
     }
 }

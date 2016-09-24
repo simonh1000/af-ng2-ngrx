@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Resto } from '../reducers/resto';
 import { AppState } from '../reducers/state';
 import { initFilters, NEW_FILTERS } from '../reducers/filters_reducer';
-import { Filters } from '../reducers/filters';
+import { Filters, Point } from '../reducers/filters';
 import { DATA } from '../reducers/restos_reducer';
 
 import { GetDataService } from '../services/get-data.service';
@@ -32,16 +32,11 @@ export class FrameworkComponent implements OnInit {
   top5: Observable<boolean>;
   not_top5: Observable<boolean>;
   title: Observable<string>;
+  currentLocation: Observable<Point>;
 
   constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
     this.restos_list = this.store.select(filter_restos);
-    this.map_restos_list = this.store.select(state => {
-      if (state.mapReady) {
-        let l = filter_restos(state);
-        console.log(l);
-        return l;
-      } else { return []; }
-    });
+    // this.map_restos_list = this.store.select(state => (state.mapReady) ? filter_restos(state) : [] );
 
     this.rotm = this.restos_list.map(rs => rs[0]);
     this.rotms = this.restos_list.map(rs => rs.slice(1));
@@ -50,6 +45,7 @@ export class FrameworkComponent implements OnInit {
     this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
 
     this.filters = this.store.select(state => state.filters);
+    this.currentLocation = this.store.select(state => state.filters.geo);
     // this.title = this.store.select(state => state.filters).map(this.filtersToTitle);
     this.title = this.filters.map(f => this.filtersToTitle(f));
 

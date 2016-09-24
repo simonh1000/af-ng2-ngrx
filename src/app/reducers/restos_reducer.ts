@@ -1,7 +1,8 @@
-// restos.ts
 import { ActionReducer, Action } from '@ngrx/store';
-// import { Restos } from '../restos';
+
+import { GEO } from './filters_reducer';
 import { Resto } from './resto';
+import { setDistance } from '../filters/distances';
 
 export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
@@ -12,12 +13,18 @@ export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], actio
         case DATA:
             return action.payload;
         case TOGGLE:
-            console.log('TOGGLE', state)
+            // console.log('TOGGLE', state);
             return state.map(r => {
-                if (r.qname == action.payload) { 
+                if (r.qname === action.payload) {
                     return Object.assign(r, {open: !r.open})
-                } else return r
+                } else {
+                    return r;
+                }
             });
+        case GEO:
+            return state.map(setDistance(action.payload));
+            // let tmp = state.map(setDistance(action.payload));
+            // return [...tmp];
 
         default:
             return state;

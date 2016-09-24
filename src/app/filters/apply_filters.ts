@@ -1,24 +1,38 @@
 import { Filters } from '../reducers/filters';
 import { AppState } from '../reducers/state';
 import { Resto } from '../reducers/resto';
+// import { scorer, sorter } from './sorter';
 
 export function filter_restos(state: AppState): Resto[] {
-    let filterFn = stateToFilter(state.filters);
-    return state.restos.filter(filterFn);
+    if (state.filters.close) {
+        return [state.restos[0]];
+    } else {
+        let filters = stateToFilters(state.filters);
+
+        if (filters.length === 0) {
+            // return state.restos;
+            return state.restos
+                .filter(rotmFilter)
+                .sort((r1, r2) => r2.recommendation - r1.recommendation);
+        } else {
+            // return state.restos;
+            return state.restos
+                .filter(resto => filters.every(fn => fn(resto)))
+                .sort((r1, r2) => r2.score - r1.score);
+        }
+    }
 }
 
-function stateToFilter(state: Filters): ((Resto) => boolean) {
-    let filters = [].concat(
-        price(state),
-        location(state.location),
-        cuisine(state.cuisine)
-    );
+function stateToFilters(state: Filters): Array<((Resto) => boolean)> {
+    return [].concat(
+            price(state),
+            location(state.location),
+            cuisine(state.cuisine)
+        );
+}
 
-    if (filters.length === 0) {
-        return (r => true);
-    } else {
-        return (resto => filters.every(fn => fn(resto)));
-    }
+function rotmFilter(r: Resto): boolean {
+    return r.recommendation >= 8;
 }
 
 // Cuisine filter

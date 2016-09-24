@@ -6,7 +6,11 @@
   <app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
 
   <!--<app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>-->
-  <app-map [restos]='map_restos_list | async' [selectedResto]='selectedResto | async' (action)='store.dispatch($event)'></app-map>
+  <app-map
+      [restos]='restos_list | async'
+      [selectedResto]='selectedResto | async'
+      [location]='currentLocation | async'
+      (action)='store.dispatch($event)'></app-map>
 </div>
 
 <div *ngIf='selectedResto | async' class='selected-resto'>

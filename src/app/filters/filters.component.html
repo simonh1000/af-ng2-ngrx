@@ -11,46 +11,49 @@
             data-selector='body'>search criteria</button>-->
     </div>
 
+    <button (click)='getClose()'>What's close?</button>
+
     <div class='criteria closed' [ngClass]='{"closed": !overlay}'>
-        <form class='form-horizontal'>
+        <!--<form class='form-horizontal'>-->
+        <form>
             <div class='form-group'>
-                <label class='col-sm-5 control-label'>search by name</label>
-                <div class='col-sm-7'>
+                <label class=' control-label'>search by name</label>
+                <!--<div class='col-sm-7'>-->
                     <div class='input-group'>
                         <!--<input type='text' [(ngModel)]='search' class='form-control'>-->
                         <input type='text' [(ngModel)]='cmpFilters.search' name='search' class='form-control'>
                         <span class='input-group-btn'>
                             <button type='button' class='btn btn-default' (click)='cmpFilters.search=""'>⌫</button>
                         </span>
-                    </div>
+                    <!--</div>-->
                 </div>
             </div>
 
             <div class='form-group'>
-                <label class='col-sm-5 control-label'>search by location</label>
-                <div class='col-sm-7'>
+                <label class=' control-label'>search by location</label>
+                <!--<div class='col-sm-7'>-->
                     <select [(ngModel)]='cmpFilters.location' name='location' class='form-control'>
                         <option *ngFor='let area of areas' [value]='area.key'>
                           {{area.name}}
                         </option>
                     </select>
-                </div>
+                <!--</div>-->
             </div>
 
             <div class='form-group'>
-                <label class='col-sm-5 control-label'>search by cuisine</label>
-                <div class='col-sm-7'>
+                <label class=' control-label'>search by cuisine</label>
+                <!--<div class='col-sm-7'>-->
                     <select [(ngModel)]='cmpFilters.cuisine' name='cuisine' class='form-control'>
                         <option *ngFor='let c of cuisines' [value]='c.key'>
                           {{c.name}}
                         </option>
                     </select>
-                </div>
+                <!--</div>-->
             </div>
 
             <div class='form-group'>
-                <label class='col-sm-5 control-label'>filter by price range</label>
-                 <div class='col-sm-7'>
+                <label class=' control-label'>filter by price range</label>
+                 <div class=''>
                     <span class='visible-xs-inline'>&euro;</span>
                     <label *ngFor='let val of prices, let i = index' class='radio-inline'>
                         <span class='hidden-xs'>{{val.name}}</span>
@@ -62,12 +65,12 @@
             </div>
 
             <div class='form-group'>
-                <div class='col-sm-6 col-sm-offset-4'>
+                <!--<div class='col-sm-6 col-sm-offset-4'>-->
                     <label class='sr-only'>find me a restaurant</label>
                     <button class='afbutton reverse visible-xs-inline' (click)='setCriteria($event)'>find me a restaurant!</button>
                     <button class='afbutton hidden-xs' (click)='setCriteria($event)'>find me a restaurant!</button>
                 </div>
-            </div>
+            <!--</div>-->
         </form>
     </div>
 </div>

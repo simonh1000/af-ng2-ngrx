@@ -35,4 +35,6 @@ export interface Resto {
     lng: number;
 
     open: boolean;
+    distance?: number;
+    score: number;
 }

@@ -1,9 +1,168 @@
-/* You can add global styles to this file, and also import other style files */
+@import './variables';
 
+
+// Bootstrap overrides
+.container {
+    max-width: 900px;
+    width: auto;
+}
 
 body {
-    padding: 0 5px;
-    .container {
-        max-width: 900px;
+	// font-family: "AF Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: $v-rhythm / 15px;
+    color: #111;
+    letter-spacing: 0.3px;
+    // .container {
+    //     background-color: white;
+    // }
+}
+
+.scores {
+    color: $brand-primary;
+    font-family: 'helvetica';
+}
+.feint {
+    color: $brand-primary-muted1;
+}
+
+// .helvetica {
+//     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+// }
+p {
+    margin: 0 0 $v-rhythm 0;
+    text-align: justify;
+}
+.single p {
+    // font-weight: 300;
+    text-align:justify;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+/*
+ * h1 : Page titles, .entry-title is blog title
+ * h2 :
+ * h3 : headers mid-page (map, single resto meta )
+ * h4 :
+ */
+
+h1, h2, h3, h4, nav {
+	font-weight: bold;
+	// font-family: 'baskerville';
+	color: black;
+    margin-top: 0;
+    // margin-bottom: $v-rhythm / 2;
+}
+
+// page titles
+h1 {
+    font-size: 28px;
+    line-height: 2 * $v-rhythm / 28px;
+    margin-bottom: $v-rhythm;
+}
+// Blog title and date
+// h1 on singles
+h1.entry-title {
+	font-size: $v-rhythm;
+	line-height: $v-rhythm / 20px;
+	margin-bottom: $v-rhythm;
+}
+
+// Snippet title on category pages
+// Sub-headers on pages,  ???
+h2.entry-title {
+    font-size: 20px;
+    line-height: $v-rhythm / 20px;
+    margin-bottom: $v-rhythm;
+}
+.entry-title a {
+    color: black;
+}
+// 'all the info' on singles pages
+h3 {
+    font-style: italic;
+    font-size: 20px;
+    line-height: $v-rhythm / 20px;
+    .afbutton {
+        font-size: 16px;    // Used for AF Recommended button on recommendations page
     }
+    // line-height: $v-rhythm / 18px;
+    margin-bottom: $v-rhythm / 2;
+}
+
+h4 {
+    font-size: 18px;
+    line-height: $v-rhythm / 18px;
+    margin-bottom: $v-rhythm / 2;
+}
+
+a, a:hover, a:focus {
+	color: $brand-secondary;
+}
+a, a:focus {
+	text-decoration: none;
+}
+
+.entry-content {
+    h1, h2, h3 {            // headlines within posts should not be too big
+        font-size: 20px;
+    }
+}
+.basker {
+//   font-family: 'baskerville';
+}
+
+.afbutton {
+//   font-family: 'baskerville';
+  border: none;
+  background-color: $brand-primary;
+  border-radius: $afradius;
+  padding: 3px 10px 1px 10px;
+  font-weight: 700;
+  font-style: italic;
+  color: white;
+  text-transform: lowercase;
+  &:focus {
+      // removes line around button when 'pressed'
+      outline: none;
+  }
+}
+
+// button[name="upbutton"] {
+button.upbutton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+// over writes bootstrap class
+.img-responsive {
+    ￼max-width: 100%;
+    max-height: 400px;
+}
+
+// Purple 'glow' on focused input
+.form-control:focus {
+    border-color: $brand-primary-muted1;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba($brand-primary-muted1,.6);
+}
+
+@media (min-width: $screen-sm) {
+    h3 {
+        font-size: 22px;
+        line-height: $v-rhythm * 1.5 / 22px;
+    }
+    .img-responsive {
+        ￼max-width: 100%;
+        max-height: none;
+    }
+}
+@media (min-width: $screen-lg) {
+    // body {
+    //     background-image: url('../images/bkg.jpg');
+    //     background-repeat: repeat-y;
+    //     background-size: 100%;
+    // }
 }

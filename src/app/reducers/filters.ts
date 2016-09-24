@@ -11,4 +11,5 @@ export interface Filters {
     midrange: boolean;
     finedining: boolean;
     geo: Point;
+    close: boolean;
 }

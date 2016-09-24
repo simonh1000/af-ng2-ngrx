@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges, Input, Output, EventEmitte
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Filters } from '../reducers/filters';
-import { NEW_FILTERS, initFilters } from '../reducers/filters_reducer';
+import { NEW_FILTERS, GET_CLOSE, initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 import { toUrl } from './encoder';
 import { fromUrl } from './parser';
@@ -19,26 +19,26 @@ export class FiltersComponent implements OnInit, OnChanges {
   overlay: boolean = false;
 
   // Maps of dictionary to create select elements
-  areas: Array<{key: string, name: string}> = [];
-  cuisines: Array<{key: string, name: string}> = [];
-  prices: Array<{key: string, name: string, state: boolean}> = [];
+  areas: Array<{ key: string, name: string }> = [];
+  cuisines: Array<{ key: string, name: string }> = [];
+  prices: Array<{ key: string, name: string, state: boolean }> = [];
 
   constructor(private route: ActivatedRoute, private router: Router) {
     //   Create the selects data
     for (let k in Dictionary.areas) {
       if (k) {
-        this.areas.push({key: k, name: Dictionary.areas[k].name})
+        this.areas.push({ key: k, name: Dictionary.areas[k].name });
       }
     }
 
-    this.cuisines.push({key: 'all cuisines', name: 'All Cuisines'});
+    this.cuisines.push({ key: 'all cuisines', name: 'All Cuisines' });
     for (let k in Dictionary.cuisines) {
       if (k) {
-        this.cuisines.push({key: k, name: Dictionary.cuisines[k].name})
+        this.cuisines.push({ key: k, name: Dictionary.cuisines[k].name })
       }
     }
 
-    this.prices = Dictionary.prices.map(p => Object.assign(p, {state: false}))
+    this.prices = Dictionary.prices.map(p => Object.assign(p, { state: false }))
   }
 
   // On init, send route params to store
@@ -60,7 +60,7 @@ export class FiltersComponent implements OnInit, OnChanges {
       this.cmpFilters = Object.assign({}, this.filters);
       // When the filters change, we need to update the url
       console.log('onChanges - triggering router');
-      let link = ['/recommendations', toUrl( this.cmpFilters)];
+      let link = ['/recommendations', toUrl(this.cmpFilters)];
       this.router.navigate(link);
     }
   }
@@ -73,7 +73,13 @@ export class FiltersComponent implements OnInit, OnChanges {
 
     this.action.emit({
       type: NEW_FILTERS,
-      payload: Object.assign([], this.cmpFilters)
+      payload: this.cmpFilters
+    });
+  }
+
+  getClose() {
+    this.action.emit({
+      type: GET_CLOSE
     });
   }
 
