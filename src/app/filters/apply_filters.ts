@@ -1,3 +1,5 @@
+/* tslint:disable:no-bitwise */
+
 import { Filters } from '../reducers/filters';
 import { AppState } from '../reducers/state';
 import { Resto } from '../reducers/resto';
@@ -5,7 +7,9 @@ import { Resto } from '../reducers/resto';
 
 export function filter_restos(state: AppState): Resto[] {
     if (state.filters.close) {
-        return [state.restos[0]];
+        return state.restos
+            .sort((r1, r2) => r1.distance - r2.distance)
+            .slice(0, 10);
     } else {
         let filters = stateToFilters(state.filters);
 
@@ -13,21 +17,25 @@ export function filter_restos(state: AppState): Resto[] {
             // return state.restos;
             return state.restos
                 .filter(rotmFilter)
-                .sort((r1, r2) => r2.recommendation - r1.recommendation);
+                .sort((r1, r2) => r1.recommendation - r2.recommendation);
         } else {
-            // return state.restos;
-            return state.restos
+            let res = state.restos
                 .filter(resto => filters.every(fn => fn(resto)))
                 .sort((r1, r2) => r2.score - r1.score);
+            console.log(`Found ${res.length} rests, returning 20`);
+            return res.slice(0, 20);
         }
     }
 }
+
+// setScore score: scorer(distance, r.rating)
 
 function stateToFilters(state: Filters): Array<((Resto) => boolean)> {
     return [].concat(
             price(state),
             location(state.location),
-            cuisine(state.cuisine)
+            cuisine(state.cuisine),
+            search(state.search)
         );
 }
 
@@ -40,7 +48,8 @@ function cuisine(tgt: string): ((Resto) => boolean)[] {
     if (tgt === 'all cuisines') {
         return [];
     } else {
-        return [resto => resto.cuisine === tgt];
+        // return [ resto => (resto.cuisine === tgt && (resto.recommendation & 2) === 2) ];
+        return [ resto => resto.cuisine === tgt && resto.recommendation > 0 ];
     }
 }
 // Location filter
@@ -48,7 +57,8 @@ function location(loc: string): ((Resto) => boolean)[] {
     if (loc === 'amsterdam') {
         return [];
     } else {
-        return [resto => resto.area === loc];
+        // return [ resto => resto.area === loc && (resto.recommendation & 1) === 1 ];
+        return [ resto => resto.area === loc && resto.recommendation > 0 ];
     }
 }
 // Price filters
@@ -76,8 +86,13 @@ function price_filter(state: Filters, key: string): ((Resto) => boolean)[] {
         default: ii = 0;
     }
     if (state[key]) {
-        return [(r => r.price === ii)];
+        // return [ resto => resto.price === ii && (resto.recommendation & 4) === 4 ];
+        return [ resto => resto.price === ii && resto.recommendation > 0 ];
     } else {
         return [];
     }
+}
+
+function search(search: String): ((Resto) => boolean)[] {
+    return (typeof search === 'undefined' || search === '') ? [] : [ r => r.rname.toLowerCase().indexOf(search.toLowerCase()) !== -1 ];
 }

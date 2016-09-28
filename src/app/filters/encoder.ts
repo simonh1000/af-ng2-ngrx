@@ -1,7 +1,7 @@
 import { Filters } from '../reducers/filters';
 
 export function toUrl(filters: Filters): string {
-    let encoders = [search, cuisine, location, price];
+    let encoders = [search, cuisine, location, price, close];
     return flatten(encoders.map(fn => fn(filters)))
         .join('_');
 }
@@ -19,7 +19,6 @@ function search(filters: Filters): string[] {
 }
 
 function location(filters: Filters): string[] {
-    // return [];
     return (filters.location === 'amsterdam') ? [] : [filters.location];
 }
 
@@ -32,3 +31,6 @@ function price(filters: Filters): string[] {
     return priceElems.filter(e => filters[e]);
 }
 
+function close(filters: Filters): string[] {
+    return (filters.close) ? ['close'] : [];
+}

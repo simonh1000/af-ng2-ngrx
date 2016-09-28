@@ -8,20 +8,29 @@ h4 {
     a {
         color: black;
     }
+    span {
+        font-size: 12px;
+    }
 }
 .scores {
     display: flex;
-    justify-content: flex-start;
+    // justify-content: space-between;
+    .price {
+        margin-left: 15px;
+    }
+    .recommended {
+        flex-grow: 1;
+        text-align: right;
+    }
 }
 .recommended {  // 'af recommended' 'button'
+    color: $brand-primary;
     font-style: italic;
-    font-size: 90%;
-    font-weight: normal;
-    color: white;
-    background-color: $brand-primary;
-    border-radius: $afradius;
-    padding: 4px 7px 1px 7px;
-    // margin-top: -5px;
+    font-weight: 800;
+
+    // font-weight: normal;
+    // color: $brand-primary-muted2;
+    // text-shadow: 1px 1px 1px $brand-primary;
 }
 string-fill {
     font-size: 18px;

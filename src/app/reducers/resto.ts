@@ -10,8 +10,9 @@ export interface JsonResto {
     comment: string;
     link: string;
     booking?: string;
+    sponsored?: boolean;
     rating: number;
-    date: string;
+    date?: string;
     recommendation: number;
     lat: number;
     lng: number;
@@ -28,8 +29,9 @@ export interface Resto {
     comment: string;
     link: string;
     booking?: string;
+    sponsored?: boolean;
     rating: number;
-    date: string;
+    date?: string;
     recommendation: number;
     lat: number;
     lng: number;

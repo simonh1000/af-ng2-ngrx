@@ -11,11 +11,10 @@ export class RestoComponent {
   @Input() resto: Resto;
   @Input() idx: number;
   @Output() action = new EventEmitter();
-  cuisines: Object;
+  cuisines: Object = Dictionary.cuisines;
   areas: Object;
 
   constructor() {
-    this.cuisines = Dictionary.cuisines;
     this.areas = Dictionary.areas;
   }
 

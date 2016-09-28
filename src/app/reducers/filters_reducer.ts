@@ -26,7 +26,15 @@ export const filtersReducer: ActionReducer<Filters> = (state: Filters = initFilt
         case GEO:
             return Object.assign({}, state, {geo: action.payload});
         case GET_CLOSE:
-            return Object.assign({}, state, {close: true})
+            return Object.assign({}, state, {
+                search: '', 
+                location: 'amsterdam',
+                cuisine: 'all cuisines',
+                budget: false,
+                midrange: false,
+                finedining: false,
+                close: true
+            });
 
         default:
             return state;

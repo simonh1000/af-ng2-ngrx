@@ -66,7 +66,8 @@ export class FiltersComponent implements OnInit, OnChanges {
   }
 
   setCriteria($event: Event) {
-    console.log('setCriteria')
+    // console.log('setCriteria');
+    this.overlay = false;
     $event.preventDefault();
     let link = ['/recommendations', toUrl(this.cmpFilters)];
     this.router.navigate(link);

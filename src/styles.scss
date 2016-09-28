@@ -1,5 +1,32 @@
 @import './variables';
 
+@font-face {
+  font-family: "baskerville";
+  // src: url("../fonts/LibreBaskerville-Regular.otf");
+  src: url("../fonts/NewBaskervilleStd-Roman.otf");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "baskerville";
+  src: url("../fonts/NewBaskervilleStd-Italic.otf");
+  // src: url("../fonts/LibreBaskerville-Italic.otf");
+  font-style: italic;
+}
+@font-face {
+  font-family: "baskerville";
+  src: url("../fonts/NewBaskervilleStd-BoldIt.otf");
+  // src: url("../fonts/LibreBaskerville-Bold.otf");
+  font-weight: bold;
+  font-style: italic;
+}
+
+// Helvetica
+@font-face {
+  font-family: "AF Helvetica Neue";
+  src: url("../fonts/HelveticaNeueLTStd-Lt.otf");
+  font-style: normal;
+}
 
 // Bootstrap overrides
 .container {
@@ -8,7 +35,7 @@
 }
 
 body {
-	// font-family: "AF Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "AF Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 15px;
     line-height: $v-rhythm / 15px;
     color: #111;
@@ -26,12 +53,12 @@ body {
     color: $brand-primary-muted1;
 }
 
-// .helvetica {
-//     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-// }
+.helvetica {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 p {
     margin: 0 0 $v-rhythm 0;
-    text-align: justify;
+    // text-align: justify;
 }
 .single p {
     // font-weight: 300;
@@ -49,7 +76,7 @@ p {
 
 h1, h2, h3, h4, nav {
 	font-weight: bold;
-	// font-family: 'baskerville';
+	font-family: 'baskerville';
 	color: black;
     margin-top: 0;
     // margin-bottom: $v-rhythm / 2;
@@ -110,11 +137,11 @@ a, a:focus {
     }
 }
 .basker {
-//   font-family: 'baskerville';
+  font-family: 'baskerville';
 }
 
 .afbutton {
-//   font-family: 'baskerville';
+  font-family: 'baskerville';
   border: none;
   background-color: $brand-primary;
   border-radius: $afradius;

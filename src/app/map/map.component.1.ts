@@ -11,6 +11,8 @@ import { MAP_READY } from '../reducers/map_reducer';
 import { SELECT_RESTO } from '../reducers/selected_reducer';
 import { Point } from '../reducers/filters';
 
+const MAX_ZOOM = 15;
+
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
@@ -19,97 +21,116 @@ import { Point } from '../reducers/filters';
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
     @Input() selectedResto: Resto;
+    @Input() location: Point;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
     // markers: Array<google.maps.Marker> = [];
     markers: Array<any> = [];
+    prevLocation: google.maps.Circle;
+    markersInitialised = false;
 
     constructor(private _ngZone: NgZone) { }
 
     ngOnInit() {
         let d = Dictionary['amsterdamCenter'];
-        let mapOptions = {
-            zoom: 10,
-            center: new google.maps.LatLng(d[0], d[1])
-        };
-        this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-        google.maps.event.addListenerOnce(this.map, 'idle',
-            () => (this._ngZone.run(() => this.action.next({ type: MAP_READY }))));
-    }
-
-    ngOnChanges(changes: { [propName: string]: SimpleChange }) {
-        console.log('map.onChanges');
-        if (this.map) {
-            this.addRestos();
+        if (typeof google !== 'undefined') {
+            let mapOptions = {
+                zoom: 10,
+                center: new google.maps.LatLng(d[0], d[1]),
+                mapTypeControl: false,
+            };
+            this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            google.maps.event.addListenerOnce(this.map, 'idle',
+                () => {
+                    console.log('map idle');
+                    this._ngZone.run(() => this.action.next({ type: MAP_READY }))
+                }
+            );
+            google.maps.event.addListener(this.map, 'zoom_changed',
+                // get location of marker and pass that to addMyLocation
+                () => {
+                    console.log('Zoom:', this.map.getZoom());
+                    if (this.prevLocation) {
+                        let l = this.prevLocation.getCenter();
+                        this.addMyLocation({ lat: l.lat(), lng: l.lng() });
+                    }
+                }
+            );
         }
     }
 
-    addRestos() {
-        // Remove any existing markers
-        if (this.markers.length) {
-            this.markers.forEach(m => m.setMap(null));
-            this.markers = [];
+    ngOnChanges(changes: { changes: SimpleChange }) {
+        console.log('map.onChanges', changes);
+        if (this.map && changes['restos'] && changes['restos'].currentValue.length > 0) {
+            this.addRestos(changes['restos']);
+            this.fitMap(this.markers);
         }
+        if (this.map && changes['location'] && changes['location'].currentValue.lat > 0) {
+            this.addMyLocation(changes['location'].currentValue);
+        }
+    }
 
-        if (this.restos.length > 0) {
-            let mybounds = new google.maps.LatLngBounds();
+    addRestos(changes: SimpleChange) {
+        let newRestos: Resto[] = changes['currentValue'];
 
-            this.restos.forEach((r, idx) => {
-                let markerPos = new google.maps.LatLng(r.lat, r.lng);
-                let l = String.fromCharCode('A'.charCodeAt(0) + idx);
-                let iconColour =
-                        // '/aa94a1/'
-                        // (this.selectedResto && r.qname === this.selectedResto.qname) ? '/aa0000/' : '/aa94a1/';
-                        (this.selectedResto && r.qname === this.selectedResto.qname) ? '#aa0000' : '#aa94a1';
-
-                // let marker = this.makeCircle(markerPos, iconColour, l);
-                let marker = this.makeMarker(markerPos, iconColour, l);
-                this.markers.push(marker);
-
-                google.maps.event.addListener(
-                    this.markers[idx],
-                    'click',
-                    (resto => {
-                        // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
-                        // this.ngZone.run( () => this.select.next(i) );
-                        this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
-                        // this.action.next({type: SELECT_RESTO, payload: resto});
-                        console.log(resto);
-                    }).bind(null, r)
-                );
-
-                marker.setMap(this.map);
-                mybounds.extend(markerPos);
+        if (!this.markersInitialised) {
+            newRestos.forEach( (r, idx) => {
+                this.markers.push(this.makeMarker(r, idx, 500 - idx));
             });
-
-            this.map.fitBounds(mybounds);
-            if (this.map.getZoom() > 13) {
-                this.map.setZoom(13);
-            }
+            this.markersInitialised = true;
         } else {
-            console.log('addRestos: No markers to draw');
+            changes['previousValue'].forEach( (oldResto, idx) => {
+                if (newRestos[idx]) {
+                    if (newRestos[idx].qname !== oldResto.qname ||
+                        newRestos[idx].open !== oldResto.open ||
+                        newRestos[idx].qname === this.selectedResto.qname) {
+                        this.markers[idx].setMap(null);
+                        this.markers[idx] = this.makeMarker(newRestos[idx], idx, 500 - idx);
+                    }  // otherwise no need to change marker
+                } else {
+                    this.markers[idx].setMap(null);
+                }
+            });
         }
     }
 
-    makeMarker(latlng: google.maps.LatLng, colour: string, label: string): google.maps.Marker {
-        // let markerLabel = new google.maps.MarkerLabel({
-
-        // })
-        // return new google.maps.Marker({
-        //     // title: r.rname,
-        //     position: pt,
-        //     color: colour,
-        //     // icon: 'http://www.googlemapsmarkers.com/v1/' + l + iconColour,
-        //     label: label
-        // });
-
-        return new google.maps.Marker({
-            position: latlng,
-            label: label,
-            icon: this.pinSymbol(colour)
+    fitMap(markers: google.maps.Marker[]): void {
+        let mybounds = new google.maps.LatLngBounds();
+        markers.forEach( marker => {
+            mybounds.extend(marker.getPosition());
         });
+        this.map.fitBounds(mybounds);
+        if (this.map.getZoom() > MAX_ZOOM) {
+            this.map.setZoom(MAX_ZOOM);
+        }
+        console.log('Zoom:', this.map.getZoom());
 
+    }
+    makeMarker(r: Resto, idx: number, zIndex: number): google.maps.Marker {
+        let pos = new google.maps.LatLng(r.lat, r.lng);
+        let iconColour =
+            (this.selectedResto && r.qname === this.selectedResto.qname) ? '#aa0000' : '#aa94a1';
+        let label = String.fromCharCode('A'.charCodeAt(0) + idx);
+
+        let marker = new google.maps.Marker({
+            position: pos,
+            label: label,
+            icon: this.pinSymbol(iconColour),
+            zIndex: zIndex
+        });
+        google.maps.event.addListener(
+            marker,
+            'click',
+            (resto => {
+                // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
+                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
+                // console.log(resto);
+            }).bind(null, r)
+        );
+
+        marker.setMap(this.map);
+        return marker;
     }
 
     pinSymbol(color) {
@@ -120,19 +141,51 @@ export class MapComponent implements OnInit, OnChanges {
             strokeColor: '#000',
             strokeWeight: 1,
             scale: 1,
-            labelOrigin: new google.maps.Point(0,-29)
+            labelOrigin: new google.maps.Point(0, -29)
         };
     }
     // makeCircle(pt: Point): google.maps.Circle {
+    /* Zoom = 12 => 160
+     * Zoom = 13 => 100;
+     * Zoom = 14 => 60
+     */
     makeCircle(pt: google.maps.LatLng, colour: string, label: string): google.maps.Circle {
+        let radius;
+        switch (this.map.getZoom()) {
+            case 21: radius = 2; break;
+            case 20: radius = 4; break;
+            case 19: radius = 6; break;
+            case 18: radius = 8; break;
+            case 17: radius = 10; break;
+            case 16: radius = 15; break;
+            case 15: radius = 30; break;
+            case 14: radius = 60; break;
+            case 13: radius = 100; break;
+            case 12: radius = 160; break;
+            case 11: radius = 210; break;
+            case 10: radius = 240; break;
+        }
+        console.log('radius', radius);
+
         return new google.maps.Circle({
-            // strokeColor: '#FF0000',
-            // strokeOpacity: 0.8,
+            strokeColor: '#000099',
+            strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: colour,
             fillOpacity: 0.35,
             center: pt,
-            radius: 60
+            radius: radius,
+            zIndex: 600
         });
+    }
+
+    addMyLocation(loc: Point) {
+        if (this.prevLocation) {
+            this.prevLocation.setMap(null);
+        }
+        let markerPos = new google.maps.LatLng(loc.lat, loc.lng);
+        let marker = this.makeCircle(markerPos, '#66ccff', '');
+        marker.setMap(this.map);
+        this.prevLocation = marker;
     }
 }

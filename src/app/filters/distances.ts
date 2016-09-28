@@ -10,8 +10,7 @@ export function setDistance(pt: Point) {
     return function(r: Resto): Resto {
             let distance = getDistance(pt.lat, pt.lng, r.lat, r.lng) / 1000;
             return Object.assign(r, {
-                distance: distance,
-                score: scorer(distance, r.rating)
+                distance: distance
             });
         };
 }

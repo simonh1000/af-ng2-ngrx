@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, trigger, state, style, transition, animate, ViewEncapsulation} from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -13,12 +14,26 @@ import { GeoService } from '../services/geo.service';
 
 import { toUrl } from '../filters/encoder';
 import { filter_restos } from '../filters/apply_filters';
+import { filter_to_title } from '../filters/filters_to_title';
 
 @Component({
   selector: 'app-framework',
   templateUrl: './framework.component.html',
   styleUrls: ['./framework.component.scss'],
-  providers: [ GetDataService ]
+  providers: [ GetDataService ],
+   encapsulation: ViewEncapsulation.None,
+  animations: [
+    trigger('selectedState', [
+      state('unloading', style({
+        opacity: '0'
+      })),
+      state('loading', style({
+        opacity: '1'
+      })),
+      // transition('loading => unloading', animate('500ms ease-in')),
+      transition('unloading => loading', animate('300ms ease-in'))
+    ])
+  ]
 })
 export class FrameworkComponent implements OnInit {
 
@@ -27,12 +42,13 @@ export class FrameworkComponent implements OnInit {
   filters: Observable<Filters>;
   rotm: Observable<Resto>;
   rotms: Observable<Resto[]>;
-  // selectedRestos: Observable<Resto[]>;
   selectedResto: Observable<Resto>;
   top5: Observable<boolean>;
   not_top5: Observable<boolean>;
   title: Observable<string>;
   currentLocation: Observable<Point>;
+
+  animationState: string = 'loading';
 
   constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
     this.restos_list = this.store.select(filter_restos);
@@ -47,9 +63,17 @@ export class FrameworkComponent implements OnInit {
     this.filters = this.store.select(state => state.filters);
     this.currentLocation = this.store.select(state => state.filters.geo);
     // this.title = this.store.select(state => state.filters).map(this.filtersToTitle);
-    this.title = this.filters.map(f => this.filtersToTitle(f));
+    this.title = this.filters.map(filter_to_title);
 
-    this.selectedResto = this.store.select(state => state.selectedResto[0]);
+    // this.selectedResto = this.store.select(state => state.selectedResto[0]).delay(500);
+    this.selectedResto = this.store.select(state => state.selectedResto[0] || null).do( () => {
+      this.animationState = 'unloading';
+      console.log('start animation OUT');
+      setTimeout( () => {
+        this.animationState = 'loading';
+        console.log('start animation IN');
+      }, 500);
+    }); //.delay(500);
 
     geo.getGeo();
   }
@@ -66,7 +90,7 @@ export class FrameworkComponent implements OnInit {
   }
 
   goDam() {
-    this.quickLink({location: 'dam'});
+    this.quickLink({location: 'Dam'});
   }
 
   quickLink(obj) {
@@ -78,7 +102,18 @@ export class FrameworkComponent implements OnInit {
       });
   }
 
-  filtersToTitle(filters) {
-    return 'another title';
+  getClass(selectedResto: Resto[]) {
+    // console.log('getClass', selectedResto);
+    return (typeof selectedResto === 'undefined' || selectedResto === null) ? 'sim-test-none' : 'sim-test-selected';
   }
+
+  // isActive(b) {
+  //   let state = (b) ? 'active' : 'inactive';
+  //   console.log(state);
+  //   return state;
+  // }
+  // isInActive(b) {
+  //   return (!b) ? 'active' : 'inactive';
+  // }
+
 }

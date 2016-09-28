@@ -2,19 +2,24 @@
   <span (click)='goDam()'>Dam</span>
 </div>
 
-<div id="filter-map">
-  <app-filters [filters]='filters | async' (action)='store.dispatch($event)'></app-filters>
+<div id="filter-map" [ngClass]='getClass(selectedResto | async)'>
+  <app-filters
+      [filters]='filters | async' (action)='store.dispatch($event)'>
+      <!--[@selectedState]='isActive(selectedResto | async)'>-->
+  </app-filters>
 
-  <!--<app-map [restos]='map_restos_list | async' (action)='store.dispatch($event)'></app-map>-->
+  <!--<app-map></app-map>-->
   <app-map
       [restos]='restos_list | async'
       [selectedResto]='selectedResto | async'
       [location]='currentLocation | async'
       (action)='store.dispatch($event)'></app-map>
-</div>
 
-<div *ngIf='selectedResto | async' class='selected-resto'>
-  <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>
+  <div *ngIf='selectedResto | async' class='selected-resto'
+      [@selectedState]='animationState'>
+    <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>
+  </div>
+
 </div>
 
 <div *ngIf='top5 | async'>

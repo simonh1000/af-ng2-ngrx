@@ -1,19 +1,54 @@
+@import '../../variables';
+
 #filter-map {
     display: flex;
-    flex-direction: column
+    flex-direction: column;
+    app-filters {
+        // flex-grow: 1;
+    }
+    app-map {
+        // flex-grow: 2;
+        display: block;
+        width: 100%;
+        background-color: #aaa;
+    }
+}
+
+app-resto {
+    display: block;
+    // width: 100%;
+    position: relative;
+    margin-bottom: $v-rhythm;
+    margin: 0 auto;
+    border: 1px solid #eee;
 }
 
 @media (min-width: 640px) {
 
-#filter-map {
-    flex-direction: initial;
-    app-filters {
-        flex: 1;
-    }
-    app-map {
-        width: 400px;
-    }
+    #filter-map {
+        flex-direction: initial;
 
-}
+        app-filters, .selected-resto {
+            width: 300px;
+            display: block;
+            // flex-grow: 1;
+        }
+        app-map {
+            width: 300px;
+            flex-grow: 1;
+        }
+        &.sim-test-selected {
+            flex-direction: row-reverse;
+            app-filters {
+                display: none;
+            }
+            // .selected-resto {
+            //     flex-grow: 1;
+            // }
+        }
+    }
+    app-resto {
+        max-width: 285px;
+    }
 
 }
