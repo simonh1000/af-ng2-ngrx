@@ -1,24 +1,23 @@
 <div class="quick-links">
-  <span (click)='this.quickLink({budget: true})'>Budget Restaurants</span>
-  <span (click)='this.quickLink({location: "Dam"})'>Dam</span>
-  indonesian, fine-dining, lunch-brunch mid-range indian dutch japanese italian
+  <span (click)='goTop5()'>Restaurant of the Month + top 5</span>
+  <!--<span (click)='quickLink({budget: true})'>Budget Restaurants</span>-->
+  <span (click)='quickLink({location: "Dam"})'>Dam</span>
+  <span (click)='quickLink({cuisine: "indonesian"})'>Indonesian</span>
+  fine-dining, lunch-brunch mid-range indian dutch japanese italian
 </div>
 
 <div id="filter-map" [ngClass]='getClass(selectedResto | async)'>
   <app-filters
       [filters]='filters | async' (action)='store.dispatch($event)'>
-      <!--[@selectedState]='isActive(selectedResto | async)'>-->
   </app-filters>
 
-  <!--<app-map></app-map>-->
   <app-map
       [restos]='restos_list | async'
       [selectedResto]='selectedResto | async'
       [location]='currentLocation | async'
       (action)='store.dispatch($event)'></app-map>
 
-  <div *ngIf='selectedResto | async' class='selected-resto'
-      [@selectedState]='animationState'>
+  <div *ngIf='selectedResto | async' class='selected-resto'>
     <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>
   </div>
 
@@ -27,7 +26,7 @@
 <div *ngIf='top5 | async'>
   <h3>restaurant of the month!</h3>
   <app-resto [resto]='rotm | async' [idx]='0' (action)='store.dispatch($event)'></app-resto>
-  <app-resto-list [restos]='rotms | async' [title]='"Previous"' (action)='store.dispatch($event)'></app-resto-list>
+  <app-resto-list [restos]='rotms | async' [title]='"current top 5 restaurants!"' (action)='store.dispatch($event)'></app-resto-list>
 </div>
 
 <div *ngIf='not_top5 | async'>

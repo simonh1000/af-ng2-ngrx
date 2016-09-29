@@ -57,6 +57,7 @@ string-fill {
 }
 .resto_meta_more {
     clear: both;  // ensures box always flows beneath floated "...more info"
+    overflow-y: hidden;
 
     .meta-container {
         background-color: $brand-primary-muted2;
@@ -75,17 +76,16 @@ string-fill {
 }
 
 .closable {              // extra css for map page only
-//     max-height: 80px;
-    overflow-y: hidden;
-//     transition-property: max-height;
-//     transition-duration: 1.3s;
-//     transition-timing-function: ease;
-//     &.closed {
-//         transition-property: max-height;
-//         transition-duration: 1.3s;
-//         transition-timing-function: ease;
-//         // padding: 0;
-//         max-height: 0;
-//     }
+    max-height: 80px;
+    transition-property: max-height;
+    transition-duration: 1.3s;
+    transition-timing-function: ease;
+    &.closed {
+        transition-property: max-height;
+        transition-duration: 1.3s;
+        transition-timing-function: ease;
+        // padding: 0;
+        max-height: 0;
+    }
 }
 

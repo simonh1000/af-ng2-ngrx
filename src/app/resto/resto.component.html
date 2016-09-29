@@ -16,18 +16,16 @@
 		<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>Recommended!</span>
 	</div>
 
-	<p class='comment basker'>
+	<!--<p class='comment basker'>
 		{{resto.comment}}
 		<span class='more' (click)='action.next({type: "TOGGLE", payload: resto.qname})'>
 			...<span *ngIf='resto.open'>less</span><span *ngIf='!resto.open'>more</span>&nbsp;info
 		</span>
-	</p>
+	</p>-->
 
 
-<!--[ngClass]='{"closed": !resto.open}'-->
-<div class='resto_meta_more closable closed'
-
-	[@open]='(resto.open) ? "open" : "closed"'>
+<!--<div class='resto_meta_more' [@open]='(resto.open) ? "open" : "closed"'>-->
+<!--<div class='resto_meta_more closable closed' [ngClass]='{"closed": !resto.open}'>
 	<div class='meta-container'>
 		<span class='responsive'>
 			{{resto.address}} <span *ngIf='resto.area'> ({{areas[resto.area].name}})</span>
@@ -51,5 +49,5 @@
 			</span>
 		</span>
 	</div>
-</div>
+</div>-->
 <!--</div>-->

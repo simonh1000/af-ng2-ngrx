@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter } from '@angular/core';
-// import { Observable } from 'rxjs';
+
 import { Resto } from '../reducers/resto';
-// import { AppState } from '../reducers/state';
 
 @Component({
   selector: 'app-resto-list',
