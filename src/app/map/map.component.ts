@@ -25,9 +25,10 @@ export class MapComponent implements OnInit, OnChanges {
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
-    // markers: Array<google.maps.Marker> = [];
-    markers: Array<any> = [];
+    markers: Array<google.maps.Marker> = [];
+    // markers: Array<any> = [];
     prevLocation: google.maps.Circle;
+    markersInitialised = false;
 
     constructor(private _ngZone: NgZone) { }
 
@@ -61,48 +62,94 @@ export class MapComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: { changes: SimpleChange }) {
         console.log('map.onChanges', changes);
-        if (this.map) {
-            this.addRestos();
+        if (this.map && changes['restos'].currentValue.length > 0) {
+            this.addRestos(changes);
             this.fitMap(this.markers);
-       }
+        }
+
         if (this.map && changes['location'] && changes['location'].currentValue.lat > 0) {
             this.addMyLocation(changes['location'].currentValue);
         }
     }
 
-    addRestos() {
-        // Remove any existing markers
-        if (this.markers.length) {
-            this.markers.forEach(m => m.setMap(null));
-            this.markers = [];
-        }
+    // addRestos(changes: { changes: SimpleChange }) {
+    //     let newRestos: Resto[] = changes['restos'].currentValue;
+    //     let oldRestos: Resto[] = changes['restos'].previousValue;
 
-        if (this.restos.length > 0) {
+    //     if (!this.markersInitialised) {
+    //         newRestos.forEach((r, idx) => {
+    //             let marker = this.makeMarker(r, idx);
+    //             this.markers.push(marker);
+    //             this.markersInitialised = true;
+    //         });
+    //     } else {
+    //         oldRestos.forEach( (oldResto, idx) => {
+    //             let newResto = newRestos[idx];
+    //             // Various reasons why the marker should be redrawn
+
+    //             // It was selected, but is no longer: is red but no selectedResto
+    //             if ( (this.selectedResto.qname === newResto.qname && this.selectedResto.qname !== oldResto.qname) ||
+    //                     this.selectedResto.qname === oldResto.qname ||
+    //                     oldResto.qname !== newResto.qname ||
+    //                     oldResto.open !== newResto.open) {
+
+    //                 this.markers[idx].setMap(null);
+    //                 return this.markers[idx] = this.makeMarker(newResto, idx);
+    //             }
+
+    //             if (!newResto) {
+    //                 this.markers[idx].setMap(null);
+    //                 this.markers[idx] = null;
+    //             }
+    //         });
+    //         this.markers = this.markers.filter( m => m !== null);
+    //     }
+    // }
+
+    addRestos(changes: { changes: SimpleChange }) {
+        let newRestos: Resto[] = changes['restos'].currentValue;
+
+        if (!this.markersInitialised) {
             this.restos.forEach((r, idx) => {
+            // newRestos.forEach((r, idx) => {
                 let marker = this.makeMarker(r, idx);
                 this.markers.push(marker);
-
             });
+            this.markersInitialised = true;
         } else {
-            console.log('addRestos: No markers to draw');
+            // Remove any existing markers from map, and then from state
+            this.markers.forEach(m => m.setMap(null));
+            this.markers = [];
+
+            if (newRestos.length > 0) {
+                this.restos.forEach((r, idx) => {
+                // newRestos.forEach((r, idx) => {
+                    let marker = this.makeMarker(r, idx);
+                    this.markers.push(marker);
+                });
+            } else {
+                console.log('addRestos: No markers to draw');
+            }
         }
     }
+
     fitMap(markers: google.maps.Marker[]): void {
         let mybounds = new google.maps.LatLngBounds();
-        markers.forEach( marker => {
-            mybounds.extend(marker.getPosition());
-        });
+
+        markers.forEach(marker => mybounds.extend(marker.getPosition()) );
         this.map.fitBounds(mybounds);
+
         if (this.map.getZoom() > MAX_ZOOM) {
             this.map.setZoom(MAX_ZOOM);
         }
-        console.log('Zoom:', this.map.getZoom());
+        // console.log('Zoom:', this.map.getZoom());
+    }
 
-   }
-   makeMarker(r: Resto, idx: number): google.maps.Marker {
+    makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
         let iconColour =
-            (this.selectedResto && r.qname === this.selectedResto.qname) ? '#aa0000' : '#aa94a1';
+            (this.selectedResto && this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
+            // ((this.selectedResto && r.qname === this.selectedResto.qname) || r.open) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
         let marker = new google.maps.Marker({

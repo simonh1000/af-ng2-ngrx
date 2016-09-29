@@ -1,11 +1,26 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, trigger, state, style, transition, animate } from '@angular/core';
 import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
 
 @Component({
   selector: 'app-resto',
   templateUrl: './resto.component.html',
-  styleUrls: ['./resto.component.scss']
+  styleUrls: ['./resto.component.scss'],
+  animations: [
+    trigger('open', [
+      state('void', style({
+        height: '0'
+      })),
+      state('closed', style({
+        height: '0'
+      })),
+      state('open', style({
+        height: '*'
+      })),
+      // transition('void => closed', animate('0')),
+      transition('* => *', animate('300ms'))
+    ])
+  ]
 })
 export class RestoComponent {
   @Input() resto: Resto;

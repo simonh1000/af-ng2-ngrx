@@ -1,5 +1,16 @@
 @import './variables';
 
+.quick-links {
+    span {
+        color: $brand-primary;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+
+/* Copies of existing styles */
+
 @font-face {
   font-family: "baskerville";
   // src: url("../fonts/LibreBaskerville-Regular.otf");
@@ -176,15 +187,23 @@ button.upbutton {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba($brand-primary-muted1,.6);
 }
 
+span.responsive {
+    display: block;
+}
+
 @media (min-width: $screen-sm) {
     h3 {
         font-size: 22px;
         line-height: $v-rhythm * 1.5 / 22px;
     }
     .img-responsive {
-        ￼max-width: 100%;
+        // ￼max-width: 100%;
         max-height: none;
     }
+    span.responsive {
+        display: inline-block;
+    }
+
 }
 @media (min-width: $screen-lg) {
     // body {

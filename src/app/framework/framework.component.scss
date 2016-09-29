@@ -3,6 +3,7 @@
 #filter-map {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
     app-filters {
         // flex-grow: 1;
     }
@@ -18,10 +19,19 @@ app-resto {
     display: block;
     // width: 100%;
     position: relative;
-    margin-bottom: $v-rhythm;
     margin: 0 auto;
-    border: 1px solid #eee;
+    margin-bottom: $v-rhythm;
+    // border: 1px solid #eee;
 }
+
+// .selected-resto app-resto {
+//     .closable {
+//         max-height: 80px !important;
+//     }
+//     .more {
+//         display: none;
+//     }
+// }
 
 @media (min-width: 640px) {
 
@@ -29,8 +39,9 @@ app-resto {
         flex-direction: initial;
 
         app-filters, .selected-resto {
-            width: 300px;
+            width: 350px;
             display: block;
+            padding: 15px;
             // flex-grow: 1;
         }
         app-map {
@@ -47,8 +58,4 @@ app-resto {
             // }
         }
     }
-    app-resto {
-        max-width: 285px;
-    }
-
 }

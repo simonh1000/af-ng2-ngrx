@@ -22,7 +22,7 @@ export function filter_restos(state: AppState): Resto[] {
             let res = state.restos
                 .filter(resto => filters.every(fn => fn(resto)))
                 .sort((r1, r2) => r2.score - r1.score);
-            console.log(`Found ${res.length} rests, returning 20`);
+            // console.log(`Found ${res.length} rests, returning 20`);
             return res.slice(0, 20);
         }
     }

@@ -8,7 +8,7 @@ export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
 
 export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], action: Action) => {
-    // console.log(action);
+    console.log('restosReducer', action, state.length);
     switch (action.type) {
         case DATA:
             return action.payload;
@@ -23,8 +23,6 @@ export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], actio
             });
         case GEO:
             return state.map(setDistance(action.payload));
-            // let tmp = state.map(setDistance(action.payload));
-            // return [...tmp];
 
         default:
             return state;

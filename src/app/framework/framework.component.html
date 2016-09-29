@@ -1,5 +1,7 @@
-<div>
-  <span (click)='goDam()'>Dam</span>
+<div class="quick-links">
+  <span (click)='this.quickLink({budget: true})'>Budget Restaurants</span>
+  <span (click)='this.quickLink({location: "Dam"})'>Dam</span>
+  indonesian, fine-dining, lunch-brunch mid-range indian dutch japanese italian
 </div>
 
 <div id="filter-map" [ngClass]='getClass(selectedResto | async)'>
@@ -23,7 +25,7 @@
 </div>
 
 <div *ngIf='top5 | async'>
-  <h1>Restaurant of the Month</h1>
+  <h3>restaurant of the month!</h3>
   <app-resto [resto]='rotm | async' [idx]='0' (action)='store.dispatch($event)'></app-resto>
   <app-resto-list [restos]='rotms | async' [title]='"Previous"' (action)='store.dispatch($event)'></app-resto-list>
 </div>

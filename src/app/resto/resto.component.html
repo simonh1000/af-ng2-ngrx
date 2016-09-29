@@ -1,9 +1,9 @@
-<div *ngIf='resto'>
+<!--<div *ngIf='resto'>-->
 	<h4>
 		<span class='resto-index'>{{toAlphaIndex(idx)}} </span>
 		<a href='.{{resto.link}}' target='_self'>{{resto.rname}}</a>
 		<span *ngIf='cuisines[resto.cuisine]'>({{cuisines[resto.cuisine].name}})</span>
-		<!--<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>-->
+		<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
 		<span *ngIf='resto.distance'>({{resto.distance | number:'1.1-1'}}km)</span>
 	</h4>
 	<div class='scores'>
@@ -13,7 +13,7 @@
 		<span class='price'>
 			{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
 		</span>
-		<span *ngIf='resto.recommendation > 0' class='recommended basker'>Recommended!</span>
+		<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>Recommended!</span>
 	</div>
 
 	<p class='comment basker'>
@@ -23,10 +23,11 @@
 		</span>
 	</p>
 
-</div>
 
+<!--[ngClass]='{"closed": !resto.open}'-->
+<div class='resto_meta_more closable closed'
 
-<div class='resto_meta_more closable closed' [ngClass]='{"closed": !resto.open}'>
+	[@open]='(resto.open) ? "open" : "closed"'>
 	<div class='meta-container'>
 		<span class='responsive'>
 			{{resto.address}} <span *ngIf='resto.area'> ({{areas[resto.area].name}})</span>
@@ -51,3 +52,4 @@
 		</span>
 	</div>
 </div>
+<!--</div>-->

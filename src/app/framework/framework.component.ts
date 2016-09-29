@@ -31,7 +31,7 @@ import { filter_to_title } from '../filters/filters_to_title';
         opacity: '1'
       })),
       // transition('loading => unloading', animate('500ms ease-in')),
-      transition('unloading => loading', animate('300ms ease-in'))
+      transition('unloading => loading', animate('300ms'))
     ])
   ]
 })
@@ -65,15 +65,15 @@ export class FrameworkComponent implements OnInit {
     // this.title = this.store.select(state => state.filters).map(this.filtersToTitle);
     this.title = this.filters.map(filter_to_title);
 
-    // this.selectedResto = this.store.select(state => state.selectedResto[0]).delay(500);
-    this.selectedResto = this.store.select(state => state.selectedResto[0] || null).do( () => {
-      this.animationState = 'unloading';
-      console.log('start animation OUT');
-      setTimeout( () => {
-        this.animationState = 'loading';
-        console.log('start animation IN');
-      }, 500);
-    }); //.delay(500);
+    this.selectedResto = this.store.select(state => state.selectedResto[0]);
+    // this.selectedResto = this.store.select(state => state.selectedResto[0] || null).do( () => {
+    //   this.animationState = 'unloading';
+    //   console.log('start animation OUT');
+    //   setTimeout( () => {
+    //     this.animationState = 'loading';
+    //     console.log('start animation IN');
+    //   }, 500);
+    // }); //.delay(500);
 
     geo.getGeo();
   }
@@ -89,12 +89,12 @@ export class FrameworkComponent implements OnInit {
       });
   }
 
-  goDam() {
-    this.quickLink({location: 'Dam'});
-  }
+  // goDam() {
+  //   this.quickLink({location: 'Dam'});
+  // }
 
   quickLink(obj) {
-      let filters = Object.assign({}, initFilters, obj);
+      let filters = Object.assign({}, this.filters, obj);
 
       this.store.dispatch({
         type: NEW_FILTERS,
@@ -106,14 +106,4 @@ export class FrameworkComponent implements OnInit {
     // console.log('getClass', selectedResto);
     return (typeof selectedResto === 'undefined' || selectedResto === null) ? 'sim-test-none' : 'sim-test-selected';
   }
-
-  // isActive(b) {
-  //   let state = (b) ? 'active' : 'inactive';
-  //   console.log(state);
-  //   return state;
-  // }
-  // isInActive(b) {
-  //   return (!b) ? 'active' : 'inactive';
-  // }
-
 }
