@@ -17,7 +17,7 @@ import { Dictionary } from '../filters/dictionary';
       state('open', style({
         height: '*'
       })),
-      // transition('void => closed', animate('0')),
+      transition('void => open', animate('300ms')),
       transition('* => *', animate('300ms'))
     ])
   ]

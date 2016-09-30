@@ -194,7 +194,7 @@ export const Dictionary: IDictionary = {
             'lat': 52.4,
             'lng': 4.9
         },
-        'Oud-west': {
+        'Oud-West': {
             'name': 'Oud-West',
             'lat': 52.3664809,
             'lng': 4.87243652

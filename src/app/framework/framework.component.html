@@ -1,12 +1,28 @@
 <div class="quick-links">
-  <span (click)='goTop5()'>Restaurant of the Month + top 5</span>
-  <!--<span (click)='quickLink({budget: true})'>Budget Restaurants</span>-->
-  <span (click)='quickLink({location: "Dam"})'>Dam</span>
-  <span (click)='quickLink({cuisine: "indonesian"})'>Indonesian</span>
-  fine-dining, lunch-brunch mid-range indian dutch japanese italian
+  <h4>Popular searches</h4>
+  <div class="row">
+    <div class="col-xs-6">
+      <ul>
+        <li (click)='goTop5()'>Restaurant of the Month + top 5</li>
+        <li (click)='quickLink({budget: true})'>Budget Restaurants</li>
+        <li (click)='quickLink({midrange: true})'>Mid range</li>
+        <li (click)='quickLink({finedining: true})'>Fine Dining</li>
+      </ul>
+    </div>
+    <div class="col-xs-6">
+      <ul>
+        <li (click)='quickLink({cuisine: "lunch-and-brunch"})'>Lunch and Brunch</li>
+        <li (click)='quickLink({cuisine: "dutch"})'>Dutch</li>
+        <li (click)='quickLink({cuisine: "indonesian"})'>Indonesian</li>
+        <li (click)='quickLink({cuisine: "asian"})'>Asian</li>
+      </ul>
+      Other popular according to google analytcs are: indian japanese italian
+    </div>
+  </div>
+
 </div>
 
-<div id="filter-map" [ngClass]='getClass(selectedResto | async)'>
+<div id="filter-map">
   <app-filters
       [filters]='filters | async' (action)='store.dispatch($event)'>
   </app-filters>
@@ -16,11 +32,13 @@
       [selectedResto]='selectedResto | async'
       [location]='currentLocation | async'
       (action)='store.dispatch($event)'></app-map>
+</div>
 
-  <div *ngIf='selectedResto | async' class='selected-resto'>
-    <app-resto [resto]='selectedResto | async' (action)='store.dispatch($event)'></app-resto>
-  </div>
-
+<div *ngIf='selectedResto | async' class='selected-resto'>
+  <app-resto
+    [resto]='selectedResto | async'
+    (action)='store.dispatch($event)'
+    [@selectedResto]='"open"'></app-resto>
 </div>
 
 <div *ngIf='top5 | async'>

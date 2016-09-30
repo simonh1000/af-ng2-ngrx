@@ -125,7 +125,7 @@ h3 {
     .afbutton {
         font-size: 16px;    // Used for AF Recommended button on recommendations page
     }
-    // line-height: $v-rhythm / 18px;
+    text-align: center;
     margin-bottom: $v-rhythm / 2;
 }
 
@@ -187,15 +187,13 @@ button.upbutton {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba($brand-primary-muted1,.6);
 }
 
-span.responsive {
-    display: block;
-}
-
 @media (min-width: $screen-sm) {
     h3 {
         font-size: 22px;
         line-height: $v-rhythm * 1.5 / 22px;
-        text-align: center;
+    }
+    .afbutton {
+        font-size: 16px;    // Used for AF Recommended button on recommendations page
     }
     .img-responsive {
         // ￼max-width: 100%;

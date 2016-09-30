@@ -47,13 +47,15 @@ string-fill {
     font-size: 18px;
     font-style: italic;
     line-height: $v-rhythm / 18px;
-    a { 			// map page only
-        // display: inline-block;
+    span.more { 			// map page only
+        cursor: pointer;
         float: right;
         line-height: $v-rhythm;
         color: $brand-primary-muted1;
         text-decoration: underline;
     }
+    // .more span {
+    // }
 }
 .resto_meta_more {
     clear: both;  // ensures box always flows beneath floated "...more info"
@@ -89,3 +91,14 @@ string-fill {
     }
 }
 
+@media (min-width: 640px) {
+
+    h4 {
+        .span {
+            font-size: inherit;
+        }
+        .recommended {
+            font-size: 16px;
+        }
+    }
+}

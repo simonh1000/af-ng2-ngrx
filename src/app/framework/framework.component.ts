@@ -21,19 +21,22 @@ import { filter_to_title } from '../filters/filters_to_title';
     templateUrl: './framework.component.html',
     styleUrls: ['./framework.component.scss'],
     providers: [GetDataService],
-    encapsulation: ViewEncapsulation.None //,
-    // animations: [
-    //   trigger('selectedState', [
-    //     state('unloading', style({
-    //       opacity: '0'
-    //     })),
-    //     state('loading', style({
-    //       opacity: '1'
-    //     })),
-    //     // transition('loading => unloading', animate('500ms ease-in')),
-    //     transition('unloading => loading', animate('300ms'))
-    //   ])
-    // ]
+    encapsulation: ViewEncapsulation.None,
+    animations: [
+    trigger('selectedResto', [
+      state('void', style({
+        height: '0'
+      })),
+    //   state('closed', style({
+    //     height: '0'
+    //   })),
+      state('open', style({
+        height: '*'
+      })),
+      transition('void <=> open', animate('500ms')),
+    //   transition('* => *', animate('300ms'))
+    ])
+  ]
 })
 export class FrameworkComponent implements OnInit {
 
@@ -61,9 +64,9 @@ export class FrameworkComponent implements OnInit {
         this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
 
         this.filters = this.store.select(state => state.filters);
-        this.currentLocation = this.store.select(state => state.filters.geo);
-        // this.title = this.store.select(state => state.filters).map(this.filtersToTitle);
         this.title = this.filters.map(filter_to_title);
+
+        this.currentLocation = this.store.select(state => state.filters.geo);
 
         this.selectedResto = this.store.select(state => state.selectedResto[0]);
         // this.selectedResto = this.store.select(state => state.selectedResto[0] || null).do( () => {

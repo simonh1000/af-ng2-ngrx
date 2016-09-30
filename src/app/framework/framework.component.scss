@@ -4,9 +4,6 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    app-filters {
-        // flex-grow: 1;
-    }
     app-map {
         // flex-grow: 2;
         display: block;
@@ -17,21 +14,27 @@
 
 app-resto {
     display: block;
-    // width: 100%;
     position: relative;
     margin: 0 auto;
     margin-bottom: $v-rhythm;
+    // width: 100%;
     // border: 1px solid #eee;
 }
 
-// .selected-resto app-resto {
-//     .closable {
-//         max-height: 80px !important;
-//     }
-//     .more {
-//         display: none;
-//     }
-// }
+.selected-resto app-resto {
+    overflow-y: hidden;
+    // .closable {
+    //     max-height: 80px !important;
+    // }
+    // .more {
+    //     display: none;
+    // }
+}
+
+// Want selected-resto to behave like narrow, mobile screen
+span.responsive, .selected-resto span.responsive {
+    display: block;
+}
 
 @media (min-width: 640px) {
 
