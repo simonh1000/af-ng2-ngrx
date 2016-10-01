@@ -22,12 +22,17 @@ function stateToTitles(state: Filters): string[] {
     return [].concat(
             price(state),
             location(state.location),
-            cuisine(state.cuisine)
+            cuisine(state.cuisine),
+            search(state.search)
         );
 }
 
 function rotmFilter(): string {
     return 'current top 5 restaurants!';
+}
+
+function search(tgt: string): string[] {
+    return (tgt !== '') ? [`Search results for: ${tgt}`] : [];
 }
 
 // Cuisine filter

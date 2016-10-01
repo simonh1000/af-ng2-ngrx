@@ -40,12 +40,14 @@ import { filter_to_title } from '../filters/filters_to_title';
   ]
 })
 export class FrameworkComponent implements OnInit {
+    restos: Resto[] = [];
 
     restos_list: Observable<Resto[]>;  // this will be the filtered list
     map_restos_list: Observable<Resto[]>;  // this will be the filtered list
     filters: Observable<Filters>;
     rotm: Observable<Resto>;
     rotms: Observable<Resto[]>;
+    selectedRestoIndex: Observable<number>;
     selectedResto: Observable<Resto>;
     top5: Observable<boolean>;
     not_top5: Observable<boolean>;
@@ -55,8 +57,9 @@ export class FrameworkComponent implements OnInit {
     selectedRestoState: string = '';
 
     constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
-        this.restos_list = this.store.select(filter_restos).distinct();
-        // this.map_restos_list = this.store.select(state => (state.mapReady) ? filter_restos(state) : [] );
+        this.restos_list = 
+            this.store.select(state => filter_restos(this.restos, state))
+                .distinct();
 
         this.rotm = this.restos_list.map(rs => rs[0]);
         this.rotms = this.restos_list.map(rs => rs.slice(1));
@@ -69,27 +72,28 @@ export class FrameworkComponent implements OnInit {
 
         this.currentLocation = this.store.select(state => state.filters.geo);
 
-        // this.selectedResto = this.store.select(state => state.selectedResto[0]);
+        this.selectedRestoIndex = this.store.select(state => state.selectedResto);
         this.selectedResto =
-            this.store.select( state => state.selectedResto[0] )
-            .distinct( (r1, r2) => {
-                if (r1 && r2) {
-                    return r1.qname === r2.qname;
-                } else {
-                    return false;
-                }
-            })
-            .do( r => {
-                if (r) {
-                    this.selectedRestoState = 'unloading';
-                    console.log('Animating OUT', r.qname);
-                    setTimeout( () => {
-                        this.selectedRestoState = 'open';
-                        console.log('start animation IN');
-                    }, 500);
-                }
-            })
-            .delay(450);
+            this.store.select(state => state.selectedResto)
+                // .distinct()
+                .withLatestFrom(this.restos_list, (idx, restos) => {
+                    if (restos && restos[idx]) {
+                        return restos[idx];
+                    } else {
+                        return null;
+                    }
+                });
+                // .do( r => {
+                //     if (r) {
+                //         this.selectedRestoState = 'unloading';
+                //         console.log('Animating OUT', r.qname);
+                //         setTimeout( () => {
+                //             this.selectedRestoState = 'open';
+                //             console.log('start animation IN');
+                //         }, 500);
+                //     }
+                // })
+                // .delay(450);
 
         geo.getGeo();
     }
@@ -98,10 +102,11 @@ export class FrameworkComponent implements OnInit {
         this.data.getData()
             .subscribe(data => {
                 console.log('Data returned');
-                this.store.dispatch({
-                    type: DATA,
-                    payload: data
-                });
+                this.restos = data;
+                // this.store.dispatch({
+                //     type: DATA,
+                //     payload: data
+                // });
             });
     }
 

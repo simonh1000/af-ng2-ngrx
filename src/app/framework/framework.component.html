@@ -29,7 +29,7 @@
   <!--<app-map></app-map>-->
   <app-map
       [restos]='restos_list | async'
-      [selectedResto]='selectedResto | async'
+      [selectedResto]='selectedRestoIndex | async'
       [location]='currentLocation | async'
       (action)='store.dispatch($event)'></app-map>
 </div>

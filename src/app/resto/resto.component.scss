@@ -5,6 +5,7 @@
 }
 h4 {
     margin-bottom: 0 !important;
+    margin-top: 2px;
     a {
         color: black;
     }
@@ -57,6 +58,7 @@ h4 {
 .comment {
     clear: both;
     margin-bottom: 0;
+    margin-top: 2px;
     font-size: 18px;
     font-style: italic;
     line-height: $v-rhythm / 18px;

@@ -20,7 +20,7 @@ const MAX_ZOOM = 15;
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    @Input() selectedResto: Resto;
+    @Input() selectedResto: number;
     @Input() location: Point;
     @Output() action = new EventEmitter();
 
@@ -134,23 +134,11 @@ export class MapComponent implements OnInit, OnChanges {
         }
     }
 
-    fitMap(markers: google.maps.Marker[]): void {
-        let mybounds = new google.maps.LatLngBounds();
-
-        markers.forEach(marker => mybounds.extend(marker.getPosition()) );
-        this.map.fitBounds(mybounds);
-
-        if (this.map.getZoom() > MAX_ZOOM) {
-            this.map.setZoom(MAX_ZOOM);
-        }
-        // console.log('Zoom:', this.map.getZoom());
-    }
-
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
         let iconColour =
-            (this.selectedResto && this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
-            // ((this.selectedResto && r.qname === this.selectedResto.qname) || r.open) ? '#aa0000' : '#aa94a1';
+            // (this.selectedResto && this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
+            (this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
         let marker = new google.maps.Marker({
@@ -162,11 +150,15 @@ export class MapComponent implements OnInit, OnChanges {
         google.maps.event.addListener(
             marker,
             'click',
-            (resto => {
-                // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
-                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
-                // console.log(resto);
-            }).bind(null, r)
+            (idx => {
+                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: idx }));
+            }).bind(null, idx)
+            // (resto => {
+            //     // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
+            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
+            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
+            //     // console.log(resto);
+            // }).bind(null, r)
         );
 
         marker.setMap(this.map);
@@ -184,6 +176,19 @@ export class MapComponent implements OnInit, OnChanges {
             labelOrigin: new google.maps.Point(0, -29)
         };
     }
+
+    fitMap(markers: google.maps.Marker[]): void {
+        let mybounds = new google.maps.LatLngBounds();
+
+        markers.forEach(marker => mybounds.extend(marker.getPosition()) );
+        this.map.fitBounds(mybounds);
+
+        if (this.map.getZoom() > MAX_ZOOM) {
+            this.map.setZoom(MAX_ZOOM);
+        }
+        // console.log('Zoom:', this.map.getZoom());
+    }
+
     // makeCircle(pt: Point): google.maps.Circle {
     /* Zoom = 12 => 160
      * Zoom = 13 => 100;
