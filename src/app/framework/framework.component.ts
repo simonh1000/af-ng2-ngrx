@@ -27,14 +27,15 @@ import { filter_to_title } from '../filters/filters_to_title';
       state('void', style({
         height: '0'
       })),
-    //   state('closed', style({
-    //     height: '0'
-    //   })),
+      state('unloading', style({
+        opacity: '0'
+      })),
       state('open', style({
-        height: '*'
+        height: '*',
+        opacity: '1'
       })),
       transition('void <=> open', animate('500ms')),
-    //   transition('* => *', animate('300ms'))
+      transition('* => *', animate('300ms'))
     ])
   ]
 })
@@ -51,10 +52,10 @@ export class FrameworkComponent implements OnInit {
     title: Observable<string>;
     currentLocation: Observable<Point>;
 
-    animationState: string = 'loading';
+    selectedRestoState: string = '';
 
     constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
-        this.restos_list = this.store.select(filter_restos);
+        this.restos_list = this.store.select(filter_restos).distinct();
         // this.map_restos_list = this.store.select(state => (state.mapReady) ? filter_restos(state) : [] );
 
         this.rotm = this.restos_list.map(rs => rs[0]);
@@ -68,15 +69,27 @@ export class FrameworkComponent implements OnInit {
 
         this.currentLocation = this.store.select(state => state.filters.geo);
 
-        this.selectedResto = this.store.select(state => state.selectedResto[0]);
-        // this.selectedResto = this.store.select(state => state.selectedResto[0] || null).do( () => {
-        //   this.animationState = 'unloading';
-        //   console.log('start animation OUT');
-        //   setTimeout( () => {
-        //     this.animationState = 'loading';
-        //     console.log('start animation IN');
-        //   }, 500);
-        // }); //.delay(500);
+        // this.selectedResto = this.store.select(state => state.selectedResto[0]);
+        this.selectedResto =
+            this.store.select( state => state.selectedResto[0] )
+            .distinct( (r1, r2) => {
+                if (r1 && r2) {
+                    return r1.qname === r2.qname;
+                } else {
+                    return false;
+                }
+            })
+            .do( r => {
+                if (r) {
+                    this.selectedRestoState = 'unloading';
+                    console.log('Animating OUT', r.qname);
+                    setTimeout( () => {
+                        this.selectedRestoState = 'open';
+                        console.log('start animation IN');
+                    }, 500);
+                }
+            })
+            .delay(450);
 
         geo.getGeo();
     }

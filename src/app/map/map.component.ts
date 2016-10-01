@@ -62,7 +62,8 @@ export class MapComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: { changes: SimpleChange }) {
         console.log('map.onChanges', changes);
-        if (this.map && changes['restos'].currentValue.length > 0) {
+        // if (this.map && changes['restos'].currentValue.length > 0) {
+        if (this.map && this.restos.length > 0) {
             this.addRestos(changes);
             this.fitMap(this.markers);
         }
@@ -107,7 +108,7 @@ export class MapComponent implements OnInit, OnChanges {
     // }
 
     addRestos(changes: { changes: SimpleChange }) {
-        let newRestos: Resto[] = changes['restos'].currentValue;
+        // let newRestos: Resto[] = changes['restos'].currentValue;
 
         if (!this.markersInitialised) {
             this.restos.forEach((r, idx) => {
@@ -121,7 +122,7 @@ export class MapComponent implements OnInit, OnChanges {
             this.markers.forEach(m => m.setMap(null));
             this.markers = [];
 
-            if (newRestos.length > 0) {
+            if (this.restos.length > 0) {
                 this.restos.forEach((r, idx) => {
                 // newRestos.forEach((r, idx) => {
                     let marker = this.makeMarker(r, idx);

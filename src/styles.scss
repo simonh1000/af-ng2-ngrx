@@ -8,7 +8,6 @@
     }
 }
 
-
 /* Copies of existing styles */
 
 @font-face {
@@ -161,6 +160,7 @@ a, a:focus {
   font-style: italic;
   color: white;
   text-transform: lowercase;
+  cursor: pointer;
   &:focus {
       // removes line around button when 'pressed'
       outline: none;
@@ -187,14 +187,19 @@ button.upbutton {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba($brand-primary-muted1,.6);
 }
 
+// Want selected-resto to behave like narrow, mobile screen
+span.responsive, .selected-resto span.responsive {
+    display: block;
+}
+
 @media (min-width: $screen-sm) {
     h3 {
         font-size: 22px;
         line-height: $v-rhythm * 1.5 / 22px;
     }
-    .afbutton {
-        font-size: 16px;    // Used for AF Recommended button on recommendations page
-    }
+    // .afbutton {
+    //     font-size: 16px;    // Used for AF Recommended button on recommendations page
+    // }
     .img-responsive {
         // ￼max-width: 100%;
         max-height: none;

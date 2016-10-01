@@ -8,7 +8,7 @@ export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
 
 export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], action: Action) => {
-    console.log('restosReducer', action, state.length);
+    console.log('restosReducer', action.type);
     switch (action.type) {
         case DATA:
             return action.payload;

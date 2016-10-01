@@ -12,6 +12,15 @@ h4 {
         font-size: 12px;
     }
 }
+.meta {
+    display: flex;
+    .recommended-container {
+        height: 3em;
+        img {
+            height: 100%;
+        }
+    }
+}
 .scores {
     // display: flex;
     // justify-content: space-between;
@@ -25,22 +34,26 @@ h4 {
         // text-align: right;
     }
 }
+
+
 .recommended {  // 'af recommended' 'button'
     font-style: italic;
-    font-size: 90%;
     font-weight: 400;
     color: #fff;
-    background-color: $brand-primary;
+    // font-size: 90%;
+    // background-color: $brand-primary;
+    color: $brand-primary;
+    border: 1px dotted $brand-primary-muted1;
     border-radius: 10px;
     padding: 4px 7px 1px 7px;
 }
-string-fill {
-    font-size: 18px;
-    color: $brand-primary;
-    font-weight: normal;
-    display: inline;
-    margin-right: 20px;
-}
+// string-fill {
+//     font-size: 18px;
+//     color: $brand-primary;
+//     font-weight: normal;
+//     display: inline;
+//     margin-right: 20px;
+// }
 .comment {
     clear: both;
     margin-bottom: 0;
@@ -77,24 +90,23 @@ string-fill {
     }
 }
 
-.closable {              // extra css for map page only
-    max-height: 80px;
-    transition-property: max-height;
-    transition-duration: 1.3s;
-    transition-timing-function: ease;
-    &.closed {
-        transition-property: max-height;
-        transition-duration: 1.3s;
-        transition-timing-function: ease;
-        // padding: 0;
-        max-height: 0;
-    }
-}
+// .closable {              // extra css for map page only
+//     max-height: 80px;
+//     transition-property: max-height;
+//     transition-duration: 1.3s;
+//     transition-timing-function: ease;
+//     &.closed {
+//         transition-property: max-height;
+//         transition-duration: 1.3s;
+//         transition-timing-function: ease;
+//         // padding: 0;
+//         max-height: 0;
+//     }
+// }
 
 @media (min-width: 640px) {
-
     h4 {
-        .span {
+        span {
             font-size: inherit;
         }
         .recommended {

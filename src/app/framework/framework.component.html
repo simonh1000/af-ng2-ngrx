@@ -19,7 +19,6 @@
       Other popular according to google analytcs are: indian japanese italian
     </div>
   </div>
-
 </div>
 
 <div id="filter-map">
@@ -27,6 +26,7 @@
       [filters]='filters | async' (action)='store.dispatch($event)'>
   </app-filters>
 
+  <!--<app-map></app-map>-->
   <app-map
       [restos]='restos_list | async'
       [selectedResto]='selectedResto | async'
@@ -38,7 +38,7 @@
   <app-resto
     [resto]='selectedResto | async'
     (action)='store.dispatch($event)'
-    [@selectedResto]='"open"'></app-resto>
+    [@selectedResto]='selectedRestoState'></app-resto>
 </div>
 
 <div *ngIf='top5 | async'>

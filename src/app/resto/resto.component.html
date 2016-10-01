@@ -1,15 +1,18 @@
-<!--<div *ngIf='resto'>-->
+<div *ngIf='resto'>
 	<h4>
 		<span class='resto-index'>{{toAlphaIndex(idx)}} </span>
 		<a href='.{{resto.link}}' target='_self'>{{resto.rname}}</a>
 		<span *ngIf='cuisines[resto.cuisine]'>({{cuisines[resto.cuisine].name}})</span>
 		<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
 		<span *ngIf='resto.distance'>({{resto.distance | number:'1.1-1'}}km)</span>
-		<button *ngIf='resto.booking' class="hidden-xs recommended pull-right" (click)='trackOutboundLink("SeatMe_link")'>
+		<!--<button *ngIf='resto.booking' class="hidden-xs recommended pull-right" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
-		</button>
-
+		</button>-->
+		<span *ngIf='resto.booking' class="hidden-xs afbutton pull-right" (click)='trackOutboundLink("SeatMe_link")'>
+			book now
+		</span>
 	</h4>
+
 	<div class='scores'>
 		<span class='rating'>
 			{{'★'.repeat(resto.rating)}}<span class='feint'>{{'★'.repeat(5 - resto.rating)}}</span>
@@ -29,8 +32,8 @@
 	</p>
 
 
-<!--<div class='resto_meta_more' [@open]='(resto.open) ? "open" : "closed"'>-->
-<div class='resto_meta_more closable closed' [ngClass]='{"closed": !resto.open}'>
+<div class='resto_meta_more' [@open]='(resto.open) ? "open" : "closed"'>
+<!--<div class='resto_meta_more closable closed' [ngClass]='{"closed": !resto.open}'>-->
 	<div class='meta-container'>
 		<span class='responsive'>
 			{{resto.address}} <span *ngIf='areas[resto.area]'> ({{areas[resto.area].name}})</span>
@@ -55,4 +58,4 @@
 		</span>
 	</div>
 </div>
-<!--</div>-->
+</div>
