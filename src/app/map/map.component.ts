@@ -21,7 +21,7 @@ const MAX_ZOOM = 15;
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    @Input() selectedResto: Resto;
+    @Input() selectedResto: string;
     @Input() location: Location;
     @Output() action = new EventEmitter();
 
@@ -44,7 +44,7 @@ export class MapComponent implements OnInit, OnChanges {
             this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
             google.maps.event.addListenerOnce(this.map, 'idle',
                 () => {
-                    console.log('map idle');
+                    // console.log('map idle');
                     this._ngZone.run(() => this.action.next({ type: MAP_READY }))
                 }
             );
@@ -61,7 +61,7 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: { changes: SimpleChange }) {
-        console.log('map.onChanges', changes);
+        // console.log('map.onChanges', changes);
         // if (this.map && changes['restos'].currentValue.length > 0) {
         if (this.map && this.restos.length > 0) {
             this.addRestos(changes);
@@ -73,40 +73,6 @@ export class MapComponent implements OnInit, OnChanges {
             this.addMyLocation(this.location[0]);
         }
     }
-
-    // addRestos(changes: { changes: SimpleChange }) {
-    //     let newRestos: Resto[] = changes['restos'].currentValue;
-    //     let oldRestos: Resto[] = changes['restos'].previousValue;
-
-    //     if (!this.markersInitialised) {
-    //         newRestos.forEach((r, idx) => {
-    //             let marker = this.makeMarker(r, idx);
-    //             this.markers.push(marker);
-    //             this.markersInitialised = true;
-    //         });
-    //     } else {
-    //         oldRestos.forEach( (oldResto, idx) => {
-    //             let newResto = newRestos[idx];
-    //             // Various reasons why the marker should be redrawn
-
-    //             // It was selected, but is no longer: is red but no selectedResto
-    //             if ( (this.selectedResto.qname === newResto.qname && this.selectedResto.qname !== oldResto.qname) ||
-    //                     this.selectedResto.qname === oldResto.qname ||
-    //                     oldResto.qname !== newResto.qname ||
-    //                     oldResto.open !== newResto.open) {
-
-    //                 this.markers[idx].setMap(null);
-    //                 return this.markers[idx] = this.makeMarker(newResto, idx);
-    //             }
-
-    //             if (!newResto) {
-    //                 this.markers[idx].setMap(null);
-    //                 this.markers[idx] = null;
-    //             }
-    //         });
-    //         this.markers = this.markers.filter( m => m !== null);
-    //     }
-    // }
 
     addRestos(changes: { changes: SimpleChange }) {
         // let newRestos: Resto[] = changes['restos'].currentValue;
@@ -138,7 +104,7 @@ export class MapComponent implements OnInit, OnChanges {
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
         let iconColour =
-            (this.selectedResto && this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
+            (this.selectedResto && this.selectedResto === r.qname) ? '#aa0000' : '#aa94a1';
             // (this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
@@ -186,14 +152,8 @@ export class MapComponent implements OnInit, OnChanges {
         if (this.map.getZoom() > MAX_ZOOM) {
             this.map.setZoom(MAX_ZOOM);
         }
-        // console.log('Zoom:', this.map.getZoom());
     }
 
-    // makeCircle(pt: Point): google.maps.Circle {
-    /* Zoom = 12 => 160
-     * Zoom = 13 => 100;
-     * Zoom = 14 => 60
-     */
     makeCircle(pt: google.maps.LatLng, colour: string, label: string): google.maps.Circle {
         let radius;
         switch (this.map.getZoom()) {
@@ -233,3 +193,37 @@ export class MapComponent implements OnInit, OnChanges {
         this.prevLocation = marker;
     }
 }
+    // addRestos(changes: { changes: SimpleChange }) {
+    //     let newRestos: Resto[] = changes['restos'].currentValue;
+    //     let oldRestos: Resto[] = changes['restos'].previousValue;
+
+    //     if (!this.markersInitialised) {
+    //         newRestos.forEach((r, idx) => {
+    //             let marker = this.makeMarker(r, idx);
+    //             this.markers.push(marker);
+    //             this.markersInitialised = true;
+    //         });
+    //     } else {
+    //         oldRestos.forEach( (oldResto, idx) => {
+    //             let newResto = newRestos[idx];
+    //             // Various reasons why the marker should be redrawn
+
+    //             // It was selected, but is no longer: is red but no selectedResto
+    //             if ( (this.selectedResto.qname === newResto.qname && this.selectedResto.qname !== oldResto.qname) ||
+    //                     this.selectedResto.qname === oldResto.qname ||
+    //                     oldResto.qname !== newResto.qname ||
+    //                     oldResto.open !== newResto.open) {
+
+    //                 this.markers[idx].setMap(null);
+    //                 return this.markers[idx] = this.makeMarker(newResto, idx);
+    //             }
+
+    //             if (!newResto) {
+    //                 this.markers[idx].setMap(null);
+    //                 this.markers[idx] = null;
+    //             }
+    //         });
+    //         this.markers = this.markers.filter( m => m !== null);
+    //     }
+    // }
+

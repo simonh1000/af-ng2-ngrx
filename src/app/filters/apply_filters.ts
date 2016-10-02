@@ -6,6 +6,7 @@ import { Resto } from '../reducers/resto';
 import { scorer } from './scorer';
 
 export function filter_restos(state: AppState): Resto[] {
+    console.log('filters', state);
     if (state.filters.close) {
         return state.restos
             .sort((r1, r2) => r1.distance - r2.distance)
@@ -13,25 +14,22 @@ export function filter_restos(state: AppState): Resto[] {
     } else {
         let filters = stateToFilters(state.filters);
         let scoreFn = scorer(state);
-
-        if (filters.length === 0) {
-            // return state.restos;
+        
+        if (filters.length === 0) {         // ROTM 
             return state.restos
                 .filter(rotmFilter)
-                // .sort((r1, r2) => r1.recommendation - r2.recommendation)
                 .map( r => {
                     return Object.assign(r, {score: scoreFn(r)});
                 })
                 .sort((r1, r2) => r2.score - r1.score);
-        } else {
-            let res = state.restos
+        } else {                            // other filters
+            return state.restos
                 .filter(resto => filters.every(fn => fn(resto)))
                 .map( r => {
                     return Object.assign(r, {score: scoreFn(r)});
                 })
-                .sort((r1, r2) => r2.score - r1.score);
-            // console.log(`Found ${res.length} rests, returning 20`);
-            return res.slice(0, 20);
+                .sort( (r1, r2) => r2.score - r1.score )
+                .slice(0, 20);
         }
     }
 }

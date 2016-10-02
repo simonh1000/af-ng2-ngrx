@@ -26,7 +26,6 @@
       [filters]='filters | async' [location]='location | async' (action)='store.dispatch($event)'>
   </app-filters>
 
-  <!--<app-map></app-map>-->
   <app-map
       [restos]='restos_list | async'
       [selectedResto]='selectedResto | async'
@@ -34,6 +33,12 @@
       (action)='store.dispatch($event)'></app-map>
 </div>
 
+  <app-resto-list
+    [restos]='restos_list | async'
+    [filters]='filters | async'
+    [selectedQname]='selectedResto | async'
+    (action)='store.dispatch($event)'></app-resto-list>
+<!--
 <div *ngIf='selectedResto | async' class='selected-resto'>
   <app-resto
     [resto]='selectedResto | async'
@@ -49,4 +54,4 @@
 
 <div *ngIf='not_top5 | async'>
   <app-resto-list [restos]='restos_list | async' [title]='title | async' (action)='store.dispatch($event)'></app-resto-list>
-</div>
+</div>-->

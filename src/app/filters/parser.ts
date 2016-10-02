@@ -4,7 +4,7 @@ import { initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
-    console.log('fromUrl', urlString);
+    // console.log('fromUrl', urlString);
     switch(urlString) {
         case "close": 
             return Object.assign({}, initFilters, {close: true});

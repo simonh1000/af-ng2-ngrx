@@ -33,13 +33,6 @@ export class GeoService {
                         }
                     });
                 });
-
-                // this.store.dispatch({
-                //     type: GEO, payload: {
-                //         lat: pos.coords.latitude,
-                //         lng: pos.coords.longitude
-                //     }
-                // });
             } else {
                 console.log('restos.getGeo: user NOT in Amsterdam');
             }

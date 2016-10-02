@@ -8,5 +8,5 @@ export interface AppState {
     filters: Filters;
     selectedResto: string;  // qname
     mapReady: boolean;
-    location: Location
+    location: Location;
 }

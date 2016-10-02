@@ -1,12 +1,10 @@
 import { Component, OnChanges, OnInit, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Filters } from '../reducers/filters';
 import { NEW_FILTERS, GET_CLOSE, initFilters } from '../reducers/filters_reducer';
 import { Location } from '../reducers/geo';
 import { Dictionary } from './dictionary';
-import { toUrl } from './encoder';
-import { fromUrl } from './parser';
+// import { toUrl } from './encoder';
 
 @Component({
   selector: 'app-filters',
@@ -17,15 +15,14 @@ export class FiltersComponent implements OnInit, OnChanges {
   @Input() filters: Filters;
   @Input() location: Location;
   @Output() action = new EventEmitter();
-  cmpFilters: Filters = initFilters;
-  overlay: boolean = false;
 
+  overlay: boolean = false;
   // Maps of dictionary to create select elements
   areas: Array<{ key: string, name: string }> = [];
   cuisines: Array<{ key: string, name: string }> = [];
   prices: Array<{ key: string, name: string, state: boolean }> = [];
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor() {
     //   Create the selects data
     for (let k in Dictionary.areas) {
       if (k) {
@@ -45,47 +42,34 @@ export class FiltersComponent implements OnInit, OnChanges {
 
   // On init, send route params to store
   ngOnInit() {
-    console.log('filters: ngOnInit - sending params to store');
-    this.route.params.forEach((params: Params) => {
-      this.action.next({
-        type: NEW_FILTERS,
-        payload: fromUrl(params['filter'])
-      });
-    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     // When app loads, ngOnChanges is triggered with the default, initial value of filters
     // Without the if-statement, this will cause a navigation to '/',
     // which would overwrite whatever might be existing url
-    if (changes['filters'] && typeof changes['filters'].previousValue.budget !== 'undefined') {
-      this.cmpFilters = this.filters;
-      // When the filters change, we need to update the url
-      // console.log('onChanges - triggering router');
-      // let link = ['/recommendations', toUrl(this.cmpFilters)];
-      // this.router.navigate(link);
-    }
+    // if (changes['filters'] && typeof changes['filters'].previousValue.budget !== 'undefined') {
+    //   // this.filters = this.filters;
+    //   // When the filters change, we need to update the url
+    //   // console.log('onChanges - triggering router');
+    // }
   }
 
   setCriteria($event: Event) {
     // console.log('setCriteria');
     this.overlay = false;
     $event.preventDefault();
-    let link = ['/recommendations', toUrl(this.cmpFilters)];
-    this.router.navigate(link);
+    // let link = ['/recommendations', toUrl(this.filters)];
+    // this.router.navigate(link);
 
     this.action.emit({
       type: NEW_FILTERS,
-      payload: this.cmpFilters
+      payload: this.filters
     });
   }
 
-  showClose() {
-    // console.log(this.location);
-    return this.location && this.location.length > 0;
-  }
   getClose() {
-    // needs to set url
+    // this.router.navigate(['/recommendations', 'close']);
     this.action.emit({
       type: GET_CLOSE
     });
