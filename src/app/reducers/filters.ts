@@ -1,7 +1,3 @@
-export interface Point {
-    lat: number;
-    lng: number;
-}
 
 export interface Filters {
     search: string;
@@ -10,6 +6,5 @@ export interface Filters {
     budget: boolean;
     midrange: boolean;
     finedining: boolean;
-    geo: Point;
     close: boolean;
 }

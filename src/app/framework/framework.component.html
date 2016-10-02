@@ -23,14 +23,14 @@
 
 <div id="filter-map">
   <app-filters
-      [filters]='filters | async' (action)='store.dispatch($event)'>
+      [filters]='filters | async' [location]='location | async' (action)='store.dispatch($event)'>
   </app-filters>
 
   <!--<app-map></app-map>-->
   <app-map
       [restos]='restos_list | async'
-      [selectedResto]='selectedRestoIndex | async'
-      [location]='currentLocation | async'
+      [selectedResto]='selectedResto | async'
+      [location]='location | async'
       (action)='store.dispatch($event)'></app-map>
 </div>
 

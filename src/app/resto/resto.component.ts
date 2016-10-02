@@ -36,5 +36,8 @@ export class RestoComponent {
   toAlphaIndex(i) {
     return String.fromCharCode('A'.charCodeAt(0) + parseInt(i, 10));
   }
-
+  trackOutboundLink(type, link) {
+    console.log(type, link);
+    return false;
+  }
 }

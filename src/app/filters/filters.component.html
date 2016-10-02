@@ -11,8 +11,8 @@
             data-selector='body'>search criteria</button>-->
     </div>
 
-    <div *ngIf='cmpFilters.geo.lat > 0'>
-        <button (click)='getClose()'>What's close?</button>
+    <div *ngIf='showClose()'>
+        <span class='afbutton' (click)='getClose()'>What's close?</span>
     </div>
 
     <div class='criteria closed' [ngClass]='{"closed": !overlay}'>

@@ -47,10 +47,10 @@
 		<span class='links'>
 			<span *ngIf='resto.tel && resto.website'> / </span>
 
-			<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website")'>website</span>
+			<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
 
 			<span *ngIf='resto.booking' class="visible-xs-inline">>
-					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link")'>book now</span>
+					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
 			</span>
 
 			<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>

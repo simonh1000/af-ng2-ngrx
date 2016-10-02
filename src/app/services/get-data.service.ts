@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RESTOS } from './mock-restos';
-// import { Resto } from  '../reducers/resto';
 
 @Injectable()
 export class GetDataService {

@@ -3,6 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Filters } from '../reducers/filters';
 import { NEW_FILTERS, GET_CLOSE, initFilters } from '../reducers/filters_reducer';
+import { Location } from '../reducers/geo';
 import { Dictionary } from './dictionary';
 import { toUrl } from './encoder';
 import { fromUrl } from './parser';
@@ -14,6 +15,7 @@ import { fromUrl } from './parser';
 })
 export class FiltersComponent implements OnInit, OnChanges {
   @Input() filters: Filters;
+  @Input() location: Location;
   @Output() action = new EventEmitter();
   cmpFilters: Filters = initFilters;
   overlay: boolean = false;
@@ -56,12 +58,12 @@ export class FiltersComponent implements OnInit, OnChanges {
     // When app loads, ngOnChanges is triggered with the default, initial value of filters
     // Without the if-statement, this will cause a navigation to '/',
     // which would overwrite whatever might be existing url
-    if (typeof changes['filters'].previousValue.budget !== 'undefined') {
-      this.cmpFilters = Object.assign({}, this.filters);
+    if (changes['filters'] && typeof changes['filters'].previousValue.budget !== 'undefined') {
+      this.cmpFilters = this.filters;
       // When the filters change, we need to update the url
-      console.log('onChanges - triggering router');
-      let link = ['/recommendations', toUrl(this.cmpFilters)];
-      this.router.navigate(link);
+      // console.log('onChanges - triggering router');
+      // let link = ['/recommendations', toUrl(this.cmpFilters)];
+      // this.router.navigate(link);
     }
   }
 
@@ -78,7 +80,12 @@ export class FiltersComponent implements OnInit, OnChanges {
     });
   }
 
+  showClose() {
+    // console.log(this.location);
+    return this.location && this.location.length > 0;
+  }
   getClose() {
+    // needs to set url
     this.action.emit({
       type: GET_CLOSE
     });

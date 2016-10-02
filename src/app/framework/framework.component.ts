@@ -6,11 +6,13 @@ import { Store } from '@ngrx/store';
 import { Resto } from '../reducers/resto';
 import { AppState } from '../reducers/state';
 import { initFilters, NEW_FILTERS } from '../reducers/filters_reducer';
-import { Filters, Point } from '../reducers/filters';
+import { Filters } from '../reducers/filters';
 import { DATA } from '../reducers/restos_reducer';
 
 import { GetDataService } from '../services/get-data.service';
 import { GeoService } from '../services/geo.service';
+import { Location } from '../reducers/geo';
+import { Point } from '../reducers/geo';
 
 import { toUrl } from '../filters/encoder';
 import { filter_restos } from '../filters/apply_filters';
@@ -40,11 +42,12 @@ import { filter_to_title } from '../filters/filters_to_title';
   ]
 })
 export class FrameworkComponent implements OnInit {
-    restos: Resto[] = [];
-
     restos_list: Observable<Resto[]>;  // this will be the filtered list
-    map_restos_list: Observable<Resto[]>;  // this will be the filtered list
+    restos: Observable<Resto[]>;  // this will be the filtered list
     filters: Observable<Filters>;
+    // location: Observable<Location>
+    location: Observable<Location>
+
     rotm: Observable<Resto>;
     rotms: Observable<Resto[]>;
     selectedRestoIndex: Observable<number>;
@@ -52,14 +55,14 @@ export class FrameworkComponent implements OnInit {
     top5: Observable<boolean>;
     not_top5: Observable<boolean>;
     title: Observable<string>;
-    currentLocation: Observable<Point>;
 
     selectedRestoState: string = '';
 
     constructor(public store: Store<AppState>, private data: GetDataService, private geo: GeoService) {
-        this.restos_list = 
-            this.store.select(state => filter_restos(this.restos, state))
-                .distinct();
+        // combines restos (i.e. distances) with filters
+        this.restos_list = this.store.select(filter_restos).distinct();
+        this.filters = this.store.select(state => state.filters);
+        this.location = this.store.select(state => state.location);
 
         this.rotm = this.restos_list.map(rs => rs[0]);
         this.rotms = this.restos_list.map(rs => rs.slice(1));
@@ -67,21 +70,18 @@ export class FrameworkComponent implements OnInit {
         this.top5 = this.store.select(state => state.filters).map(v => toUrl(v) === '');
         this.not_top5 = this.store.select(state => state.filters).map(v => toUrl(v) !== '');
 
-        this.filters = this.store.select(state => state.filters);
         this.title = this.filters.map(filter_to_title);
 
-        this.currentLocation = this.store.select(state => state.filters.geo);
+        // this.restos = this.store.select(state => state.restos);
 
-        this.selectedRestoIndex = this.store.select(state => state.selectedResto);
+        // this.selectedResto =
+        //     this.store.select(state => {
+        //         return state.restos.find(r => r.qname === state.selectedResto)
+        //     });
         this.selectedResto =
             this.store.select(state => state.selectedResto)
-                // .distinct()
-                .withLatestFrom(this.restos_list, (idx, restos) => {
-                    if (restos && restos[idx]) {
-                        return restos[idx];
-                    } else {
-                        return null;
-                    }
+                .withLatestFrom(this.restos_list, (qname, restos) => {
+                    return restos.find(r => r.qname === qname)
                 });
                 // .do( r => {
                 //     if (r) {
@@ -102,11 +102,11 @@ export class FrameworkComponent implements OnInit {
         this.data.getData()
             .subscribe(data => {
                 console.log('Data returned');
-                this.restos = data;
-                // this.store.dispatch({
-                //     type: DATA,
-                //     payload: data
-                // });
+                // this.restos = data;
+                this.store.dispatch({
+                    type: DATA,
+                    payload: data
+                });
             });
     }
 
@@ -135,3 +135,27 @@ export class FrameworkComponent implements OnInit {
         return (typeof selectedResto === 'undefined' || selectedResto === null) ? 'sim-test-none' : 'sim-test-selected';
     }
 }
+
+// if (!Array.prototype.find) {
+//   Array.prototype.find = function(predicate) {
+//     'use strict';
+//     if (this == null) {
+//       throw new TypeError('Array.prototype.find called on null or undefined');
+//     }
+//     if (typeof predicate !== 'function') {
+//       throw new TypeError('predicate must be a function');
+//     }
+//     var list = Object(this);
+//     var length = list.length >>> 0;
+//     var thisArg = arguments[1];
+//     var value;
+
+//     for (var i = 0; i < length; i++) {
+//       value = list[i];
+//       if (predicate.call(thisArg, value, i, list)) {
+//         return value;
+//       }
+//     }
+//     return undefined;
+//   };
+// }

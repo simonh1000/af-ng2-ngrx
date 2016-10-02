@@ -1,9 +1,13 @@
 import { Filters } from '../reducers/filters';
 
 export function toUrl(filters: Filters): string {
-    let encoders = [search, cuisine, location, price, close];
-    return flatten(encoders.map(fn => fn(filters)))
-        .join('_');
+    if (filters.close) {
+        return 'close';
+    } else {
+        let encoders = [search, cuisine, location, price];
+        return flatten(encoders.map(fn => fn(filters)))
+            .join('_');
+    }
 }
 
 function flatten(arr: any[][]): any[] {
@@ -31,6 +35,3 @@ function price(filters: Filters): string[] {
     return priceElems.filter(e => filters[e]);
 }
 
-function close(filters: Filters): string[] {
-    return (filters.close) ? ['close'] : [];
-}

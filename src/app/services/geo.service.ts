@@ -3,13 +3,13 @@ import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Dictionary } from '../filters/dictionary';
-import { Point } from '../reducers/filters';
-import { GEO } from '../reducers/filters_reducer';
+import { Point } from '../reducers/geo';
+import { GEO } from '../reducers/geo_reducer';
 
 @Injectable()
 export class GeoService {
 
-    constructor(private _ngZone: NgZone, private store: Store<Point>) { }
+    constructor(private _ngZone: NgZone, private store: Store<Location>) { }
 
     getGeo() {
         console.log('Geo - constructor');

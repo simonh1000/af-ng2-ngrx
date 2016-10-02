@@ -5,12 +5,17 @@ import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
     console.log('fromUrl', urlString);
-    if (urlString) {
-        return urlString.split('_')
-                .map(parser)
-                .reduce( flattener, Object.assign({}, initFilters) )
-    } else {
-        return Object.assign({}, initFilters);
+    switch(urlString) {
+        case "close": 
+            return Object.assign({}, initFilters, {close: true});
+        case undefined:
+            return Object.assign({}, initFilters);
+        case null:
+            return Object.assign({}, initFilters);
+        default:
+            return urlString.split('_')
+                    .map(parser)
+                    .reduce( flattener, Object.assign({}, initFilters) );
     }
 }
 
@@ -29,6 +34,7 @@ function parser(s: string): Object {
         .map(fn => fn(s))
         .filter(item => Object.keys(item).length > 0)[0]
 }
+
 
 function locationParser(s: string): Object {
     if (Dictionary.areas[s]) {

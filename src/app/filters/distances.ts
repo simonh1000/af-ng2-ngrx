@@ -1,4 +1,4 @@
-import { Point } from '../reducers/filters';
+import { Point } from '../reducers/geo';
 import { Resto } from '../reducers/resto';
 
 function scorer(d, r): number {
@@ -29,11 +29,3 @@ function getDistance(lat1, lng1, lat, lng) {
     let d = R * c;
     return d; // returns the distance in meter
 }
-
-// export function setDistances(pt: Point, restos: Resto[]): Resto[] {
-//     return restos
-//         .map(r => {
-//             let distance = getDistance(pt.lat, pt.lng, r.lat, r.lng);
-//             return Object.assign(r, {distance: distance});
-//         });
-// }

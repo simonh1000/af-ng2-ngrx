@@ -1,6 +1,6 @@
 import { ActionReducer, Action } from '@ngrx/store';
 
-import { GEO } from './filters_reducer';
+import { GEO } from './geo_reducer';
 import { Resto } from './resto';
 import { setDistance } from '../filters/distances';
 
@@ -8,7 +8,7 @@ export const DATA = 'DATA';
 export const TOGGLE = 'TOGGLE';
 
 export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], action: Action) => {
-    console.log('restosReducer', action.type);
+    // console.log('restosReducer', action.type);
     switch (action.type) {
         case DATA:
             return action.payload;

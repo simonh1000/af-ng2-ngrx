@@ -18,6 +18,7 @@ import { restosReducer } from './reducers/restos_reducer';
 import { mapReducer } from './reducers/map_reducer';
 import { selectedReducer } from './reducers/selected_reducer';
 import { filtersReducer, initFilters } from './reducers/filters_reducer';
+import { geoReducer } from './reducers/geo_reducer';
 
 import { GetDataService } from './services/get-data.service';
 import { GeoService } from './services/geo.service';
@@ -37,7 +38,8 @@ import { GeoService } from './services/geo.service';
       restos: restosReducer,
       filters : filtersReducer,
       selectedResto: selectedReducer,
-      mapReady: mapReducer
+      mapReady: mapReducer,
+      location: geoReducer
     }),
     routing,
     FormsModule,

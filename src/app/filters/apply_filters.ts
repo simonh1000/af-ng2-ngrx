@@ -5,9 +5,9 @@ import { AppState } from '../reducers/state';
 import { Resto } from '../reducers/resto';
 import { scorer } from './scorer';
 
-export function filter_restos(restos: Resto[], state: AppState): Resto[] {
+export function filter_restos(state: AppState): Resto[] {
     if (state.filters.close) {
-        return restos
+        return state.restos
             .sort((r1, r2) => r1.distance - r2.distance)
             .slice(0, 10);
     } else {
@@ -16,7 +16,7 @@ export function filter_restos(restos: Resto[], state: AppState): Resto[] {
 
         if (filters.length === 0) {
             // return state.restos;
-            return restos
+            return state.restos
                 .filter(rotmFilter)
                 // .sort((r1, r2) => r1.recommendation - r2.recommendation)
                 .map( r => {
@@ -24,7 +24,7 @@ export function filter_restos(restos: Resto[], state: AppState): Resto[] {
                 })
                 .sort((r1, r2) => r2.score - r1.score);
         } else {
-            let res = restos
+            let res = state.restos
                 .filter(resto => filters.every(fn => fn(resto)))
                 .map( r => {
                     return Object.assign(r, {score: scoreFn(r)});

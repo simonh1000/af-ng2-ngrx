@@ -9,7 +9,8 @@ import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
 import { MAP_READY } from '../reducers/map_reducer';
 import { SELECT_RESTO } from '../reducers/selected_reducer';
-import { Point } from '../reducers/filters';
+import { Point } from '../reducers/geo';
+import { Location } from '../reducers/geo';
 
 const MAX_ZOOM = 15;
 
@@ -20,8 +21,8 @@ const MAX_ZOOM = 15;
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    @Input() selectedResto: number;
-    @Input() location: Point;
+    @Input() selectedResto: Resto;
+    @Input() location: Location;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
@@ -50,7 +51,6 @@ export class MapComponent implements OnInit, OnChanges {
             google.maps.event.addListener(this.map, 'zoom_changed',
                 // get location of marker and pass that to addMyLocation
                 () => {
-                    console.log('Zoom:', this.map.getZoom());
                     if (this.prevLocation) {
                         let l = this.prevLocation.getCenter();
                         this.addMyLocation({ lat: l.lat(), lng: l.lng() });
@@ -68,8 +68,9 @@ export class MapComponent implements OnInit, OnChanges {
             this.fitMap(this.markers);
         }
 
-        if (this.map && changes['location'] && changes['location'].currentValue.lat > 0) {
-            this.addMyLocation(changes['location'].currentValue);
+        // if (this.map && changes['location'] && changes['location'].currentValue.length > 0) {
+        if (this.map && this.location && this.location.length > 0) {
+            this.addMyLocation(this.location[0]);
         }
     }
 
@@ -137,8 +138,8 @@ export class MapComponent implements OnInit, OnChanges {
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
         let iconColour =
-            // (this.selectedResto && this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
-            (this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
+            (this.selectedResto && this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
+            // (this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
         let marker = new google.maps.Marker({
@@ -150,15 +151,14 @@ export class MapComponent implements OnInit, OnChanges {
         google.maps.event.addListener(
             marker,
             'click',
-            (idx => {
-                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: idx }));
-            }).bind(null, idx)
-            // (resto => {
-            //     // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
-            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
-            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto }));
-            //     // console.log(resto);
-            // }).bind(null, r)
+            // (idx => {
+            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: idx }));
+            // }).bind(null, idx)
+            (resto => {
+                // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
+                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto.qname }));
+                // console.log(resto);
+            }).bind(null, r)
         );
 
         marker.setMap(this.map);
@@ -210,7 +210,6 @@ export class MapComponent implements OnInit, OnChanges {
             case 11: radius = 210; break;
             case 10: radius = 240; break;
         }
-        console.log('radius', radius);
 
         return new google.maps.Circle({
             strokeColor: '#000099',
@@ -229,7 +228,7 @@ export class MapComponent implements OnInit, OnChanges {
             this.prevLocation.setMap(null);
         }
         let markerPos = new google.maps.LatLng(loc.lat, loc.lng);
-        let marker = this.makeCircle(markerPos, '#66ccff', '');
+        let marker = this.makeCircle(markerPos, '#66ccff', '#66ccff');
         marker.setMap(this.map);
         this.prevLocation = marker;
     }
