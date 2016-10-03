@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-xs-6">
       <ul>
-        <li (click)='goTop5()'>Restaurant of the Month + top 5</li>
+        <li (click)='quickLink({})'>Restaurant of the Month + top 5</li>
         <li (click)='quickLink({budget: true})'>Budget Restaurants</li>
         <li (click)='quickLink({midrange: true})'>Mid range</li>
         <li (click)='quickLink({finedining: true})'>Fine Dining</li>
@@ -32,6 +32,7 @@
       [restos]='restos_list | async'
       [selectedQname]='selectedResto | async'
       [location]='myLocation | async'
+      [mapReady]='mapReady | async'
       (action)='store.dispatch($event)'></app-map>
 </div>
 

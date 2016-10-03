@@ -32,13 +32,14 @@ export class FrameworkComponent implements OnInit {
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
     selectedResto: Observable<string>;
+    mapReady: Observable<boolean>;
 
     constructor(public location: PlatformLocation,
                 public store: Store<AppState>,
                 private data: GetDataService, private geo: GeoService) {
 
         let filterString = this.location.pathname.split('/').slice(2)[0];
-        if (filterString) {
+        if ('url filters', filterString) {
             console.log(filterString);
             this.store.dispatch({
                 type: NEW_FILTERS,
@@ -66,11 +67,8 @@ export class FrameworkComponent implements OnInit {
             this.store.select(state => state.myLocation);
         this.selectedResto =
             this.store.select(state => state.selectedResto);
-        // this.selectedResto =
-        //     this.store.select(state => state.selectedResto)
-        //         .withLatestFrom(this.restos_list, (qname, restos) => {
-        //             return restos.find(r => r.qname === qname)
-        //         });
+        this.mapReady =
+            this.store.select(state => state.mapReady);
 
         geo.getGeo();
     }
@@ -96,19 +94,12 @@ export class FrameworkComponent implements OnInit {
         // });
     }
 
-    goTop5() {
-        this.quickLink(initFilters);
-    }
+    // goTop5() {
+    //     this.quickLink({});
+    // }
 
     quickLink(obj) {
-        let filters = Object.assign({
-            search: '',
-            location: 'amsterdam',
-            cuisine: 'all cuisines',
-            budget: false,
-            midrange: false,
-            finedining: false
-        }, obj);
+        let filters = Object.assign({}, initFilters, obj);
 
         this.store.dispatch({
             type: NEW_FILTERS,

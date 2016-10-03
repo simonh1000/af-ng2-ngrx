@@ -22,6 +22,7 @@ export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
     @Input() selectedQname: string;
     @Input() location: MaybePoint;
+    @Input() mapReady: boolean;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
@@ -44,7 +45,7 @@ export class MapComponent implements OnInit, OnChanges {
             google.maps.event.addListenerOnce(this.map, 'idle',
                 () => {
                     // console.log('map idle');
-                    this._ngZone.run(() => this.action.next({ type: MAP_READY }))
+                    this._ngZone.run(() => this.action.next({ type: MAP_READY }));
                 }
             );
             google.maps.event.addListener(this.map, 'zoom_changed',

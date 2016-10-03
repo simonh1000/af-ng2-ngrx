@@ -1,7 +1,7 @@
-import { Component, OnChanges, OnInit, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Filters } from '../reducers/filters';
-import { NEW_FILTERS, GET_CLOSE, initFilters } from '../reducers/filters_reducer';
+import { NEW_FILTERS, GET_CLOSE } from '../reducers/filters_reducer';
 import { MaybePoint } from '../reducers/geo';
 import { Dictionary } from './dictionary';
 // import { toUrl } from './encoder';
@@ -11,7 +11,7 @@ import { Dictionary } from './dictionary';
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnInit, OnChanges {
+export class FiltersComponent implements OnInit {
   @Input() filters: Filters;
   @Input() location: MaybePoint;
   @Output() action = new EventEmitter();
@@ -41,17 +41,7 @@ export class FiltersComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() { }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // When app loads, ngOnChanges is triggered with the default, initial value of filters
-    // Without the if-statement, this will cause a navigation to '/',
-    // which would overwrite whatever might be existing url
-    // if (changes['filters'] && typeof changes['filters'].previousValue.budget !== 'undefined') {
-    //   // this.filters = this.filters;
-    //   // When the filters change, we need to update the url
-    //   // console.log('onChanges - triggering router');
-    // }
-  }
+  // ngOnChanges(changes: SimpleChanges) { }
 
   setCriteria($event: Event) {
     // console.log('setCriteria');

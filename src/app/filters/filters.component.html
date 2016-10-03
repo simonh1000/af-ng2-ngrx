@@ -10,6 +10,7 @@
 </div>
 
 <div class='criteria closed' [ngClass]='{"closed": !overlay}'>
+
     <div *ngIf='this.location.length > 0'>
         <span class='afbutton' (click)='getClose()'>What's close?</span>
     </div>
