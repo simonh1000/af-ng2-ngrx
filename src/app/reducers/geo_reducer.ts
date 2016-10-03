@@ -1,15 +1,15 @@
 import { ActionReducer, Action } from '@ngrx/store';
 
-import { Location } from './geo';
+import { MaybePoint } from './geo';
 
 export const GEO = 'GEO';
 
-export const geoReducer: ActionReducer<Location> = (state: Location = [], action: Action) => {
+export const geoReducer: ActionReducer<MaybePoint> = (state: MaybePoint = [], action: Action) => {
     switch (action.type) {
         case GEO:
-            // console.log('geoReducer', action.payload)
+            console.log('geoReducer', action.payload)
             return [action.payload];
-        default: 
+        default:
             return state;
     }
 }

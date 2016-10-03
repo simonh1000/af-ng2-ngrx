@@ -1,8 +1,7 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// import { FiltersComponent }      from './filters/filters.component';
-import { FrameworkComponent }      from './framework/framework.component';
+import { FrameworkComponent } from './framework/framework.component';
 
 const appRoutes: Routes = [
   {
@@ -13,9 +12,8 @@ const appRoutes: Routes = [
     component: FrameworkComponent
   }, {
     path: '',
-    redirectTo: '/recommendations',
-    pathMatch: 'full'
-}
+    component: FrameworkComponent
+  }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

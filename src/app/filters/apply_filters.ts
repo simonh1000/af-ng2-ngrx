@@ -13,9 +13,9 @@ export function filter_restos(state: AppState): Resto[] {
             .slice(0, 10);
     } else {
         let filters = stateToFilters(state.filters);
-        let scoreFn = scorer(state);
-        
-        if (filters.length === 0) {         // ROTM 
+        let scoreFn = scorer(state.filters);
+
+        if (filters.length === 0) {         // ROTM
             return state.restos
                 .filter(rotmFilter)
                 .map( r => {
@@ -25,6 +25,35 @@ export function filter_restos(state: AppState): Resto[] {
         } else {                            // other filters
             return state.restos
                 .filter(resto => filters.every(fn => fn(resto)))
+                .map( r => {
+                    return Object.assign(r, {score: scoreFn(r)});
+                })
+                .sort( (r1, r2) => r2.score - r1.score )
+                .slice(0, 20);
+        }
+    }
+}
+
+export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
+    console.log('filters', filters);
+    if (filters.close) {
+        return restos
+            .sort((r1, r2) => r1.distance - r2.distance)
+            .slice(0, 10);
+    } else {
+        let filterFns = stateToFilters(filters);
+        let scoreFn = scorer(filters);
+
+        if (filterFns.length === 0) {         // ROTM
+            return restos
+                .filter(rotmFilter)
+                .map( r => {
+                    return Object.assign(r, {score: scoreFn(r)});
+                })
+                .sort((r1, r2) => r2.score - r1.score);
+        } else {                            // other filters
+            return restos
+                .filter(resto => filterFns.every(fn => fn(resto)))
                 .map( r => {
                     return Object.assign(r, {score: scoreFn(r)});
                 })

@@ -5,8 +5,8 @@ import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
     // console.log('fromUrl', urlString);
-    switch(urlString) {
-        case "close": 
+    switch (urlString) {
+        case 'close':
             return Object.assign({}, initFilters, {close: true});
         case undefined:
             return Object.assign({}, initFilters);

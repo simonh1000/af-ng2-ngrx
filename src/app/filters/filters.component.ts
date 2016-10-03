@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges, Input, Output, EventEmitte
 
 import { Filters } from '../reducers/filters';
 import { NEW_FILTERS, GET_CLOSE, initFilters } from '../reducers/filters_reducer';
-import { Location } from '../reducers/geo';
+import { MaybePoint } from '../reducers/geo';
 import { Dictionary } from './dictionary';
 // import { toUrl } from './encoder';
 
@@ -13,7 +13,7 @@ import { Dictionary } from './dictionary';
 })
 export class FiltersComponent implements OnInit, OnChanges {
   @Input() filters: Filters;
-  @Input() location: Location;
+  @Input() location: MaybePoint;
   @Output() action = new EventEmitter();
 
   overlay: boolean = false;
@@ -37,12 +37,10 @@ export class FiltersComponent implements OnInit, OnChanges {
       }
     }
 
-    this.prices = Dictionary.prices.map(p => Object.assign(p, { state: false }))
+    this.prices = Dictionary.prices.map(p => Object.assign(p, { state: false }));
   }
 
-  // On init, send route params to store
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     // When app loads, ngOnChanges is triggered with the default, initial value of filters

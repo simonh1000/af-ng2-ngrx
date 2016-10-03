@@ -3,4 +3,4 @@ export interface Point {
     lng: number;
 }
 
-export type Location = Point[];
+export type MaybePoint = Point[];

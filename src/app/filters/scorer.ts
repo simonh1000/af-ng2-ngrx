@@ -6,8 +6,8 @@ import { Resto } from '../reducers/resto';
 
 type ScoreFunction = (Resto) => number;
 
-export function scorer(state: AppState): ScoreFunction {
-    let scorers = stateToScorer(state.filters);
+export function scorer(filters: Filters): ScoreFunction {
+    let scorers = stateToScorer(filters);
 
     if (scorers.length === 0) {
         return rotm;

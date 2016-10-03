@@ -9,8 +9,7 @@ import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
 import { MAP_READY } from '../reducers/map_reducer';
 import { SELECT_RESTO } from '../reducers/selected_reducer';
-import { Point } from '../reducers/geo';
-import { Location } from '../reducers/geo';
+import { Point, MaybePoint } from '../reducers/geo';
 
 const MAX_ZOOM = 15;
 
@@ -21,8 +20,8 @@ const MAX_ZOOM = 15;
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    @Input() selectedResto: string;
-    @Input() location: Location;
+    @Input() selectedQname: string;
+    @Input() location: MaybePoint;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
@@ -104,8 +103,8 @@ export class MapComponent implements OnInit, OnChanges {
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
         let iconColour =
-            (this.selectedResto && this.selectedResto === r.qname) ? '#aa0000' : '#aa94a1';
-            // (this.selectedResto.qname === r.qname) ? '#aa0000' : '#aa94a1';
+            (this.selectedQname && this.selectedQname === r.qname) ? '#aa0000' : '#aa94a1';
+            // (this.selectedQname.qname === r.qname) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
         let marker = new google.maps.Marker({
@@ -114,6 +113,7 @@ export class MapComponent implements OnInit, OnChanges {
             icon: this.pinSymbol(iconColour),
             zIndex: 100 - idx
         });
+
         google.maps.event.addListener(
             marker,
             'click',
@@ -127,6 +127,7 @@ export class MapComponent implements OnInit, OnChanges {
             }).bind(null, r)
         );
 
+        marker.setZIndex(100 - idx);
         marker.setMap(this.map);
         return marker;
     }
@@ -179,7 +180,7 @@ export class MapComponent implements OnInit, OnChanges {
             fillOpacity: 0.35,
             center: pt,
             radius: radius,
-            zIndex: 600
+            zIndex: 100
         });
     }
 
@@ -190,6 +191,7 @@ export class MapComponent implements OnInit, OnChanges {
         let markerPos = new google.maps.LatLng(loc.lat, loc.lng);
         let marker = this.makeCircle(markerPos, '#66ccff', '#66ccff');
         marker.setMap(this.map);
+        marker.setOptions({ zIndex: 100 });
         this.prevLocation = marker;
     }
 }
@@ -208,9 +210,9 @@ export class MapComponent implements OnInit, OnChanges {
     //             let newResto = newRestos[idx];
     //             // Various reasons why the marker should be redrawn
 
-    //             // It was selected, but is no longer: is red but no selectedResto
-    //             if ( (this.selectedResto.qname === newResto.qname && this.selectedResto.qname !== oldResto.qname) ||
-    //                     this.selectedResto.qname === oldResto.qname ||
+    //             // It was selected, but is no longer: is red but no selectedQname
+    //             if ( (this.selectedQname.qname === newResto.qname && this.selectedQname.qname !== oldResto.qname) ||
+    //                     this.selectedQname.qname === oldResto.qname ||
     //                     oldResto.qname !== newResto.qname ||
     //                     oldResto.open !== newResto.open) {
 

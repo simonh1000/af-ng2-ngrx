@@ -1,16 +1,22 @@
 @import '../../variables';
 
 .quick-links {
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
     li {
         color: $brand-primary;
         text-decoration: underline;
         cursor: pointer;
+        margin-bottom: 5px;
     }
 }
 #filter-map {
+    position: relative;
     display: flex;
     // flex-direction: column;
-    margin-bottom: 20px;
+    margin: 20px 0;
     app-map {
         // flex-grow: 2;
         display: block;
@@ -39,6 +45,12 @@ app-resto {
     // }
 }
 
+app-filters {
+    margin-top: -3px;
+    display: block;
+    // margin-bottom: 19px;
+}
+
 @media (min-width: 640px) {
 
     #filter-map {
@@ -46,7 +58,6 @@ app-resto {
 
         app-filters, .selected-resto {
             width: 350px;
-            display: block;
             padding: 15px;
             // flex-grow: 1;
         }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, 
+import { Component, OnInit, OnChanges, Input, Output,
   ChangeDetectionStrategy, EventEmitter, ViewEncapsulation,
   trigger, state, style, transition, animate } from '@angular/core';
 
@@ -53,5 +53,17 @@ export class ListComponent implements OnInit, OnChanges {
       }
       this.title = filter_to_title(this.filters);
       this.selectedResto = this.restos.find(r => r.qname === this.selectedQname);
+                      // .do( r => {
+                //     if (r) {
+                //         this.selectedRestoState = 'unloading';
+                //         console.log('Animating OUT', r.qname);
+                //         setTimeout( () => {
+                //             this.selectedRestoState = 'open';
+                //             console.log('start animation IN');
+                //         }, 500);
+                //     }
+                // })
+                // .delay(450);
+
   }
 }

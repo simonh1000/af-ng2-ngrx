@@ -1,8 +1,9 @@
-// import { Component, OnInit } from '@angular/core';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { PlatformLocation } from '@angular/common';
+// import { ActivatedRoute, Params, Router } from '@angular/router';
+
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Resto } from '../reducers/resto';
 import { AppState } from '../reducers/state';
@@ -12,10 +13,10 @@ import { DATA } from '../reducers/restos_reducer';
 
 import { GetDataService } from '../services/get-data.service';
 import { GeoService } from '../services/geo.service';
-import { Location } from '../reducers/geo';
-import { Point } from '../reducers/geo';
+import { MaybePoint } from '../reducers/geo';
+// import { Point } from '../reducers/geo';
 
-import { filter_restos } from '../filters/apply_filters';
+import { filter_restos, filter_restos2 } from '../filters/apply_filters';
 import { toUrl } from '../filters/encoder';
 import { fromUrl } from '../filters/parser';
 
@@ -29,70 +30,47 @@ import { fromUrl } from '../filters/parser';
 export class FrameworkComponent implements OnInit {
     restos_list: Observable<Resto[]>;  // this will be the filtered list
     filters: Observable<Filters>;
-    location: Observable<Location>;
+    myLocation: Observable<MaybePoint>;
     selectedResto: Observable<string>;
 
-    // rotm: Observable<Resto>;
-    // rotms: Observable<Resto[]>;
-    // selectedRestoIndex: Observable<number>;
-    // selectedResto: Observable<Resto>;
-    // // top5: Observable<boolean>;
-    // not_top5: Observable<boolean>;
-    // title: Observable<string>;
-
-    constructor(private route: ActivatedRoute, private router: Router, public store: Store<AppState>,
+    constructor(public location: PlatformLocation,
+                public store: Store<AppState>,
                 private data: GetDataService, private geo: GeoService) {
-        // combines restos (i.e. distances) with filters
+
+        let filterString = this.location.pathname.split('/').slice(2)[0];
+        if (filterString) {
+            console.log(filterString);
+            this.store.dispatch({
+                type: NEW_FILTERS,
+                payload: fromUrl(filterString)
+            });
+        }
+
+       // combines restos (i.e. distances) with filters
         this.restos_list =
-            this.store.select(filter_restos);
+            // this.store.select(filter_restos);
+            Observable.combineLatest(
+                 this.store.select('restos'),
+                 this.store.select('filters'),
+                 (rs, fs) => filter_restos2(rs, fs));
 
         this.filters =
             this.store.select(state => state.filters)
                 // .distinctUntilChanged()
                 .do( filters => {
-                    let link = ['/recommendations', toUrl(filters)];
-                    this.router.navigate(link);
+                    this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
+                    // ) .go('/recommendations/' + toUrl(filters));
                 } );
 
-        this.location =
-            this.store.select(state => state.location);
+        this.myLocation =
+            this.store.select(state => state.myLocation);
         this.selectedResto =
             this.store.select(state => state.selectedResto);
-                // .distinctUntilChanged();
-
-        // this.rotm = this.restos_list.map(rs => rs[0]);
-        // this.rotms = this.restos_list.map(rs => rs.slice(1));
-
-        // this.top5 =
-        //     this.store.select(state => state.filters)
-        //         .map(v => toUrl(v) === '');
-        // this.not_top5 =
-        //     this.top5.map(v => !v);
-
-        // this.title = this.filters.map(filter_to_title);
-
-        // this.restos = this.store.select(state => state.restos);
-
-        // this.selectedResto =
-        //     this.store.select(state => {
-        //         return state.restos.find(r => r.qname === state.selectedResto)
-        //     });
         // this.selectedResto =
         //     this.store.select(state => state.selectedResto)
         //         .withLatestFrom(this.restos_list, (qname, restos) => {
         //             return restos.find(r => r.qname === qname)
         //         });
-                // .do( r => {
-                //     if (r) {
-                //         this.selectedRestoState = 'unloading';
-                //         console.log('Animating OUT', r.qname);
-                //         setTimeout( () => {
-                //             this.selectedRestoState = 'open';
-                //             console.log('start animation IN');
-                //         }, 500);
-                //     }
-                // })
-                // .delay(450);
 
         geo.getGeo();
     }
@@ -108,13 +86,14 @@ export class FrameworkComponent implements OnInit {
                 });
             });
 
-        this.route.params.forEach((params: Params) => {
-            console.log('framework: ngOnInit - sending params to store', params);
-            this.store.dispatch({
-                type: NEW_FILTERS,
-                payload: fromUrl(params['filter'])
-            });
-        });
+
+        // this.route.params.forEach((params: Params) => {
+        //     console.log('framework: ngOnInit - sending params to store', params);
+        //     this.store.dispatch({
+        //         type: NEW_FILTERS,
+        //         payload: fromUrl(params['filter'])
+        //     });
+        // });
     }
 
     goTop5() {
@@ -137,3 +116,18 @@ export class FrameworkComponent implements OnInit {
         });
     }
 }
+                // .distinctUntilChanged();
+
+        // this.rotm = this.restos_list.map(rs => rs[0]);
+        // this.rotms = this.restos_list.map(rs => rs.slice(1));
+
+        // this.top5 =
+        //     this.store.select(state => state.filters)
+        //         .map(v => toUrl(v) === '');
+        // this.not_top5 =
+        //     this.top5.map(v => !v);
+
+        // this.title = this.filters.map(filter_to_title);
+
+        // this.restos = this.store.select(state => state.restos);
+

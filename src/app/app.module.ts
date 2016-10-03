@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Location, LocationStrategy } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { Store, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 // import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 import { routing } from './app.routing';
@@ -17,7 +19,7 @@ import { RestoComponent } from './resto/resto.component';
 import { restosReducer } from './reducers/restos_reducer';
 import { mapReducer } from './reducers/map_reducer';
 import { selectedReducer } from './reducers/selected_reducer';
-import { filtersReducer, initFilters } from './reducers/filters_reducer';
+import { filtersReducer } from './reducers/filters_reducer';
 import { geoReducer } from './reducers/geo_reducer';
 
 import { GetDataService } from './services/get-data.service';
@@ -39,13 +41,16 @@ import { GeoService } from './services/geo.service';
       filters : filtersReducer,
       selectedResto: selectedReducer,
       mapReady: mapReducer,
-      location: geoReducer
+      myLocation: geoReducer
     }),
-    routing,
+    // routing,
     FormsModule,
-    HttpModule
+    HttpModule,
   ],
-  providers: [ GetDataService, GeoService ],
+  providers: [
+    GetDataService,
+    GeoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
