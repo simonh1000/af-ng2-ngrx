@@ -29,10 +29,10 @@ import { filter_to_title } from '../filters/filters_to_title';
     ])
   ]
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnChanges {
   @Input() restos: Resto[];
   @Input() filters: Filters;
-  @Input() selectedQname: string;
+  @Input() selectedRestoIndex: number;
   @Output() action = new EventEmitter();
 
   top5: boolean;
@@ -43,7 +43,7 @@ export class ListComponent implements OnInit, OnChanges {
 
   constructor() { }
 
-  ngOnInit() { }
+  // ngOnInit() { }
 
   ngOnChanges() {
       this.top5 = toUrl(this.filters) === '';
@@ -52,7 +52,9 @@ export class ListComponent implements OnInit, OnChanges {
         this.rotms = this.restos.slice(1);
       }
       this.title = filter_to_title(this.filters);
-      this.selectedResto = this.restos.find(r => r.qname === this.selectedQname);
+
+      this.selectedResto = this.restos[this.selectedRestoIndex];
+      // this.selectedResto = this.restos.find(r => r.qname === this.selectedResto);
                       // .do( r => {
                 //     if (r) {
                 //         this.selectedRestoState = 'unloading';

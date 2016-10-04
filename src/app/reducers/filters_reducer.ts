@@ -17,7 +17,7 @@ export const initFilters: Filters = {
 };
 
 export const filtersReducer: ActionReducer<Filters> = (state: Filters = initFilters, action: Action) => {
-    console.log('Reducer:', action.type);
+    // console.log('Reducer:', action.type);
     switch (action.type) {
         case NEW_FILTERS:
             // remove close filter when new ones set

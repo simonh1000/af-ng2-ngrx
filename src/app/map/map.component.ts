@@ -16,26 +16,26 @@ const MAX_ZOOM = 15;
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss']
+    styleUrls: ['./map.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    @Input() selectedQname: string;
+    @Input() selectedResto: number;
     @Input() location: MaybePoint;
     @Input() mapReady: boolean;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
     markers: Array<google.maps.Marker> = [];
-    // markers: Array<any> = [];
     prevLocation: google.maps.Circle;
     markersInitialised = false;
 
     constructor(private _ngZone: NgZone) { }
 
     ngOnInit() {
-        let d = Dictionary['amsterdamCenter'];
         if (typeof google !== 'undefined') {
+            let d = Dictionary['amsterdamCenter'];
             let mapOptions = {
                 zoom: 10,
                 center: new google.maps.LatLng(d[0], d[1]),
@@ -43,13 +43,10 @@ export class MapComponent implements OnInit, OnChanges {
             };
             this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
             google.maps.event.addListenerOnce(this.map, 'idle',
-                () => {
-                    // console.log('map idle');
-                    this._ngZone.run(() => this.action.next({ type: MAP_READY }));
-                }
-            );
+                () => this._ngZone.run(() => this.action.next({ type: MAP_READY })));
+
+            // Redraw myLocation when zoom changes to ensure remains visible
             google.maps.event.addListener(this.map, 'zoom_changed',
-                // get location of marker and pass that to addMyLocation
                 () => {
                     if (this.prevLocation) {
                         let l = this.prevLocation.getCenter();
@@ -60,26 +57,100 @@ export class MapComponent implements OnInit, OnChanges {
         }
     }
 
+    /* changes
+    *      - restos: if only location / open changed, then do nothing
+    *      - selectedResto: if restos unchanged, just redraw old and new resto
+    *      - mapready: use to draw markers
+    *      - location: redraw location
+    */
     ngOnChanges(changes: { changes: SimpleChange }) {
-        // console.log('map.onChanges', changes);
-        // if (this.map && changes['restos'].currentValue.length > 0) {
-        if (this.map && this.restos.length > 0) {
-            this.addRestos(changes);
-            this.fitMap(this.markers);
+        // When the map is ready draw markers and location if available
+        if (changes['mapReady'] && changes['mapReady'].currentValue) {
+            console.log('mapReady - draw markers and location');
+            if (this.mapReady && this.restos.length > 0) {
+                this.drawAll();
+                this.fitMap(this.markers);
+            }
+            if (this.mapReady && this.location && this.location.length > 0) {
+                this.addMyLocation(this.location[0]);
+            }
+            return;
         }
 
-        // if (this.map && changes['location'] && changes['location'].currentValue.length > 0) {
-        if (this.map && this.location && this.location.length > 0) {
-            this.addMyLocation(this.location[0]);
-        }
+        if (this.mapReady) {
+            console.log(changes);
+
+            // If location changed, then update myLocation
+            // AND ignore changes to this.restos
+            if (changes['location']) {
+                console.log('location - if this.map, draw Location');
+                if (this.location && this.location.length > 0) {
+                    this.addMyLocation(this.location[0]);
+                }
+                return;
+            }
+            if (changes['restos']) {
+                // ignore changes in .open
+                let changedRestos =
+                        changes['restos'].currentValue
+                        .reduce((acc, r, idx) => {
+                            if (changes['restos'].previousValue[idx] &&
+                                r.qname !== changes['restos'].previousValue[idx].qname) {
+                                return [idx, ...acc];
+                            } else { return acc; }
+                        }, []);
+                console.log(changedRestos);
+
+                if (changedRestos.length > 0) {
+                    this.drawAll();
+                    // When there are no results, we should not fitBounds
+                    if (this.restos.length > 0) {
+                        this.fitMap(this.markers);
+                    }
+                }
+
+                // if (this.map && changes['location'] && changes['location'].currentValue.length > 0) {
+                // if (this.location && this.location.length > 0) {
+                //     this.addMyLocation(this.location[0]);
+                // }
+            }
+            if (changes['selectedResto']) {
+                this.redrawSelected(changes['selectedResto']);
+            }
+            // console.log('map.onChanges', changes);
+            // if (this.map && changes['restos'].currentValue.length > 0) {
+
+            }
     }
 
-    addRestos(changes: { changes: SimpleChange }) {
+    redrawSelected(change: SimpleChange) {
+        if (change.previousValue === null) {
+            // set currentValue marker to highlighted
+            return this.drawOne(change.currentValue);
+            // let i = change.currentValue;
+            // return this.markers[i] = this.makeMarker(this.restos[i], i);
+        }
+        if (change.currentValue === null) {
+            // Remove highlighting from
+            return this.drawOne(change.previousValue);
+            // let i = change.currentValue;
+            // return this.markers[i] = this.makeMarker(this.restos[i], i);
+        }
+        this.drawOne(change.previousValue);
+        this.drawOne(change.currentValue);
+    }
+
+    drawOne(i: number): void {
+        this.markers[i].setMap(null);
+        this.markers[i] = this.makeMarker(this.restos[i], i);
+    }
+
+    drawAll() {
         // let newRestos: Resto[] = changes['restos'].currentValue;
 
         if (!this.markersInitialised) {
             this.restos.forEach((r, idx) => {
-            // newRestos.forEach((r, idx) => {
+                // newRestos.forEach((r, idx) => {
                 let marker = this.makeMarker(r, idx);
                 this.markers.push(marker);
             });
@@ -91,12 +162,12 @@ export class MapComponent implements OnInit, OnChanges {
 
             if (this.restos.length > 0) {
                 this.restos.forEach((r, idx) => {
-                // newRestos.forEach((r, idx) => {
+                    // newRestos.forEach((r, idx) => {
                     let marker = this.makeMarker(r, idx);
                     this.markers.push(marker);
                 });
             } else {
-                console.log('addRestos: No markers to draw');
+                console.log('drawAll: No markers to draw');
             }
         }
     }
@@ -104,8 +175,8 @@ export class MapComponent implements OnInit, OnChanges {
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
         let iconColour =
-            (this.selectedQname && this.selectedQname === r.qname) ? '#aa0000' : '#aa94a1';
-            // (this.selectedQname.qname === r.qname) ? '#aa0000' : '#aa94a1';
+            // (this.selectedResto && this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
+            (this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
         let marker = new google.maps.Marker({
@@ -118,14 +189,14 @@ export class MapComponent implements OnInit, OnChanges {
         google.maps.event.addListener(
             marker,
             'click',
-            // (idx => {
-            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: idx }));
-            // }).bind(null, idx)
-            (resto => {
+            (idxx => {
                 // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
-                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto.qname }));
-                // console.log(resto);
-            }).bind(null, r)
+                this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: idxx }));
+            }).bind(null, idx)
+            // (resto => {
+            //     // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
+            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto.qname }));
+            // }).bind(null, r)
         );
 
         marker.setZIndex(100 - idx);
@@ -148,7 +219,7 @@ export class MapComponent implements OnInit, OnChanges {
     fitMap(markers: google.maps.Marker[]): void {
         let mybounds = new google.maps.LatLngBounds();
 
-        markers.forEach(marker => mybounds.extend(marker.getPosition()) );
+        markers.forEach(marker => mybounds.extend(marker.getPosition()));
         this.map.fitBounds(mybounds);
 
         if (this.map.getZoom() > MAX_ZOOM) {
@@ -196,37 +267,3 @@ export class MapComponent implements OnInit, OnChanges {
         this.prevLocation = marker;
     }
 }
-    // addRestos(changes: { changes: SimpleChange }) {
-    //     let newRestos: Resto[] = changes['restos'].currentValue;
-    //     let oldRestos: Resto[] = changes['restos'].previousValue;
-
-    //     if (!this.markersInitialised) {
-    //         newRestos.forEach((r, idx) => {
-    //             let marker = this.makeMarker(r, idx);
-    //             this.markers.push(marker);
-    //             this.markersInitialised = true;
-    //         });
-    //     } else {
-    //         oldRestos.forEach( (oldResto, idx) => {
-    //             let newResto = newRestos[idx];
-    //             // Various reasons why the marker should be redrawn
-
-    //             // It was selected, but is no longer: is red but no selectedQname
-    //             if ( (this.selectedQname.qname === newResto.qname && this.selectedQname.qname !== oldResto.qname) ||
-    //                     this.selectedQname.qname === oldResto.qname ||
-    //                     oldResto.qname !== newResto.qname ||
-    //                     oldResto.open !== newResto.open) {
-
-    //                 this.markers[idx].setMap(null);
-    //                 return this.markers[idx] = this.makeMarker(newResto, idx);
-    //             }
-
-    //             if (!newResto) {
-    //                 this.markers[idx].setMap(null);
-    //                 this.markers[idx] = null;
-    //             }
-    //         });
-    //         this.markers = this.markers.filter( m => m !== null);
-    //     }
-    // }
-

@@ -27,4 +27,4 @@ export const restosReducer: ActionReducer<Resto[]> = (state: Resto[] = [], actio
         default:
             return state;
     }
-}
+};

@@ -31,7 +31,7 @@ export class FrameworkComponent implements OnInit {
     restos_list: Observable<Resto[]>;  // this will be the filtered list
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
-    selectedResto: Observable<string>;
+    selectedResto: Observable<number>;
     mapReady: Observable<boolean>;
 
     constructor(public location: PlatformLocation,
@@ -48,12 +48,12 @@ export class FrameworkComponent implements OnInit {
         }
 
        // combines restos (i.e. distances) with filters
-        this.restos_list =
-            // this.store.select(filter_restos);
-            Observable.combineLatest(
-                 this.store.select('restos'),
-                 this.store.select('filters'),
-                 (rs, fs) => filter_restos2(rs, fs));
+this.restos_list =
+    // this.store.select(filter_restos);
+    Observable.combineLatest(
+            this.store.select('restos'),
+            this.store.select('filters'),
+            (rs, fs) => filter_restos2(rs, fs));
 
         this.filters =
             this.store.select(state => state.filters)

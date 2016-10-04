@@ -3,18 +3,18 @@
   <div class="row">
     <div class="col-xs-6">
       <ul>
-        <li (click)='quickLink({})'>Restaurant of the Month + top 5</li>
-        <li (click)='quickLink({budget: true})'>Budget Restaurants</li>
-        <li (click)='quickLink({midrange: true})'>Mid range</li>
-        <li (click)='quickLink({finedining: true})'>Fine Dining</li>
+        <li><span (click)='quickLink({})'>Restaurant of the Month + top 5</span></li>
+        <li><span (click)='quickLink({budget: true})'>Budget Restaurants</span></li>
+        <li><span (click)='quickLink({midrange: true})'>Mid Range</span></li>
+        <li><span (click)='quickLink({finedining: true})'>Fine Dining</span></li>
       </ul>
     </div>
     <div class="col-xs-6">
       <ul>
-        <li (click)='quickLink({cuisine: "lunch-and-brunch"})'>Lunch and Brunch</li>
-        <li (click)='quickLink({cuisine: "dutch"})'>Dutch</li>
-        <li (click)='quickLink({cuisine: "indonesian"})'>Indonesian</li>
-        <li (click)='quickLink({cuisine: "asian"})'>Asian</li>
+        <li><span (click)='quickLink({cuisine: "lunch-and-brunch"})'>Lunch & Brunch</span></li>
+        <li><span (click)='quickLink({cuisine: "dutch"})'>Dutch</span></li>
+        <li><span (click)='quickLink({cuisine: "indonesian"})'>Indonesian</span></li>
+        <li><span (click)='quickLink({cuisine: "asian"})'>Asian</span></li>
       </ul>
       <!--Other popular according to google analytcs are: indian japanese italian-->
     </div>
@@ -30,7 +30,7 @@
 
   <app-map
       [restos]='restos_list | async'
-      [selectedQname]='selectedResto | async'
+      [selectedResto]='selectedResto | async'
       [location]='myLocation | async'
       [mapReady]='mapReady | async'
       (action)='store.dispatch($event)'></app-map>
@@ -39,5 +39,5 @@
 <app-resto-list
     [restos]='restos_list | async'
     [filters]='filters | async'
-    [selectedQname]='selectedResto | async'
+    [selectedRestoIndex]='selectedResto | async'
     (action)='store.dispatch($event)'></app-resto-list>

@@ -11,66 +11,56 @@
 
 <div class='criteria closed' [ngClass]='{"closed": !overlay}'>
 
-    <div *ngIf='this.location.length > 0'>
-        <span class='afbutton' (click)='getClose()'>What's close?</span>
+    <div class='close-by-button' *ngIf='this.location.length > 0'>
+        <span class='afbutton reverse visible-xs-inline' (click)='getClose()'>What's close?</span>
+        <span class='afbutton hidden-xs' (click)='getClose()'>What's close?</span>
     </div>
 
-    <!--<form class='form-horizontal'>-->
     <form>
         <div class='form-group'>
             <label class=' control-label'>search by name</label>
-            <!--<div class='col-sm-7'>-->
                 <div class='input-group'>
-                    <!--<input type='text' [(ngModel)]='search' class='form-control'>-->
                     <input type='text' [(ngModel)]='filters.search' name='search' class='form-control'>
                     <span class='input-group-btn'>
                         <button type='button' class='btn btn-default' (click)='filters.search=""'>⌫</button>
                     </span>
-                <!--</div>-->
             </div>
         </div>
 
         <div class='form-group'>
             <label class=' control-label'>search by location</label>
-            <!--<div class='col-sm-7'>-->
                 <select [(ngModel)]='filters.location' name='location' class='form-control'>
                     <option *ngFor='let area of areas' [value]='area.key'>
                         {{area.name}}
                     </option>
                 </select>
-            <!--</div>-->
         </div>
 
         <div class='form-group'>
             <label class=' control-label'>search by cuisine</label>
-            <!--<div class='col-sm-7'>-->
                 <select [(ngModel)]='filters.cuisine' name='cuisine' class='form-control'>
                     <option *ngFor='let c of cuisines' [value]='c.key'>
                         {{c.name}}
                     </option>
                 </select>
-            <!--</div>-->
         </div>
 
         <div class='form-group'>
             <label class=' control-label'>filter by price range</label>
-                <div class=''>
-                <span class='visible-xs-inline'>&euro;</span>
+            <div class=''>
+                <!--<span class='visible-xs-inline'>&euro;</span>-->
                 <label *ngFor='let val of prices, let i = index' class='radio-inline'>
-                    <span class='hidden-xs'>{{val.name}}</span>
-                    <span class='visible-xs-inline'>{{i+1}}</span>
+                    <span class=''>{{val.name}}</span>
+                    <!--<span class='visible-xs-inline'>{{i+1}}</span>-->
                     <input type='checkbox' [(ngModel)]='filters[val.key]' name='{{val.key}}' />
-                    <!--<input type='checkbox' [(ngModel)]='val.state' name='price' />-->
                 </label>
             </div>
         </div>
 
         <div class='form-group'>
-            <!--<div class='col-sm-6 col-sm-offset-4'>-->
-                <label class='sr-only'>find me a restaurant</label>
-                <button class='afbutton reverse visible-xs-inline' (click)='setCriteria($event)'>find me a restaurant!</button>
-                <button class='afbutton hidden-xs' (click)='setCriteria($event)'>find me a restaurant!</button>
-            </div>
-        <!--</div>-->
+            <label class='sr-only'>find me a restaurant</label>
+            <button class='afbutton reverse visible-xs-inline' (click)='setCriteria($event)'>find me a restaurant!</button>
+            <button class='afbutton hidden-xs' (click)='setCriteria($event)'>find me a restaurant!</button>
+        </div>
     </form>
 </div>
