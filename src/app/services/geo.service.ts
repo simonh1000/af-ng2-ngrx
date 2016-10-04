@@ -3,8 +3,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Dictionary } from '../filters/dictionary';
-import { Point } from '../reducers/geo';
-import { GEO } from '../reducers/geo_reducer';
+// import { Point } from '../reducers/geo';
+import { GEO, LOST_GEO } from '../reducers/geo_reducer';
 
 @Injectable()
 export class GeoService {
@@ -38,6 +38,11 @@ export class GeoService {
             }
         }, err => {
             console.log('Geo error: ', err);
+            this._ngZone.run(() => {
+                this.store.dispatch({
+                    type: LOST_GEO
+                });
+            });
         }, {
                 timeout: 10 * 1000
             });

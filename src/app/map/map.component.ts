@@ -46,14 +46,7 @@ export class MapComponent implements OnInit, OnChanges {
                 () => this._ngZone.run(() => this.action.next({ type: MAP_READY })));
 
             // Redraw myLocation when zoom changes to ensure remains visible
-            google.maps.event.addListener(this.map, 'zoom_changed',
-                () => {
-                    if (this.prevLocation) {
-                        let l = this.prevLocation.getCenter();
-                        this.addMyLocation({ lat: l.lat(), lng: l.lng() });
-                    }
-                }
-            );
+            google.maps.event.addListener(this.map, 'zoom_changed', () => this.handleLocation() );
         }
     }
 
@@ -71,9 +64,7 @@ export class MapComponent implements OnInit, OnChanges {
                 this.drawAll();
                 this.fitMap(this.markers);
             }
-            if (this.mapReady && this.location && this.location.length > 0) {
-                this.addMyLocation(this.location[0]);
-            }
+            this.handleLocation();
             return;
         }
 
@@ -83,16 +74,13 @@ export class MapComponent implements OnInit, OnChanges {
             // If location changed, then update myLocation
             // AND ignore changes to this.restos
             if (changes['location']) {
-                console.log('location - if this.map, draw Location');
-                if (this.location && this.location.length > 0) {
-                    this.addMyLocation(this.location[0]);
-                }
+                this.handleLocation();
                 return;
             }
             if (changes['restos']) {
                 // ignore changes in .open
                 let changedRestos =
-                        changes['restos'].currentValue
+                    changes['restos'].currentValue
                         .reduce((acc, r, idx) => {
                             if (changes['restos'].previousValue[idx] &&
                                 r.qname !== changes['restos'].previousValue[idx].qname) {
@@ -120,7 +108,7 @@ export class MapComponent implements OnInit, OnChanges {
             // console.log('map.onChanges', changes);
             // if (this.map && changes['restos'].currentValue.length > 0) {
 
-            }
+        }
     }
 
     redrawSelected(change: SimpleChange) {
@@ -256,14 +244,19 @@ export class MapComponent implements OnInit, OnChanges {
         });
     }
 
-    addMyLocation(loc: Point) {
+    handleLocation() {
+        console.log('location - if this.map, draw Location');
         if (this.prevLocation) {
             this.prevLocation.setMap(null);
         }
-        let markerPos = new google.maps.LatLng(loc.lat, loc.lng);
-        let marker = this.makeCircle(markerPos, '#66ccff', '#66ccff');
-        marker.setMap(this.map);
-        marker.setOptions({ zIndex: 100 });
-        this.prevLocation = marker;
+
+        if (this.location && this.location.length > 0) {
+            let loc = this.location[0];
+            let markerPos = new google.maps.LatLng(loc.lat, loc.lng);
+            let marker = this.makeCircle(markerPos, '#66ccff', '#66ccff');
+            marker.setMap(this.map);
+            marker.setOptions({ zIndex: 100 });
+            this.prevLocation = marker;
+        }
     }
 }
