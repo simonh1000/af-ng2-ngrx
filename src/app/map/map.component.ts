@@ -206,6 +206,9 @@ export class MapComponent implements OnInit, OnChanges {
 
     fitMap(markers: google.maps.Marker[]): void {
         let mybounds = new google.maps.LatLngBounds();
+        if (this.location[0]) {
+            mybounds.extend(new google.maps.LatLng(this.location[0].lat, this.location[0].lng));
+        }
 
         markers.forEach(marker => mybounds.extend(marker.getPosition()));
         this.map.fitBounds(mybounds);
