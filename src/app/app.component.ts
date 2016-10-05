@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { Resto } from './reducers/resto';
 import { AppState } from './reducers/state';
-import { initFilters, NEW_FILTERS } from './reducers/filters_reducer';
+import { initFilters, NEW_FILTERS, GET_CLOSE } from './reducers/filters_reducer';
 import { Filters } from './reducers/filters';
 import { DATA } from './reducers/restos_reducer';
 
@@ -39,12 +39,19 @@ export class AppComponent implements OnInit {
                 private data: GetDataService, private geo: GeoService) {
 
         let filterString = this.location.pathname.split('/').slice(2)[0];
-        if ('url filters', filterString) {
-            console.log(filterString);
-            this.store.dispatch({
-                type: NEW_FILTERS,
-                payload: fromUrl(filterString)
-            });
+        if (filterString) {
+            //
+            let parsedFilter = fromUrl(filterString);
+            if (parsedFilter['close']) {
+                this.store.dispatch({
+                    type: GET_CLOSE
+                });
+            } else {
+                this.store.dispatch({
+                    type: NEW_FILTERS,
+                    payload: fromUrl(filterString)
+                });
+            }
         }
 
        // combines restos (i.e. distances) with filters
