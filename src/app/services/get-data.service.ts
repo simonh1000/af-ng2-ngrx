@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
 
+import { Observable } from 'rxjs';
 import { RESTOS } from './mock-restos';
 
 @Injectable()
 export class GetDataService {
 
-  constructor() {
-  }
+  constructor(private http: Http) { }
 
   getData() {
+    // return this.http.get('http://localhost/restos-af2015.json')
+    // // return this.http.get('https://www.amsterdamfoodie.nl/restos-af2015.json')
+    //   .map(res => res.json());
+
     return Observable.create(observer => {
       let mapped_restos = RESTOS.map(r => Object.assign(r, {open: false}));
       observer.next(mapped_restos);

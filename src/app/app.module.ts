@@ -1,12 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { Location, LocationStrategy } from '@angular/common';
+// import { Location, LocationStrategy } from '@angular/common';
+// import {} from '@angular/http';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { StoreModule } from '@ngrx/store';
 // import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import { WindowRef } from './services/window.ref';
+import { ScrollOnClickDirective } from './scroll-on-click.directive';
 
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
@@ -29,7 +32,8 @@ import { GeoService } from './services/geo.service';
     ListComponent,
     FiltersComponent,
     RestoComponent,
-    MapComponent
+    MapComponent,
+    ScrollOnClickDirective
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,8 @@ import { GeoService } from './services/geo.service';
   ],
   providers: [
     GetDataService,
-    GeoService
+    GeoService,
+    WindowRef
   ],
   bootstrap: [AppComponent]
 })

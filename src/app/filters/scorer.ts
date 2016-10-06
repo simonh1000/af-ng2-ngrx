@@ -28,7 +28,7 @@ function stateToScorer(state: Filters): ScoreFunction[] {
 }
 
 function addRating(r: Resto): number {
-    return r.rating;
+    return r.rating + ((r.booking) ? 0.2 : 0);
 }
 // ROTM
 function rotm(r: Resto): number {

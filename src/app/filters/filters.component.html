@@ -1,12 +1,11 @@
 <div class='searchBtnContainer visible-xs'>
-    <button
-        class='afbutton'
-        (click)='overlay=!overlay'>search criteria</button>
     <!--<button
         class='afbutton'
         (click)='overlay=!overlay'
-        scroll-on-click
-        data-selector='body'>search criteria</button>-->
+        appscrollOnClick>search criteria</button>-->
+    <button
+        class='afbutton'
+        (click)='overlay=!overlay'>search criteria</button>
 </div>
 
 <div class='criteria closed' [ngClass]='{"closed": !overlay}'>

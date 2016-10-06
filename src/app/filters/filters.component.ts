@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Filters } from '../reducers/filters';
 import { NEW_FILTERS, GET_CLOSE } from '../reducers/filters_reducer';
 import { MaybePoint } from '../reducers/geo';
 import { Dictionary } from './dictionary';
-// import { toUrl } from './encoder';
+import { sendAnalytics } from './analytics';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnInit {
+export class FiltersComponent {
   @Input() filters: Filters;
   @Input() location: MaybePoint;
   @Output() action = new EventEmitter();
@@ -44,11 +44,9 @@ export class FiltersComponent implements OnInit {
   // ngOnChanges(changes: SimpleChanges) { }
 
   setCriteria($event: Event) {
-    // console.log('setCriteria');
     this.overlay = false;
     $event.preventDefault();
-    // let link = ['/recommendations', toUrl(this.filters)];
-    // this.router.navigate(link);
+    sendAnalytics(this.filters);
 
     this.action.emit({
       type: NEW_FILTERS,
@@ -57,6 +55,7 @@ export class FiltersComponent implements OnInit {
   }
 
   getClose() {
+    this.overlay = false;
     // this.router.navigate(['/recommendations', 'close']);
     this.action.emit({
       type: GET_CLOSE

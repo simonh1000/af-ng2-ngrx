@@ -1,4 +1,8 @@
+declare var ga: any;
+
 import { Component, Input, Output, EventEmitter, trigger, state, style, transition, animate } from '@angular/core';
+
+import { WindowRef } from '../services/window.ref';
 import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
 
@@ -29,15 +33,17 @@ export class RestoComponent {
   cuisines: Object = Dictionary.cuisines;
   areas: Object;
 
-  constructor() {
+  constructor(private winRef: WindowRef) {
     this.areas = Dictionary.areas;
   }
 
   toAlphaIndex(i) {
     return String.fromCharCode('A'.charCodeAt(0) + parseInt(i, 10));
   }
-  trackOutboundLink(type, link) {
-    console.log(type, link);
+  trackOutboundLink(type) {
+    let target = (type === 'SeatMe_link') ? this.resto.booking : this.resto.website;
+    this.winRef.nativeWindow.open(target, '_blank');
+    ga('send', 'event', 'outbound_link', type, this.resto.qname);
     return false;
   }
 }
