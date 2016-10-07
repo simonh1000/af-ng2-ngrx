@@ -60,7 +60,7 @@ export class MapComponent implements OnInit, OnChanges {
     ngOnChanges(changes: { changes: SimpleChange }) {
         // When the map is ready draw markers and location if available
         if (changes['mapReady'] && changes['mapReady'].currentValue) {
-            console.log('mapReady - draw markers and location');
+            // console.log('mapReady - draw markers and location');
             if (this.mapReady && this.restos.length > 0) {
                 this.drawAll();
                 this.fitMap(this.markers);
@@ -70,7 +70,7 @@ export class MapComponent implements OnInit, OnChanges {
         }
 
         if (this.mapReady) {
-            console.log(changes);
+            // console.log(changes);
 
             // If location changed, then update myLocation
             // AND ignore changes to this.restos
@@ -250,7 +250,7 @@ export class MapComponent implements OnInit, OnChanges {
     }
 
     handleLocation() {
-        console.log('location - if this.map, draw Location');
+        // console.log('location - if this.map, draw Location');
         if (this.prevLocation) {
             this.prevLocation.setMap(null);
         }

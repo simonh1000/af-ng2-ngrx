@@ -40,6 +40,7 @@ export class RestoComponent {
   toAlphaIndex(i) {
     return String.fromCharCode('A'.charCodeAt(0) + parseInt(i, 10));
   }
+
   trackOutboundLink(type) {
     let target = (type === 'SeatMe_link') ? this.resto.booking : this.resto.website;
     this.winRef.nativeWindow.open(target, '_blank');

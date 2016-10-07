@@ -12,8 +12,6 @@ export class GeoService {
     constructor(private _ngZone: NgZone, private store: Store<Location>) { }
 
     getGeo() {
-        console.log('Geo - constructor');
-
         navigator.geolocation.watchPosition(pos => {
             // var inAmsterdam = true;
             let inAmsterdam =

@@ -6,7 +6,7 @@ import { Resto } from '../reducers/resto';
 import { scorer } from './scorer';
 
 export function filter_restos(state: AppState): Resto[] {
-    console.log('filter_restos', state);
+    // console.log('filter_restos', state);
     if (state.filters.close) {
         return state.restos
             .sort((r1, r2) => r1.distance - r2.distance)
@@ -35,7 +35,7 @@ export function filter_restos(state: AppState): Resto[] {
 }
 
 export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
-    console.log('filters', filters);
+    // console.log('filters', filters);
     if (filters.close) {
         return restos
             .sort((r1, r2) => r1.distance - r2.distance)

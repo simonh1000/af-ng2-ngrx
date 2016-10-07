@@ -7,7 +7,6 @@ export const initMap = false;
 export const mapReducer: ActionReducer<boolean> = (state: boolean, action: Action) => {
     switch (action.type) {
         case MAP_READY:
-            console.log(MAP_READY);
             return true;
 
         default:

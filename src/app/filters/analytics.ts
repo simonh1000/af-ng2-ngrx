@@ -3,7 +3,7 @@ declare var ga: any;
 import { Filters } from '../reducers/filters';
 
 export function sendAnalytics(filters: Filters) {
-    console.log('sending filter analytics');
+    // console.log('sending filter analytics');
     [search, area, cuisine, price].forEach(fn => fn(filters));
 }
 

@@ -1,17 +1,17 @@
 import { Point } from '../reducers/geo';
 import { Resto } from '../reducers/resto';
 
-function scorer(d, r): number {
-    let dd = Math.max(0, 5 - d);
-    return r + dd;
-}
+// function scorer(d, r): number {
+//     let dd = Math.max(0, 5 - d);
+//     return r + dd;
+// }
 
 export function setDistance(pt: Point) {
-    return function(r: Resto): Resto {
-            let distance = getDistance(pt.lat, pt.lng, r.lat, r.lng) / 1000;
-            return Object.assign(r, {
-                distance: distance
-            });
+    return function(r: Resto): number {
+            return getDistance(pt.lat, pt.lng, r.lat, r.lng) / 1000;
+            // return Object.assign(r, {
+            //     distance: distance
+            // });
         };
 }
 
