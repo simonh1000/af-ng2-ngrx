@@ -5,6 +5,7 @@
 		<span *ngIf='cuisines[resto.cuisine]'>({{cuisines[resto.cuisine].name}})</span>
 		<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
 		<span *ngIf='resto.distance'>({{resto.distance | number:'1.1-1'}}km)</span>
+		<!--<span *ngIf='resto.distance'>({{resto.distance}}km)</span>-->
 		<!--<button *ngIf='resto.booking' class="hidden-xs recommended pull-right" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
 		</button>-->
@@ -21,7 +22,7 @@
 			{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
 		</span>
 		<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>Recommended!</span>
-		{{resto.score}}
+		<!--{{resto.score}}-->
 	</div>
 
 	<p class='comment basker'>
@@ -49,8 +50,8 @@
 
 			<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
 
-			<span *ngIf='resto.booking' class="visible-xs-inline">>
-					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
+			<span *ngIf='resto.booking' class="visible-xs-inline">
+				/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
 			</span>
 
 			<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
