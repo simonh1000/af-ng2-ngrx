@@ -7,10 +7,6 @@
 		</span>
 		<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
 		
-		<!--<span *ngIf='resto.distance'>({{resto.distance}}km)</span>-->
-		<!--<button *ngIf='resto.booking' class="hidden-xs recommended pull-right" (click)='trackOutboundLink("SeatMe_link")'>
-			book now
-		</button>-->
 		<span *ngIf='resto.booking' class="hidden-xs afbutton pull-right" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
 		</span>
@@ -23,8 +19,10 @@
 		<span class='price'>
 			{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
 		</span>
-		<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>Recommended!</span>
-		<!--{{resto.score}}-->
+		<!--<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>Recommended!</span>-->
+		<span *ngIf='resto.booking' class="visible-xs-inline afbutton booknow" (click)='trackOutboundLink("SeatMe_link")'>
+			book now
+		</span>
 	</div>
 
 	<p class='comment basker'>

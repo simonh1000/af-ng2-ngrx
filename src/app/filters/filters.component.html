@@ -18,30 +18,30 @@
     <form>
         <div class='form-group'>
             <label class=' control-label'>search by name</label>
-                <div class='input-group'>
-                    <input type='text' [(ngModel)]='filters.search' name='search' class='form-control'>
-                    <span class='input-group-btn'>
-                        <button type='button' class='btn btn-default' (click)='filters.search=""'>⌫</button>
-                    </span>
+            <div class='input-group'>
+                <input type='text' [(ngModel)]='filters.search' name='search' class='form-control'>
+                <span class='input-group-btn'>
+                    <button type='button' class='btn btn-default' (click)='filters.search=""'>⌫</button>
+                </span>
             </div>
         </div>
 
         <div class='form-group'>
             <label class=' control-label'>search by location</label>
-                <select [(ngModel)]='filters.location' name='location' class='form-control'>
-                    <option *ngFor='let area of areas' [value]='area.key'>
-                        {{area.name}}
-                    </option>
-                </select>
+            <select [(ngModel)]='filters.location' name='location' class='form-control'>
+                <option *ngFor='let area of areas' [value]='area.key'>
+                    {{area.name}}
+                </option>
+            </select>
         </div>
 
         <div class='form-group'>
             <label class=' control-label'>search by cuisine</label>
-                <select [(ngModel)]='filters.cuisine' name='cuisine' class='form-control'>
-                    <option *ngFor='let c of cuisines' [value]='c.key'>
-                        {{c.name}}
-                    </option>
-                </select>
+            <select [(ngModel)]='filters.cuisine' name='cuisine' class='form-control'>
+                <option *ngFor='let c of cuisines' [value]='c.key'>
+                    {{c.name}}
+                </option>
+            </select>
         </div>
 
         <div class='form-group'>
@@ -49,8 +49,8 @@
             <div class=''>
                 <!--<span class='visible-xs-inline'>&euro;</span>-->
                 <label *ngFor='let val of prices, let i = index' class='radio-inline'>
-                    <span class=''>{{val.name}}</span>
-                    <!--<span class='visible-xs-inline'>{{i+1}}</span>-->
+                    <span class='hidden-xs'>{{val.name}}</span>
+                    <span class='visible-xs-inline'>{{'€'.repeat(i + 1)}}</span>
                     <input type='checkbox' [(ngModel)]='filters[val.key]' name='{{val.key}}' />
                 </label>
             </div>
