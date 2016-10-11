@@ -9,7 +9,7 @@ h4 {
     a {
         color: black;
     }
-    span {
+    .cuisine {
         font-size: 12px;
     }
 }
@@ -25,14 +25,13 @@ h4 {
 .scores {
     // display: flex;
     // justify-content: space-between;
-    font-size: 16px;
+    font-size: 18px;
     .price {
         margin-left: 15px;
     }
     .recommended {
         margin-left: 15px;
-        // flex-grow: 1;
-        // text-align: right;
+        font-size: 16px;
     }
 }
 

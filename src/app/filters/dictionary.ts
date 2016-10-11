@@ -147,6 +147,11 @@ export const Dictionary: IDictionary = {
             'suffix': ' restaurants',
             'recs': 0
         },
+        'surinamese': {
+            'name': 'Surinamese',
+            'suffix': ' restaurants',
+            'recs': 0
+        },
         'tapas': {
             'name': 'Tapas',
             'suffix': ' restaurants',

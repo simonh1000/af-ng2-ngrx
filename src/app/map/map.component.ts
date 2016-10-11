@@ -57,7 +57,7 @@ export class MapComponent implements OnInit, OnChanges {
     *      - mapready: use to draw markers
     *      - location: redraw location
     */
-    ngOnChanges(changes: { changes: SimpleChange }) {
+    ngOnChanges(changes: { changes: SimpleChange }): void {
         // When the map is ready draw markers and location if available
         if (changes['mapReady'] && changes['mapReady'].currentValue) {
             // console.log('mapReady - draw markers and location');
@@ -75,16 +75,34 @@ export class MapComponent implements OnInit, OnChanges {
             // If location changed, then update myLocation
             // AND ignore changes to this.restos
             if (changes['location']) {
-                this.handleLocation();
-                return;
+                return this.handleLocation();
             }
+
+            // If selectedResto changed,...
+            if (changes['selectedResto']) {
+                return this.redrawSelected(changes['selectedResto']);
+            }
+
             if (changes['restos']) {
+                if (changes['restos'].currentValue.length === 0 && changes['restos'].previousValue.length !== 0) {
+                    this.markers.forEach(m => m.setMap(null));
+                    this.markers = [];
+                    return;
+                }
+                if (changes['restos'].currentValue.length !== 0 && changes['restos'].previousValue.length === 0) {
+                    this.drawAll();
+                    return this.fitMap(this.markers);
+                }
+
                 // ignore changes in .open
+                // If we have changes to restos, we want to know whether the qnames have changed,
+                // or just the 'open' / 'distance' fields
                 let changedRestos =
                     changes['restos'].currentValue
                         .reduce((acc, r, idx) => {
-                            if (changes['restos'].previousValue[idx] &&
-                                r.qname !== changes['restos'].previousValue[idx].qname) {
+                            if (changes['restos'].previousValue[idx] === null || 
+                                (changes['restos'].previousValue[idx] && 
+                                 r.qname !== changes['restos'].previousValue[idx].qname)) {
                                 return [idx, ...acc];
                             } else { return acc; }
                         }, []);
@@ -97,18 +115,7 @@ export class MapComponent implements OnInit, OnChanges {
                         this.fitMap(this.markers);
                     }
                 }
-
-                // if (this.map && changes['location'] && changes['location'].currentValue.length > 0) {
-                // if (this.location && this.location.length > 0) {
-                //     this.addMyLocation(this.location[0]);
-                // }
             }
-            if (changes['selectedResto']) {
-                this.redrawSelected(changes['selectedResto']);
-            }
-            // console.log('map.onChanges', changes);
-            // if (this.map && changes['restos'].currentValue.length > 0) {
-
         }
     }
 

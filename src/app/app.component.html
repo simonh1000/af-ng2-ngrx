@@ -1,34 +1,32 @@
 <div class="quick-links">
   <h4>Popular searches</h4>
-  <div class="row">
-    <div class="col-xs-6">
-      <ul>
-        <li><span (click)='quickLink({})'>Restaurant of the Month + top 5</span></li>
-        <li><span (click)='quickLink({budget: true})'>Budget Restaurants</span></li>
-        <li><span (click)='quickLink({midrange: true})'>Mid Range</span></li>
-        <li><span (click)='quickLink({finedining: true})'>Fine Dining</span></li>
+  <div class='af-layout'>
+      <ul class='lhs'>
+        <li><span (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
+        <li><span (click)='quickLink({budget: true})'>Top budget restaurants</span></li>
+        <li><span (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
+        <li><span (click)='quickLink({finedining: true})'>Top fine dining restaurants</span></li>
       </ul>
-    </div>
-    <div class="col-xs-6">
-      <ul>
-        <li><span (click)='quickLink({cuisine: "lunch-and-brunch"})'>Lunch & Brunch</span></li>
-        <li><span (click)='quickLink({cuisine: "dutch"})'>Dutch</span></li>
-        <li><span (click)='quickLink({cuisine: "indonesian"})'>Indonesian</span></li>
-        <li><span (click)='quickLink({cuisine: "asian"})'>Asian</span></li>
+      <ul class='rhs'>
+        <li><span (click)='quickLink({cuisine: "dutch"})'>Best Dutch restaurants</span></li>
+        <li><span (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
+        <li><span (click)='quickLink({cuisine: "surinamese"})'>Best Surinamese restaurants</span></li>
+        <li><span (click)='quickLink({cuisine: "asian"})'>Best Asian restaurants</span></li>
       </ul>
       <!--Other popular according to google analytcs are: indian japanese italian-->
-    </div>
   </div>
 </div>
 
-<div id="filter-map">
+<div id="filter-map" class='af-layout'>
   <app-filters
+      class='lhs'
       [filters]='filters | async'
       [location]='myLocation | async'
       (action)='store.dispatch($event)'>
   </app-filters>
 
   <app-map
+      class='rhs'
       [restos]='restos_list | async'
       [selectedResto]='selectedResto | async'
       [location]='myLocation | async'

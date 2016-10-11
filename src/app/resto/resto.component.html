@@ -2,9 +2,11 @@
 	<h4>
 		<span class='resto-index'>{{toAlphaIndex(idx)}} </span>
 		<a href='.{{resto.link}}' target='_self'>{{resto.rname}}</a>
-		<span *ngIf='cuisines[resto.cuisine]'>({{cuisines[resto.cuisine].name}})</span>
+		<span *ngIf='cuisines[resto.cuisine]' class='cuisine'>
+			({{cuisines[resto.cuisine].name}}<span *ngIf='resto.distance'>, {{resto.distance | number:'1.1-1'}}km</span>)
+		</span>
 		<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
-		<span *ngIf='resto.distance'>({{resto.distance | number:'1.1-1'}}km)</span>
+		
 		<!--<span *ngIf='resto.distance'>({{resto.distance}}km)</span>-->
 		<!--<button *ngIf='resto.booking' class="hidden-xs recommended pull-right" (click)='trackOutboundLink("SeatMe_link")'>
 			book now

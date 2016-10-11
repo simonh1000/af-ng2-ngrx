@@ -1,8 +1,5 @@
 import { Filters } from '../reducers/filters';
 import { Dictionary } from './dictionary';
-// import { AppState } from '../reducers/state';
-// import { Resto } from '../reducers/resto';
-// import { scorer, sorter } from './sorter';
 
 export function filter_to_title(state: Filters): string {
     if (state.close) {
@@ -13,7 +10,7 @@ export function filter_to_title(state: Filters): string {
         switch (titles.length) {
             case 0: return rotmFilter();
             case 1: return titles[0];
-            default: return "";
+            default: return '';
         }
     }
 }
@@ -41,7 +38,7 @@ function cuisine(tgt: string): string[] {
         return [];
     } else {
         let c = Dictionary.cuisines[tgt];
-        return [`AF recommended ${c.name} ${c.suffix}`];
+        return [`${c.name} ${c.suffix} in Amsterdam`];
     }
 }
 // Location filter
@@ -50,7 +47,7 @@ function location(tgt: string): string[] {
         return [];
     } else {
         let c = Dictionary.areas[tgt];
-        return [`AF's favourite places: ${c.name}`];
+        return [` Best restaurants in ${c.name} neighbourhood`];
     }
 }
 // Price filters
@@ -63,11 +60,12 @@ function price(state: Filters): string[] {
 }
 
 function price_filter(state: Filters, key: string): string[] {
+    
     if (state[key]) {
         switch (key) {
-            case 'budget': return ['top budget'];
-            case 'midrange': return ['top mid-range'];
-            case 'finedining': return ['top fine dining'];
+            case 'budget': return ['Top budget restaurants in Amsterdam'];
+            case 'midrange': return ['Top mid-range restaurants in Amsterdam'];
+            case 'finedining': return ['Top fine dining restaurants in Amsterdam'];
         }
     } else {
         return [];
