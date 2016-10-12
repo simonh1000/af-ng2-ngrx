@@ -106,7 +106,7 @@ export class MapComponent implements OnInit, OnChanges {
                                 return [idx, ...acc];
                             } else { return acc; }
                         }, []);
-                console.log(changedRestos);
+                // console.log(changedRestos);
 
                 if (changedRestos.length > 0) {
                     this.drawAll();
@@ -190,10 +190,6 @@ export class MapComponent implements OnInit, OnChanges {
                 this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: idxx }));
                 ga('send', 'event', 'mapclick', r.qname);
             }).bind(null, idx)
-            // (resto => {
-            //     // http://stackoverflow.com/questions/33564072/angular-2-0-mandatory-refresh-like-apply
-            //     this._ngZone.run(() => this.action.next({ type: SELECT_RESTO, payload: resto.qname }));
-            // }).bind(null, r)
         );
 
         marker.setZIndex(100 - idx);

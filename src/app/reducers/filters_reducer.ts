@@ -2,6 +2,8 @@
 import { ActionReducer, Action } from '@ngrx/store';
 import { Filters } from './filters';
 
+// var deepFreeze = require('deep-freeze');
+
 export const SWITCH = 'SWITCH';
 export const NEW_FILTERS = 'NEW_FILTERS';
 export const GET_CLOSE = 'GET_CLOSE';
@@ -16,8 +18,10 @@ export const initFilters: Filters = {
     close: false
 };
 
-export const filtersReducer: ActionReducer<Filters> = (state: Filters = initFilters, action: Action) => {
-    // console.log('Reducer:', action.type);
+// deepFreeze(initFilters);
+
+export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
+    console.log('Reducer:', action);
     switch (action.type) {
         case NEW_FILTERS:
             // remove close filter when new ones set

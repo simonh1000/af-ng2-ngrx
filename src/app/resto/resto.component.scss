@@ -107,7 +107,7 @@ h4 {
 
 @media (min-width: 640px) {
     h4 {
-        span {
+        span, .cuisine {
             font-size: inherit;
         }
         .recommended {
