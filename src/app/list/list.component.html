@@ -1,17 +1,17 @@
 <div *ngIf='selectedResto' class='selected-resto'>
   <app-resto
-    [resto]='selectedResto'
-    [idx]='selectedRestoIndex'
-    (action)='action.next($event)'
-    [@selectedResto]='selectedRestoState'></app-resto>
+      [resto]='selectedResto'
+      [idx]='selectedRestoIndex'
+      (action)='action.next($event)'
+      [@selectedResto]='selectedRestoState'></app-resto>
 </div>
 
 <div *ngIf='top5'>
-  <h3>restaurant of the month!</h3>
-  <app-resto
-    [resto]='rotm' [idx]='0'
-    (action)='action.next($event)'></app-resto>
-  <h3>current top 5 restaurants!</h3>
+    <h3>restaurant of the month!</h3>
+    <app-resto
+        [resto]='rotm' [idx]='0'
+        (action)='action.next($event)'></app-resto>
+    <h3>current top 5 restaurants!</h3>
     <app-resto
         *ngFor='let resto of rotms; let idx = index'
         [resto]='resto'

@@ -1,8 +1,7 @@
 /// <reference path="../../../typings/globals/google.maps/index.d.ts" />
 declare var ga: any;
 
-import {
-    Component, OnInit, OnChanges, SimpleChange,
+import { Component, OnInit, OnChanges, SimpleChange,
     Input, Output, ChangeDetectionStrategy,
     NgZone, EventEmitter
 } from '@angular/core';
