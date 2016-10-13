@@ -9,7 +9,7 @@ type ScoreFunction = (Resto) => number;
 export function scorer(filters: Filters): ScoreFunction {
     let scorers = stateToScorer(filters);
 
-    if (scorers.length === 0) {
+    if (scorers.length === 1) {    // stateToScorer always returns at least addRating
         return rotm;
     } else {
         return resto => {
