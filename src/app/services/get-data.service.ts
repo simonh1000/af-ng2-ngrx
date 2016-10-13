@@ -13,6 +13,7 @@ export class GetDataService {
   constructor(private http: Http) { }
 
   getData() {
+    console.log('Downling data from', environment.dataServer);
     // return this.http.get('http://localhost/restos-af2015.json')
     // return this.http.get('https://www.amsterdamfoodie.nl/restos-af2015.json')
     return this.http.get(environment.dataServer)
