@@ -1,6 +1,4 @@
-import {
-    Component, OnInit, OnChanges, Input, Output, NgZone, 
-    ChangeDetectionStrategy, EventEmitter, ViewEncapsulation,
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, 
     trigger, state, style, transition, animate
 } from '@angular/core';
 
@@ -13,7 +11,6 @@ import { filter_to_title } from '../filters/filters_to_title';
     selector: 'app-resto-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('selectedResto', [
             state('void', style({
@@ -44,7 +41,7 @@ export class ListComponent implements OnChanges {
     title: string;
     selectedRestoState: string;
 
-    constructor(private _ngZone: NgZone) { }
+    constructor() { }
 
     ngOnChanges() {
         this.top5 = toUrl(this.filters) === '';
@@ -70,14 +67,9 @@ export class ListComponent implements OnChanges {
         console.log('OUT:', this.selectedResto.qname);
         this.selectedRestoState = 'unloading';
         setTimeout(() => {
-            // this.selectedResto = this.restos[this.selectedRestoIndex];
-            // console.log('IN:', this.selectedResto.qname);
-            // this.selectedRestoState = 'open';
-            this._ngZone.run( () => {
-                this.selectedResto = this.restos[this.selectedRestoIndex];
-                console.log('IN:', this.selectedResto.qname);
-                this.selectedRestoState = 'open';
-            })
+            this.selectedResto = this.restos[this.selectedRestoIndex];
+            console.log('IN:', this.selectedResto.qname);
+            this.selectedRestoState = 'open';
         }, 500);
     }
 }
