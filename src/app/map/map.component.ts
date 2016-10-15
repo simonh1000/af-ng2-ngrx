@@ -69,7 +69,7 @@ export class MapComponent implements OnInit, OnChanges {
         }
 
         if (this.mapReady) {
-            // console.log(changes);
+            console.log('map ngOnChanges', changes);
 
             // If location changed, then update myLocation
             // AND ignore changes to this.restos
@@ -78,7 +78,7 @@ export class MapComponent implements OnInit, OnChanges {
             }
 
             // If selectedResto changed,...
-            if (changes['selectedResto']) {
+            if (changes['selectedResto'] && changes['restos'] === undefined) {
                 return this.redrawSelected(changes['selectedResto']);
             }
 
