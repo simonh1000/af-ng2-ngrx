@@ -21,7 +21,7 @@ export const initFilters: Filters = {
 // deepFreeze(initFilters);
 
 export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
-    console.log('Reducer:', action);
+    // console.log('Reducer:', action);
     switch (action.type) {
         case NEW_FILTERS:
             // remove close filter when new ones set

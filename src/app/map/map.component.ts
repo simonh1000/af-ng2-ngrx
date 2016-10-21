@@ -66,7 +66,7 @@ export class MapComponent implements OnInit, OnChanges {
         }
 
         if (this.mapReady) {
-            console.log('map ngOnChanges', changes);
+            // console.log('map ngOnChanges', changes);
 
             // If location changed, then update myLocation
             // AND ignore changes to this.restos

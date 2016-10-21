@@ -35,20 +35,12 @@ function parser(s: string): Object {
         .filter(item => Object.keys(item).length > 0)[0]
 }
 
-
 function locationParser(s: string): Object {
-    if (Dictionary.areas[s]) {
-        return {location: s};
-    } else {
-        return {};
-    }
+    return (Dictionary.areas[s]) ? {location: s} : {};
 }
+
 function cuisineParser(s: string): Object {
-    if (Dictionary.cuisines[s]) {
-        return {cuisine: s};
-    } else {
-        return {};
-    }
+    return (Dictionary.cuisines[s]) ? {cuisine: s} : {};
 }
 
 function priceParser(s: string): Object {

@@ -51,9 +51,6 @@ export class ListComponent implements OnChanges {
         }
         this.title = filter_to_title(this.filters);
 
-        // Causes instant change
-        // this.selectedResto = this.restos[this.selectedRestoIndex];
-
         // No selectedResto, but one selected
         if (!this.selectedResto && this.selectedRestoIndex !== undefined) {
             this.selectedRestoState = 'open';
@@ -64,12 +61,18 @@ export class ListComponent implements OnChanges {
             return this.selectedResto = null;
         }
 
-        console.log('OUT:', this.selectedResto.qname);
-        this.selectedRestoState = 'unloading';
-        setTimeout(() => {
+        // If the restaurant has changed, rather than just got a new distance
+        if (this.selectedResto.qname !== this.restos[this.selectedRestoIndex].qname) {
+            console.log('OUT:', this.selectedResto.qname);
+            this.selectedRestoState = 'unloading';
+            setTimeout(() => {
+                this.selectedResto = this.restos[this.selectedRestoIndex];
+                console.log('IN:', this.selectedResto.qname);
+                this.selectedRestoState = 'open';
+            }, 500);
+        } else {
+            // If just the distance has changed, then update directly
             this.selectedResto = this.restos[this.selectedRestoIndex];
-            console.log('IN:', this.selectedResto.qname);
-            this.selectedRestoState = 'open';
-        }, 500);
+        }
     }
 }
