@@ -4,8 +4,8 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 
-// import { Observable } from 'rxjs';
-// import { RESTOS } from './mock-restos';
+import { Observable } from 'rxjs';
+import { RESTOS } from '../../../ignore/mock-restos';
 
 @Injectable()
 export class GetDataService {
@@ -13,9 +13,7 @@ export class GetDataService {
   constructor(private http: Http) { }
 
   getData() {
-    console.log('Downling data from', environment.dataServer);
-    // return this.http.get('http://localhost/restos-af2015.json')
-    // return this.http.get('https://www.amsterdamfoodie.nl/restos-af2015.json')
+    console.log('Downloading data from', environment.dataServer);
     return this.http.get(environment.dataServer)
       .map(res => res.json());
 

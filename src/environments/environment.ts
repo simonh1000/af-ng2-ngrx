@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  dataServer: 'http://localhost/restos-af2015.json'
+  dataServer: 'http://localhost:4200/assets/restos-af2015.json'
 };
