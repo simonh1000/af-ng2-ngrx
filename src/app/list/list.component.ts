@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter,
     trigger, state, style, transition, animate
 } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { Resto } from '../reducers/resto';
 import { toUrl } from '../filters/encoder';
 import { Filters } from '../reducers/filters';
@@ -13,17 +15,17 @@ import { filter_to_title } from '../filters/filters_to_title';
     styleUrls: ['./list.component.scss'],
     animations: [
         trigger('selectedResto', [
-            state('void', style({
+            state('gone', style({
                 height: '0'
             })),
             state('unloading', style({
                 opacity: '0'
             })),
-            state('open', style({
+            state('load', style({
                 height: '*',
                 opacity: '1'
             })),
-            transition('void <=> open', animate('500ms')),
+            transition('gone <=> load', animate('500ms')),
             transition('* => *', animate('300ms'))
         ])
     ]
@@ -32,12 +34,14 @@ export class ListComponent implements OnChanges {
     @Input() restos: Resto[];
     @Input() filters: Filters;
     @Input() selectedRestoIndex: number;
+    // @Input() selectedRestoIndex: Observable<number>;
     @Output() action = new EventEmitter();
 
     top5: boolean;
     rotm: Resto;
     rotms: Resto[];
     selectedResto: Resto;
+    // selectedResto: Observable<Resto>;
     title: string;
     selectedRestoState: string;
 
@@ -51,13 +55,33 @@ export class ListComponent implements OnChanges {
         }
         this.title = filter_to_title(this.filters);
 
+        // this.selectedResto =
+        //     this.selectedRestoIndex
+        //         .map(idx => this.restos[idx])
+        //         .do( r => {
+        //             if (r) {
+        //                 console.log('OUT:', r.qname);
+        //                 this.selectedRestoState = 'unloading';
+        //             }
+        //         })
+        //         .delay(500)
+        //         .do( r => {
+        //             if (r) {
+        //                 console.log('IN:', r.qname);
+        //                 this.selectedRestoState = 'load';
+        //             }
+        //         })
+
+        // Animations 
+        
         // No selectedResto, but one selected
         if (!this.selectedResto && this.selectedRestoIndex !== undefined) {
-            this.selectedRestoState = 'open';
+            this.selectedRestoState = 'load';
             return this.selectedResto = this.restos[this.selectedRestoIndex];
         }
 
         if (this.selectedResto && this.selectedRestoIndex === null) {
+            this.selectedRestoState = 'gone';
             return this.selectedResto = null;
         }
 
@@ -68,7 +92,7 @@ export class ListComponent implements OnChanges {
             setTimeout(() => {
                 this.selectedResto = this.restos[this.selectedRestoIndex];
                 console.log('IN:', this.selectedResto.qname);
-                this.selectedRestoState = 'open';
+                this.selectedRestoState = 'load';
             }, 500);
         } else {
             // If just the distance has changed, then update directly

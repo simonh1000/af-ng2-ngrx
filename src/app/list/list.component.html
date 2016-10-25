@@ -1,11 +1,12 @@
-<div *ngIf='selectedResto' class='selected-resto'>
+<!--<div *ngIf='selectedResto' class='selected-resto'>-->
   <app-resto
+      class='selected-resto'
       [resto]='selectedResto'
       [idx]='selectedRestoIndex'
       (action)='action.next($event)'
       [@selectedResto]='selectedRestoState'>
   </app-resto>
-</div>
+<!--</div>-->
 
 <div *ngIf='top5'>
     <h3>restaurant of the month!</h3>

@@ -51,15 +51,9 @@ app-resto {
     // border: 1px solid #eee;
 }
 
-.selected-resto app-resto {
+app-resto.selected-resto {
     overflow-y: hidden;
     padding-top: 2px;
-    // .closable {
-    //     max-height: 80px !important;
-    // }
-    // .more {
-    //     display: none;
-    // }
 }
 
 @media (min-width: $screen-sm) {
