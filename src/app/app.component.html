@@ -37,6 +37,6 @@
 <app-resto-list
     [restos]='restos_list | async'
     [filters]='filters | async'
-    [selectedRestoIndex]='selectedResto | async'
+    [selectedRestoIndex]='selectedResto'
     (action)='store.dispatch($event)'></app-resto-list>
     <!--[selectedRestoIndex]='selectedResto'-->

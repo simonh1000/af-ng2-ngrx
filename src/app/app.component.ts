@@ -25,7 +25,7 @@ import { fromUrl } from './filters/parser';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
-    restos_list: Observable<Resto[]>;  // this will be the filtered list
+    restos_list: Observable<Resto[]>;  // the filtered list
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
     selectedResto: Observable<number>;

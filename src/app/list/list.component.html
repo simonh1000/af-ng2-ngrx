@@ -1,12 +1,9 @@
-<!--<div *ngIf='selectedResto' class='selected-resto'>-->
   <app-resto
       class='selected-resto'
-      [resto]='selectedResto'
-      [idx]='selectedRestoIndex'
+      [resto]='selectedResto | async'
+      [idx]='selectedRestoIndex | async'
       (action)='action.next($event)'
-      [@selectedResto]='selectedRestoState'>
-  </app-resto>
-<!--</div>-->
+      [@selectedResto]='selectedRestoState'></app-resto>
 
 <div *ngIf='top5'>
     <h3>restaurant of the month!</h3>
