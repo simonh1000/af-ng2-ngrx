@@ -4,8 +4,8 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 
-import { Observable } from 'rxjs';
-import { RESTOS } from '../../../ignore/mock-restos';
+// import { Observable } from 'rxjs';
+// import { RESTOS } from '../../../ignore/mock-restos';
 
 @Injectable()
 export class GetDataService {

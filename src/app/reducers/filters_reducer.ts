@@ -20,7 +20,8 @@ export const initFilters: Filters = {
 
 // deepFreeze(initFilters);
 
-export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
+// export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
+export function filtersReducer(state: Filters = Object.assign({}, initFilters), action: Action) {
     // console.log('Reducer:', action);
     switch (action.type) {
         case NEW_FILTERS:
