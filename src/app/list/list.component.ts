@@ -49,28 +49,30 @@ export class ListComponent implements OnChanges, OnInit {
     }
 
     ngOnInit() {
+        this.selectedRestoState = 'gone';
         // Animations 
         
         this.selectedResto =
             this.selectedRestoIndex
-                // .distinct((oldVal, newVal) => {
-                //     console.log(oldVal, newVal);
-                //     return oldVal === newVal;
-                // })
                 .map(idx => this.restos[idx])
                 .do( r => {
-                    if (r) {
-                        console.log('OUT:', r.qname);
+                    // If we had a resto (state === 'load') and moving to a new one then fade-out 
+                    if (r && this.selectedRestoState === 'load') {
+                        // console.log('OUT:', r.qname);
                         this.selectedRestoState = 'unload';
                     }
                 })
                 .delay(500)
-                .do( r => {
-                    if (r) {
-                        console.log('IN:', r.qname);
-                        this.selectedRestoState = 'load';
-                    }
-                });
+                // 
+                .do ( r => this.selectedRestoState = (r) ? 'load' : 'gone' );
+                // .do( r => {
+                //     if (r) {
+                //         console.log('IN:', r.qname);
+                //         this.selectedRestoState = 'load';
+                //     } else {
+                //         this.selectedRestoState = 'gone';
+                //     }
+                // });
     }
 
     ngOnChanges(changes) {

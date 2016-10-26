@@ -65,12 +65,12 @@ export class AppComponent {
             Observable.combineLatest(
                 this.store.select('restos'),
                 this.store.select('filters'),
-                (rs, fs) => filter_restos2(rs, fs));
+                (rs : Resto[], fs) => filter_restos2(rs, fs));
 
         this.filters =
             this.store.select(state => state.filters)
                 // .distinctUntilChanged()
-                .do( filters => {
+                .do( (filters: Filters) => {
                     this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
                 } );
 
