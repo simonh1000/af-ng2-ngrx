@@ -24,7 +24,7 @@ import { fromUrl } from './filters/parser';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
     restos_list: Observable<Resto[]>;  // the filtered list
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
@@ -35,6 +35,16 @@ export class AppComponent implements OnInit {
                 public store: Store<AppState>,
                 private data: GetDataService, private geo: GeoService) {
 
+        // Get database
+        this.data.getData()
+            .subscribe(data => {
+                this.store.dispatch({
+                    type: DATA,
+                    payload: data
+                });
+            });
+
+        // Get the URL location
         let filterString = this.location.pathname.split('/').slice(2)[0];
         if (filterString) {
             let parsedFilter = fromUrl(filterString);
@@ -74,15 +84,7 @@ export class AppComponent implements OnInit {
         geo.getGeo();
     }
 
-    ngOnInit(): void {
-        this.data.getData()
-            .subscribe(data => {
-                this.store.dispatch({
-                    type: DATA,
-                    payload: data
-                });
-            });
-    }
+    // ngOnInit(): void { }
 
     quickLink(obj) {
         let filters = Object.assign({}, initFilters, obj);

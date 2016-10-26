@@ -7,10 +7,21 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="manifest" href="/manifest.webapp">
     <!-- ga here does not appear in production-->
   <script>
     var ga = function(a1, a2, a3, a4, a5) {
       console.log('ga', a1, a2, a3, a4, a5);
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+          .register('/sw.js')
+          .then( registration => {
+              console.log('ServiceWorker registration successful with scope:', registration.scope);                        
+          }).catch( err => {
+              console.log('ServiceWorker registration failed: ', err);
+          });
     }
   </script>
 
@@ -26,9 +37,7 @@
     <app-root>Loading...</app-root>
 
   </div>
- <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script> -->
- 
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAsmFxJXA-eYrp0u0q0fTY_nXD8vVrsKR0"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAsmFxJXA-eYrp0u0q0fTY_nXD8vVrsKR0" async></script>
 
 </body>
 </html>

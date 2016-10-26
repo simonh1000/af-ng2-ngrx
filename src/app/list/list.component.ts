@@ -74,38 +74,11 @@ export class ListComponent implements OnChanges, OnInit {
     }
 
     ngOnChanges(changes) {
-        console.log(changes);
-
         this.top5 = toUrl(this.filters) === '';
         if (this.top5) {
             this.rotm = this.restos[0];
             this.rotms = this.restos.slice(1);
         }
         this.title = filter_to_title(this.filters);
-
-        // // No selectedResto, but one selected
-        // if (!this.selectedResto && this.selectedRestoIndex !== undefined) {
-        //     this.selectedRestoState = 'load';
-        //     return this.selectedResto = this.restos[this.selectedRestoIndex];
-        // }
-
-        // if (this.selectedResto && this.selectedRestoIndex === null) {
-        //     this.selectedRestoState = 'gone';
-        //     return this.selectedResto = null;
-        // }
-
-        // // If the restaurant has changed, rather than just got a new distance
-        // if (this.selectedResto.qname !== this.restos[this.selectedRestoIndex].qname) {
-        //     console.log('OUT:', this.selectedResto.qname);
-        //     this.selectedRestoState = 'unload';
-        //     setTimeout(() => {
-        //         this.selectedResto = this.restos[this.selectedRestoIndex];
-        //         console.log('IN:', this.selectedResto.qname);
-        //         this.selectedRestoState = 'load';
-        //     }, 500);
-        // } else {
-        //     // If just the distance has changed, then update directly
-        //     this.selectedResto = this.restos[this.selectedRestoIndex];
-        // }
     }
 }
