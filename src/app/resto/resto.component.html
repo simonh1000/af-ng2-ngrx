@@ -1,6 +1,6 @@
 <div *ngIf='resto'>
 	<h4>
-		<span class='resto-index'>{{toAlphaIndex(idx)}} </span>
+		<span class='resto-index'>{{toAlphaIndex(resto.idx)}} </span>
 		<a href='.{{resto.link}}' target='_self'>{{resto.rname}}</a>
 		<span *ngIf='cuisines[resto.cuisine]' class='cuisine'>
 			({{cuisines[resto.cuisine].name}}<span *ngIf='resto.distance'>, {{resto.distance | number:'1.1-1'}}km</span>)
@@ -33,30 +33,29 @@
 	</p>
 
 
-<div class='resto_meta_more' [@open]='(resto.open) ? "open" : "closed"'>
-<!--<div class='resto_meta_more closable closed' [ngClass]='{"closed": !resto.open}'>-->
-	<div class='meta-container'>
-		<span class='responsive'>
-			{{resto.address}} <span *ngIf='areas[resto.area]'> ({{areas[resto.area].name}})</span>
-		</span>
-
-		<span *ngIf='resto.tel'>
-			<span class='hidden-xs'> / </span>
-			<a class='telno' href='tel:{{resto.tel}}'>{{resto.tel}}</a>
-		</span>
-
-		<span class='links'>
-			<span *ngIf='resto.tel && resto.website'> / </span>
-
-			<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
-
-			<span *ngIf='resto.booking' class="visible-xs-inline">
-				/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
+	<div class='resto_meta_more' [@open]='(resto.open) ? "open" : "closed"'>
+		<div class='meta-container'>
+			<span class='responsive'>
+				{{resto.address}} <span *ngIf='areas[resto.area]'> ({{areas[resto.area].name}})</span>
 			</span>
 
-			<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
+			<span *ngIf='resto.tel'>
+				<span class='hidden-xs'> / </span>
+				<a class='telno' href='tel:{{resto.tel}}'>{{resto.tel}}</a>
 			</span>
-		</span>
+
+			<span class='links'>
+				<span *ngIf='resto.tel && resto.website'> / </span>
+
+				<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
+
+				<span *ngIf='resto.booking' class="visible-xs-inline">
+					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
+				</span>
+
+				<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
+				</span>
+			</span>
+		</div>
 	</div>
-</div>
 </div>

@@ -39,4 +39,5 @@ export interface Resto {
     open: boolean;
     distance?: number;
     score: number;
+    idx?: number;
 }

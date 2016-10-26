@@ -38,7 +38,7 @@ import { GeoService } from './services/geo.service';
     StoreModule.provideStore({
       restos: restosReducer,
       filters : filtersReducer,
-      selectedResto: selectedReducer,
+      selectedRestoIndex: selectedReducer,
       mapReady: mapReducer,
       myLocation: geoReducer
     }),

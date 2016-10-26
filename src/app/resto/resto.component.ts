@@ -28,7 +28,7 @@ import { Dictionary } from '../filters/dictionary';
 })
 export class RestoComponent {
   @Input() resto: Resto;
-  @Input() idx: number;
+  // @Input() idx: number;
   @Output() action = new EventEmitter();
   cuisines: Object = Dictionary.cuisines;
   areas: Object;

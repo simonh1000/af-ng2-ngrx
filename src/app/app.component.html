@@ -28,7 +28,7 @@
   <app-map
       class='rhs'
       [restos]='restos_list | async'
-      [selectedResto]='selectedResto | async'
+      [selectedRestoIndex]='selectedRestoIndex | async'
       [location]='myLocation | async'
       [mapReady]='mapReady | async'
       (action)='store.dispatch($event)'></app-map>
@@ -37,6 +37,5 @@
 <app-resto-list
     [restos]='restos_list | async'
     [filters]='filters | async'
-    [selectedRestoIndex]='selectedResto'
+    [selectedRestoIndex]='selectedRestoIndex'
     (action)='store.dispatch($event)'></app-resto-list>
-    <!--[selectedRestoIndex]='selectedResto'-->

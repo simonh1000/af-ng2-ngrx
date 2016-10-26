@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     restos_list: Observable<Resto[]>;  // the filtered list
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
-    selectedResto: Observable<number>;
+    selectedRestoIndex: Observable<number[]>;
     mapReady: Observable<boolean>;
 
     constructor(public location: PlatformLocation,
@@ -66,8 +66,8 @@ export class AppComponent implements OnInit {
 
         this.myLocation =
             this.store.select(state => state.myLocation);
-        this.selectedResto =
-            this.store.select(state => state.selectedResto);
+        this.selectedRestoIndex =
+            this.store.select(state => state.selectedRestoIndex);
         this.mapReady =
             this.store.select(state => state.mapReady);
 
