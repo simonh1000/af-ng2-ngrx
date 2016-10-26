@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.11-webpack.9-4",
+    "version": "1.0.0-beta.18",
     "name": "afapp"
   },
   "apps": [
@@ -21,6 +21,7 @@
       "environments": {
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
+        "staging": "environments/environment.staging.ts",
         "prod": "environments/environment.prod.ts"
       }
     }
