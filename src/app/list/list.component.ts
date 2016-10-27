@@ -26,6 +26,7 @@ import { filter_to_title } from '../filters/filters_to_title';
                 opacity: '1'
             })),
             transition('gone <=> load', animate('500ms')),
+            transition('gone => gone', animate(0)),
             transition('* => *', animate('300ms'))
         ])
     ]
@@ -53,15 +54,16 @@ export class ListComponent implements OnChanges, OnInit {
         
         this.selectedResto =
             this.selectedRestoIndex
-                .distinct()
+                // .distinct(arr => arr[0])
                 // this.selectedRestoState = (curr && prev) ? 'unload' : 'gone' )
                 .do( ([curr, prev]) => {
+                    // console.log([curr, prev]);
                     if (curr === null) { 
-                        console.log('curr == null => "gone"');
+                        // console.log('curr == null => "gone"');
                         return this.selectedRestoState = 'gone' 
                     }
                     if (prev !== null && curr !== prev) { 
-                        console.log('prev && curr !== prev ==> unload');
+                        // console.log('prev && curr !== prev ==> unload');
                         return this.selectedRestoState = 'unload' ;
                     }
                 })

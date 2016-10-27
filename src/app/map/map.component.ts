@@ -166,7 +166,7 @@ export class MapComponent implements OnInit, OnChanges {
 
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
-        console.log('makeMarker', this.selectedRestoIndex, idx);
+        // console.log('makeMarker', this.selectedRestoIndex, idx);
         let iconColour =
             (this.selectedRestoIndex[0] === idx) ? '#aa0000' : '#aa94a1';
             // (this.selectedResto && this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
