@@ -39,7 +39,8 @@ export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
     if (filters.close) {
         return restos
             .sort((r1, r2) => r1.distance - r2.distance)
-            .slice(0, 10);
+            .slice(0, 10)
+            .map(addIndex);
     } else {
         let filterFns = stateToFilters(filters);
         let scoreFn = scorer(filters);
@@ -50,7 +51,8 @@ export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
                 .map( r => {
                     return Object.assign(r, {score: scoreFn(r)});
                 })
-                .sort((r1, r2) => r2.score - r1.score);
+                .sort((r1, r2) => r2.score - r1.score)
+                .map(addIndex);
         } else {                            // other filters
             return restos
                 .filter(resto => filterFns.every(fn => fn(resto)))
@@ -58,11 +60,16 @@ export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
                     return Object.assign(r, {score: scoreFn(r)});
                 })
                 .sort( (r1, r2) => r2.score - r1.score )
-                .slice(0, 20);
+                .slice(0, 20)
+                .map(addIndex);
         }
     }
 }
 
+function addIndex(r: Resto, i: number): Resto {
+    r['idx'] = i;
+    return r;
+}
 // setScore score: scorer(distance, r.rating)
 
 function stateToFilters(state: Filters): Array<((Resto) => boolean)> {

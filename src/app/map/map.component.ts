@@ -18,7 +18,7 @@ const MAX_ZOOM = 15;
 })
 export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
-    @Input() selectedResto: number;
+    @Input() selectedRestoIndex: number[];
     @Input() location: MaybePoint;
     @Input() mapReady: boolean;
     @Output() action = new EventEmitter();
@@ -75,8 +75,8 @@ export class MapComponent implements OnInit, OnChanges {
             }
 
             // If selectedResto changed,...
-            if (changes['selectedResto'] && changes['restos'] === undefined) {
-                return this.redrawSelected(changes['selectedResto']);
+            if (changes['selectedRestoIndex'] && changes['restos'] === undefined) {
+                return this.redrawSelected();
             }
 
             if (changes['restos']) {
@@ -115,21 +115,21 @@ export class MapComponent implements OnInit, OnChanges {
         }
     }
 
-    redrawSelected(change: SimpleChange) {
-        if (change.previousValue === null) {
+    redrawSelected() {
+        // if (change.previousValue === null) {
+        if (this.selectedRestoIndex[1] === null) {
             // set currentValue marker to highlighted
-            return this.drawOne(change.currentValue);
-            // let i = change.currentValue;
-            // return this.markers[i] = this.makeMarker(this.restos[i], i);
+            return this.drawOne(this.selectedRestoIndex[0]);
         }
-        if (change.currentValue === null) {
-            // Remove highlighting from
-            return this.drawOne(change.previousValue);
-            // let i = change.currentValue;
-            // return this.markers[i] = this.makeMarker(this.restos[i], i);
+        // if (change.currentValue === null) {
+        if (this.selectedRestoIndex[0] === null) {
+            // Remove highlighting from previous
+            return this.drawOne(this.selectedRestoIndex[1]);
         }
-        this.drawOne(change.previousValue);
-        this.drawOne(change.currentValue);
+        // this.drawOne(change.previousValue);
+        // this.drawOne(change.currentValue);
+        this.drawOne(this.selectedRestoIndex[1]);
+        this.drawOne(this.selectedRestoIndex[0]);
     }
 
     drawOne(i: number): void {
@@ -166,9 +166,10 @@ export class MapComponent implements OnInit, OnChanges {
 
     makeMarker(r: Resto, idx: number): google.maps.Marker {
         let pos = new google.maps.LatLng(r.lat, r.lng);
+        // console.log('makeMarker', this.selectedRestoIndex, idx);
         let iconColour =
+            (this.selectedRestoIndex[0] === idx) ? '#aa0000' : '#aa94a1';
             // (this.selectedResto && this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
-            (this.selectedResto === idx) ? '#aa0000' : '#aa94a1';
         let label = String.fromCharCode('A'.charCodeAt(0) + idx);
 
         let marker = new google.maps.Marker({

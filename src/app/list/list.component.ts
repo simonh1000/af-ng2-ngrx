@@ -5,8 +5,8 @@ import { Component, OnInit, OnChanges, Input, Output, EventEmitter,
 import { Observable } from 'rxjs';
 
 import { Resto } from '../reducers/resto';
-import { toUrl } from '../filters/encoder';
 import { Filters } from '../reducers/filters';
+import { toUrl } from '../filters/encoder';
 import { filter_to_title } from '../filters/filters_to_title';
 
 @Component({
@@ -26,6 +26,7 @@ import { filter_to_title } from '../filters/filters_to_title';
                 opacity: '1'
             })),
             transition('gone <=> load', animate('500ms')),
+            transition('gone => gone', animate(0)),
             transition('* => *', animate('300ms'))
         ])
     ]
@@ -45,8 +46,7 @@ export class ListComponent implements OnChanges, OnInit {
     title: string;
     selectedRestoState: string;
 
-    constructor() { 
-    }
+    constructor() {  }
 
     ngOnInit() {
         this.selectedRestoState = 'gone';
@@ -54,30 +54,27 @@ export class ListComponent implements OnChanges, OnInit {
         
         this.selectedResto =
             this.selectedRestoIndex
-                .map(idx => this.restos[idx])
-                .do( r => {
-                    // If we had a resto (state === 'load') and moving to a new one then fade-out 
-                    if (r && this.selectedRestoState === 'load') {
-                        // console.log('OUT:', r.qname);
-                        this.selectedRestoState = 'unload';
+                // .distinct(arr => arr[0])
+                // this.selectedRestoState = (curr && prev) ? 'unload' : 'gone' )
+                .do( ([curr, prev]) => {
+                    // console.log([curr, prev]);
+                    if (curr === null) { 
+                        // console.log('curr == null => "gone"');
+                        return this.selectedRestoState = 'gone' 
+                    }
+                    if (prev !== null && curr !== prev) { 
+                        // console.log('prev && curr !== prev ==> unload');
+                        return this.selectedRestoState = 'unload' ;
                     }
                 })
                 .delay(500)
-                // 
-                .do ( r => this.selectedRestoState = (r) ? 'load' : 'gone' );
-                // .do( r => {
-                //     if (r) {
-                //         console.log('IN:', r.qname);
-                //         this.selectedRestoState = 'load';
-                //     } else {
-                //         this.selectedRestoState = 'gone';
-                //     }
-                // });
+                .do ( ([curr, _prev]) => this.selectedRestoState = (curr !== null) ? 'load' : 'gone' )
+                .map( ([curr, _prev]) => this.restos[curr] );
     }
 
     ngOnChanges(changes) {
         this.top5 = toUrl(this.filters) === '';
-        if (this.top5) {
+        if (this.top5 && this.restos.length > 0) {
             this.rotm = this.restos[0];
             this.rotms = this.restos.slice(1);
         }
