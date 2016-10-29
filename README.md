@@ -4,4 +4,6 @@
 
 ng build --env=staging
 
+ng build --prod
+
 ng build --prod --aot
