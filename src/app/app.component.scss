@@ -1,4 +1,25 @@
-@import '../variables';
+$screen-sm: 768px;
+$screen-lg: 980px;
+
+$gray-base:              #000 !default;
+$gray:                   lighten($gray-base, 33.5%) !default; 
+
+$body-bg:               white !default;
+$text-color:            $gray-base !default;
+
+$main-sm-columns:       12;
+$sidebar-sm-columns:    4;
+
+$brand-primary:			rgb(90,48,77);    
+$brand-primary-muted1:  rgb(170,148,161); 
+$brand-primary-muted2:	rgb(206,194,200); 
+
+$brand-secondary: 		rgb(66,138,71);  
+$front-green:			rgb(233,233,224);
+
+$afradius:				10px;
+
+$v-rhythm:              20px;
 
 .quick-links {
     ul {
@@ -21,7 +42,6 @@
     display: flex;
     flex-direction: column;
     .rhs {
-        // flex-grow: 2;
         display: block;
         width: 100%;
     }
@@ -31,7 +51,6 @@
     app-filters {
         margin-top: -3px;
         display: block;
-        // margin-bottom: 19px;
     }
 }
 #filter-map {
@@ -47,8 +66,6 @@ app-resto {
     position: relative;
     margin: 0 auto;
     margin-bottom: $v-rhythm * 1.5;
-    // width: 100%;
-    // border: 1px solid #eee;
 }
 
 app-resto.selected-resto {
@@ -75,17 +92,4 @@ app-resto.selected-resto {
             flex-grow: 1;
         }
     }
-    // #filter-map {
-    //     flex-direction: initial;
-
-    //     app-filters, .selected-resto {
-    //         width: 350px;
-    //         padding: 15px;
-    //         // flex-grow: 1;
-    //     }
-    //     app-map {
-    //         width: 300px;
-    //         flex-grow: 1;
-    //     }
-    // }
 }

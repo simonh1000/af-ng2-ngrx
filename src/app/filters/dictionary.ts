@@ -1,10 +1,10 @@
-interface Cuisine {
+export interface Cuisine {
     key: string;
     name: string;
     suffix: string;
     recs: number;
 }
-interface Price {
+export interface Price {
     key: string;
     name: string;
     suffix: string;
