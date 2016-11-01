@@ -1,8 +1,6 @@
-/// <reference path="../../../typings/globals/google.maps/index.d.ts" />
 declare var ga: any;
 
-import { Component, Input, Output, OnInit, OnChanges, SimpleChange, EventEmitter, NgZone 
-        } from '@angular/core';
+import { Component, Input, Output, OnInit, OnChanges, SimpleChange, EventEmitter, NgZone } from '@angular/core';
 import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
 import { MAP_READY } from '../reducers/map_reducer';

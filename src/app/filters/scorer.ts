@@ -6,13 +6,15 @@ import { Resto } from '../reducers/resto';
 
 type ScoreFunction = (Resto) => number;
 
-export function scorer(filters: Filters): ScoreFunction {
+export function scorer(filters: Filters) {
     let scorers = stateToScorer(filters);
 
     if (scorers.length === 1) {    // stateToScorer always returns at least addRating
-        return rotm;
+        return function rotm(r: Resto): number {
+            return (r.recommendation >= 16) ? 100 : 0;
+        }
     } else {
-        return resto => {
+        return function(resto: Resto) {
             return scorers.reduce( (acc, curr) => acc + curr(resto), 0);
         };
     }

@@ -9,14 +9,12 @@
     <app-resto
         [resto]='rotm' 
         (action)='action.next($event)'></app-resto>
-        <!--[idx]='0'-->
     <h3>current top 5 restaurants!</h3>
     <app-resto
         *ngFor='let resto of rotms'
         [resto]='resto'
         (action)='action.next($event)'></app-resto>
 </div>
-        <!--[idx]='idx + 1'-->
 
 <div *ngIf='!top5'>
     <h3 *ngIf='restos.length > 0'>{{title}}</h3>

@@ -35,7 +35,7 @@ export class ListComponent implements OnChanges, OnInit {
     @Input() restos: Resto[];
     @Input() filters: Filters;
     // @Input() selectedRestoIndex: number;
-    @Input() selectedRestoIndex: Observable<number>;
+    @Input() selectedRestoIndex: Observable<number[]>;
     @Output() action = new EventEmitter();
 
     top5: boolean;

@@ -1,1 +1,13 @@
+@import '../../variables';
 
+app-resto {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    margin-bottom: $v-rhythm * 1.5;
+}
+
+app-resto.selected-resto {
+    overflow-y: hidden;
+    padding-top: 2px;
+}

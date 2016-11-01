@@ -21,8 +21,7 @@ import { fromUrl } from './filters/parser';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
     restos_list: Observable<Resto[]>;  // the filtered list
