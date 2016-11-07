@@ -1,9 +1,10 @@
 declare var ga: any;
 
 import { Component, Input, Output, OnInit, OnChanges, SimpleChange, EventEmitter, NgZone } from '@angular/core';
+
 import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
-import { MAP_READY } from '../reducers/map_reducer';
+import { MAP_READY, MAP_CODE_READY } from '../reducers/map_reducer';
 import { SELECT_RESTO } from '../reducers/selected_reducer';
 import { Point, MaybePoint } from '../reducers/geo';
 
@@ -18,7 +19,7 @@ export class MapComponent implements OnInit, OnChanges {
     @Input() restos: Resto[];
     @Input() selectedRestoIndex: number[];
     @Input() location: MaybePoint;
-    @Input() mapReady: boolean;
+    @Input() mapReady: number;
     @Output() action = new EventEmitter();
 
     map: google.maps.Map;
@@ -26,23 +27,29 @@ export class MapComponent implements OnInit, OnChanges {
     prevLocation: google.maps.Circle;
     markersInitialised = false;
 
-    constructor(private _ngZone: NgZone) { }
+    constructor(private _ngZone: NgZone) { 
+    }
 
     ngOnInit() {
         if (typeof google !== 'undefined') {
-            let d = Dictionary['amsterdamCenter'];
-            let mapOptions = {
-                zoom: 10,
-                center: new google.maps.LatLng(d[0], d[1]),
-                mapTypeControl: false,
-            };
-            this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-            google.maps.event.addListenerOnce(this.map, 'idle',
-                () => this._ngZone.run(() => this.action.next({ type: MAP_READY })));
-
-            // Redraw myLocation when zoom changes to ensure remains visible
-            google.maps.event.addListener(this.map, 'zoom_changed', () => this.handleLocation() );
+            console.log('MapComponent.ngOnInit');
+            this.loadMap();
         }
+    }
+
+    loadMap() {
+        let d = Dictionary['amsterdamCenter'];
+        let mapOptions = {
+            zoom: 10,
+            center: new google.maps.LatLng(d[0], d[1]),
+            mapTypeControl: false,
+        };
+        this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        google.maps.event.addListenerOnce(this.map, 'idle',
+            () => this._ngZone.run(() => this.action.next({ type: MAP_READY })));
+
+        // Redraw myLocation when zoom changes to ensure remains visible
+        google.maps.event.addListener(this.map, 'zoom_changed', () => this.handleLocation() );
     }
 
     /* changes
@@ -52,8 +59,11 @@ export class MapComponent implements OnInit, OnChanges {
     *      - location: redraw location
     */
     ngOnChanges(changes: { changes: SimpleChange }): void {
+        if (this.mapReady < 2) {
+            return;
+        }
         // When the map is ready draw markers and location if available
-        if (changes['mapReady'] && changes['mapReady'].currentValue) {
+        if (changes['mapReady']&& changes['mapReady'].currentValue === 2) {
             // console.log('mapReady - draw markers and location');
             if (this.mapReady && this.restos.length > 0) {
                 this.drawAll();
@@ -63,7 +73,7 @@ export class MapComponent implements OnInit, OnChanges {
             return;
         }
 
-        if (this.mapReady) {
+        if (this.mapReady === 2) {
             // console.log('map ngOnChanges', changes);
 
             // If location changed, then update myLocation

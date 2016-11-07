@@ -19,7 +19,6 @@
 		<span class='price'>
 			{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
 		</span>
-		<!--<span *ngIf='resto.recommendation > 0' class='recommended basker visible-xs-inline'>Recommended!</span>-->
 		<span *ngIf='resto.booking' class="visible-xs-inline afbutton booknow" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
 		</span>
@@ -49,9 +48,9 @@
 
 				<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
 
-				<span *ngIf='resto.booking' class="visible-xs-inline">
+				<!--<span *ngIf='resto.booking' class="visible-xs-inline">
 					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
-				</span>
+				</span>-->
 
 				<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
 				</span>

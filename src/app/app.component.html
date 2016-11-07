@@ -25,6 +25,7 @@
   </app-filters>
 
   <app-map
+      *ngIf='(mapReady | async) > 0'
       class='rhs'
       [restos]='restos_list | async'
       [selectedRestoIndex]='selectedRestoIndex | async'

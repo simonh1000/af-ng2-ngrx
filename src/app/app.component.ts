@@ -4,11 +4,17 @@ import { PlatformLocation } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import { WindowRef } from './services/window.ref';
+// import { GoogleAPI } from './map-loader.service';
+import { GoogleMapsLoader } from './map/map-loader.service';
+
+
 import { Resto } from './reducers/resto';
 import { AppState } from './reducers/state';
 import { initFilters, NEW_FILTERS, GET_CLOSE } from './reducers/filters_reducer';
 import { Filters } from './reducers/filters';
 import { DATA } from './reducers/restos_reducer';
+import { MAP_READY, MAP_CODE_READY } from './reducers/map_reducer';
 
 import { GetDataService } from './services/get-data.service';
 import { GeoService } from './services/geo.service';
@@ -28,11 +34,24 @@ export class AppComponent {
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
     selectedRestoIndex: Observable<number[]>;
-    mapReady: Observable<boolean>;
+    mapReady: Observable<number>;
 
     constructor(public location: PlatformLocation,
                 public store: Store<AppState>,
+                private window: WindowRef,
                 private data: GetDataService, private geo: GeoService) {
+
+        // googleApi.loadAPI.then(res => console.log('map.conponent', res));
+        GoogleMapsLoader.load()
+        .then(res => {
+            console.log('GoogleMapsLoader.load.then', res);
+            this.store.dispatch({
+                type: MAP_CODE_READY
+            })
+        })
+        .catch(err => {
+            console.error(err);
+        });
 
         // Get database
         this.data.getData()
