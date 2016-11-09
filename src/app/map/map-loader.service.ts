@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-const url = 'http://maps.googleapis.com/maps/api/js?key=AIzaSyAsmFxJXA-eYrp0u0q0fTY_nXD8vVrsKR0&callback=__onGoogleLoaded';
+const url = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAsmFxJXA-eYrp0u0q0fTY_nXD8vVrsKR0&callback=__onGoogleLoaded';
 
 @Injectable()
 export class GoogleMapsLoader {
