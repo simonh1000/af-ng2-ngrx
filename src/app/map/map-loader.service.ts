@@ -11,10 +11,11 @@ export class GoogleMapsLoader {
         if (!GoogleMapsLoader.promise) {
 
             // Make promise to load
-            GoogleMapsLoader.promise = new Promise( resolve => {
+            GoogleMapsLoader.promise = new Promise( (resolve, reject) => {
 
                 // Set callback for when google maps is loaded.
                 window['__onGoogleLoaded'] = (ev) => {
+                    console.log('__onGoogleLoaded', ev);
                     resolve('google maps api loaded');
                 };
 

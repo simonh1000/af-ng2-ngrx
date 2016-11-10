@@ -89,7 +89,8 @@ export class AppComponent {
             this.store.select(state => state.filters)
                 // .distinctUntilChanged()
                 .do( (filters: Filters) => {
-                    this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
+                    // this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
+                    this.location.pushState({}, '', toUrl(filters));
                 } );
 
         this.myLocation =
