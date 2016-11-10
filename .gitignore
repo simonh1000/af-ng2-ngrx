@@ -35,7 +35,5 @@ Thumbs.db
 
 ignore
 src/app/services/mock*
-src/assets/icons
 src/assets/css
 src/assets/restos-af2015.json
-src/aot
