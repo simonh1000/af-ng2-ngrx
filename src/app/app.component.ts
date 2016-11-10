@@ -87,7 +87,9 @@ export class AppComponent {
 
         this.filters =
             this.store.select(state => state.filters)
-                // .distinctUntilChanged()
+                // This line needed as otherwise change in geolocation triggers state to be 
+                // resent, overwriting any changes user has made on filters menu
+                .distinctUntilChanged()
                 .do( (filters: Filters) => {
                     this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
                 } );
@@ -101,8 +103,6 @@ export class AppComponent {
 
         geo.getGeo();
     }
-
-    // ngOnInit(): void { }
 
     quickLink(obj) {
         let filters = Object.assign({}, initFilters, obj);
