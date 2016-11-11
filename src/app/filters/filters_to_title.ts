@@ -38,7 +38,7 @@ function cuisine(tgt: string): string[] {
         return [];
     } else {
         let c = Dictionary.cuisines[tgt];
-        return [`${c.name} ${c.suffix} in Amsterdam`];
+        return [`${c.name}${c.suffix} in Amsterdam`];
     }
 }
 // Location filter
