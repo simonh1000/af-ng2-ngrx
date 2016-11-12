@@ -39,7 +39,7 @@
     color: white;
     padding: 0 $v-rhythm;
 
-    max-height: 24em;
+    max-height: 28em;
     transition-property: max-height;
     transition-duration: 1.3s;
     transition-timing-function: ease;
@@ -67,6 +67,12 @@
 
     .close-by-button {
         margin-bottom: 15px;
+        button {
+            background-color: white;
+            color: $brand-primary;
+            width: 100%;
+            text-align: left;
+        }
     }
     &>:first-child {
         margin-top: 10px
@@ -97,16 +103,19 @@
         color: #222;
         padding-left: 0;
         width: 100%;
+        .close-by-button {
+            margin-bottom: 15px;
+            button {
+                background-color: $brand-primary;
+                color: white;
+                width: auto;
+                text-align: center;
+            }
+        }
     //     // Use default Bootstrap font to get better text alignment on select
         .form-control {
             font-family: helvetica;
         }
-    //     span {
-    //         text-transform: lowercase;
-    //     }
-    //     .form-group {
-    //         padding: 5px 0;
-    //     }
         &.closed {  // always open for sm+ screens
             max-height: none;
         }

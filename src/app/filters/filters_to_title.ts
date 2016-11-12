@@ -29,7 +29,7 @@ function rotmFilter(): string {
 }
 
 function search(tgt: string): string[] {
-    return (tgt !== '') ? [`Search results for: ${tgt}`] : [];
+    return (tgt !== null && tgt !== '') ? [`Search results for: ${tgt}`] : [];
 }
 
 // Cuisine filter

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { WindowRef } from './services/window.ref';
-// import { GoogleAPI } from './map-loader.service';
 import { GoogleMapsLoader } from './map/map-loader.service';
 
 

@@ -131,13 +131,11 @@ function price_filter(state: Filters, key: string): ((Resto) => boolean)[] {
     }
     if (state[key]) {
         return [ resto => resto.price === ii ];
-        // return [ resto => resto.price === ii && resto.recommendation > 0 ];
-        // return [ resto => resto.price === ii && (resto.recommendation & 4) === 4 ];
     } else {
         return [];
     }
 }
 
 function search(search: String): ((Resto) => boolean)[] {
-    return (typeof search === 'undefined' || search === '') ? [] : [ r => r.rname.toLowerCase().indexOf(search.toLowerCase()) !== -1 ];
+    return (search === null || search === '') ? [] : [ r => r.rname.toLowerCase().indexOf(search.toLowerCase()) !== -1 ];
 }
