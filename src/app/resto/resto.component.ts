@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, trigger, state, style, transiti
 import { WindowRef } from '../services/window.ref';
 import { Resto } from '../reducers/resto';
 import { Dictionary } from '../filters/dictionary';
-import { ADD_FAVOURITE, REMOVE_FAVOURITE } from '../reducers/favourites_reducer';
+import { ADD_FAVOURITE, REMOVE_FAVOURITE } from '../reducers/filters_reducer';
 
 @Component({
   selector: 'app-resto',
@@ -29,7 +29,8 @@ import { ADD_FAVOURITE, REMOVE_FAVOURITE } from '../reducers/favourites_reducer'
 })
 export class RestoComponent {
   @Input() resto: Resto;
-  @Input() isFavourite: boolean;
+  // @Input() isFavourite: boolean;
+  @Input() favouritesList: string[];
   @Output() action = new EventEmitter();
   cuisines: Object = Dictionary.cuisines;
   areas: Object;
@@ -48,10 +49,16 @@ export class RestoComponent {
     ga('send', 'event', 'outbound_link', type, this.resto.qname);
     return false;
   }
+
   toggleFavourite() {
     this.action.next({
-      type: (this.isFavourite) ? REMOVE_FAVOURITE : ADD_FAVOURITE,
+      type: (this.isFavourite()) ? REMOVE_FAVOURITE : ADD_FAVOURITE,
       payload: this.resto.qname
     })
   }
+
+  isFavourite() {
+    return this.favouritesList.indexOf(this.resto.qname) > -1;
+  }
+
 }

@@ -10,8 +10,7 @@ import { StorageService } from './services/storage.service';
 
 import { Resto } from './reducers/resto';
 import { AppState } from './reducers/state';
-import { initFilters, NEW_FILTERS, GET_CLOSE } from './reducers/filters_reducer';
-import { CACHED_FAVOURITES } from './reducers/favourites_reducer';
+import { defaultFilters, NEW_FILTERS, GET_CLOSE, CACHED_FAVOURITES } from './reducers/filters_reducer';
 import { Filters } from './reducers/filters';
 import { DATA } from './reducers/restos_reducer';
 import { MAP_READY, MAP_CODE_READY } from './reducers/map_reducer';
@@ -96,10 +95,12 @@ export class AppComponent {
             this.store.select(state => state.filters)
                 // This line needed as otherwise change in geolocation triggers state to be 
                 // resent, overwriting any changes user has made on filters menu
-                .distinctUntilChanged()
+                // .distinctUntilChanged()
                 .do( (filters: Filters) => {
+                    console.log(filters);
                     // this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
                     this.location.pushState({}, '', toUrl(filters));
+                    // console.log('storing favourites', filters.favouritesList)
                     this.storage.setCache(filters.favouritesList);
                 } );
 
@@ -116,7 +117,7 @@ export class AppComponent {
     }
 
     quickLink(obj) {
-        let filters = Object.assign({}, initFilters, obj);
+        let filters = Object.assign({}, defaultFilters, obj);
 
         this.store.dispatch({
             type: NEW_FILTERS,

@@ -5,7 +5,7 @@ import {
 import { FormControl } from '@angular/forms';
 
 import { Filters } from '../reducers/filters';
-import { NEW_FILTERS, GET_CLOSE } from '../reducers/filters_reducer';
+import { NEW_FILTERS, GET_CLOSE, GET_FAVOURITES } from '../reducers/filters_reducer';
 import { MaybePoint } from '../reducers/geo';
 import { Dictionary } from './dictionary';
 import { sendAnalytics } from './analytics';
@@ -84,6 +84,14 @@ export class FiltersComponent implements OnInit, OnChanges {
         // this.router.navigate(['/recommendations', 'close']);
         this.action.emit({
             type: GET_CLOSE
+        });
+    }
+
+    getFavourites() {
+        this.overlay = false;
+        // this.router.navigate(['/recommendations', 'close']);
+        this.action.emit({
+            type: GET_FAVOURITES
         });
     }
 

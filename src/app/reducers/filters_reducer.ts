@@ -1,6 +1,6 @@
 // filters.ts
 import { ActionReducer, Action } from '@ngrx/store';
-import { Filters } from './filters';
+import { FormFilters, Filters } from './filters';
 
 // var deepFreeze = require('deep-freeze');
 
@@ -12,7 +12,7 @@ export const CACHED_FAVOURITES = 'CACHED_FAVOURITES';
 export const ADD_FAVOURITE = 'ADD_FAVOURITE';
 export const REMOVE_FAVOURITE = 'REMOVE_FAVOURITE';
 
-export const initFilters: Filters = {
+export const defaultFilters: FormFilters = {
     search: '',
     location: 'amsterdam',
     cuisine: 'all cuisines',
@@ -20,34 +20,36 @@ export const initFilters: Filters = {
     midrange: false,
     finedining: false,
     close: false,
-    favourites: false,
-    favouritesList: []
+    favourites: false
 };
+export const initFilters: Filters = Object.assign({favouritesList: []}, defaultFilters);
 
 // deepFreeze(initFilters);
-
 // export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
-export function filtersReducer(state: Filters = Object.assign({}, initFilters), action: Action) {
-    // console.log('Reducer:', action);
+
+export function filtersReducer(state: Filters = initFilters, action: Action) {
+    console.log('Reducer:', state, action);
     switch (action.type) {
         case NEW_FILTERS:
             // remove close filter when new ones set
-            return Object.assign({}, action.payload, {close: false});
+            return Object.assign({}, state, action.payload, {close: false, favourites: false});
+
         case GET_CLOSE:
-            return Object.assign({}, initFilters, { close: true });
+            return Object.assign({}, state, defaultFilters, { close: true });
+            
         case GET_FAVOURITES:
-            return Object.assign({}, initFilters, { favourites: true });
+            return Object.assign({}, state, defaultFilters, { favourites: true });
 
         case CACHED_FAVOURITES:
-            return Object.assign({}, initFilters, { favouritesList: action.payload });
+            return Object.assign({}, state, { favouritesList: action.payload });
 
         case ADD_FAVOURITE:
             let fs = [action.payload, ...state.favouritesList];
-            return Object.assign(state, { favouritesList: fs });
+            return Object.assign({}, state, { favouritesList: fs });
 
         case REMOVE_FAVOURITE:
             let fs_ = state.favouritesList.filter(f => f !== action.payload)
-            return Object.assign(state, { favouritesList: fs_ });
+            return Object.assign({}, state, { favouritesList: fs_ });
 
         default:
             return state;

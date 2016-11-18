@@ -1,22 +1,29 @@
-  <app-resto *ngIf='selectedResto | async'
-      class='selected-resto'
-      [resto]='selectedResto | async'
-      [isFavourite]='isFavourite(resto.qname)'
-      (action)='action.next($event)'
-      [@selectedResto]='selectedRestoState'></app-resto>
+  <div *ngIf='selectedResto | async'>
+    <app-resto
+        class='selected-resto'
+        [resto]='selectedResto | async'
+        [favouritesList]='filters.favouritesList'
+        (action)='action.next($event)'
+        [@selectedResto]='selectedRestoState'></app-resto>
+        <!--[isFavourite]='isFavourite((selectedResto | async).qname)'-->
+        <!--[isFavourite]='isFavourite(resto.qname)'-->
+  </div>
 
 <div *ngIf='top5'>
     <h3>restaurant of the month!</h3>
     <app-resto *ngIf='rotm.qname'
         [resto]='rotm' 
-        [isFavourite]='isFavourite(rotm.qname)'
+        [favouritesList]='filters.favouritesList'
         (action)='action.next($event)'></app-resto>
+        <!--[isFavourite]='isFavourite(rotm.qname)'-->
+
     <h3>current top 5 restaurants!</h3>
     <app-resto
         *ngFor='let resto of rotms'
         [resto]='resto'
-        [isFavourite]='isFavourite(resto.qname)'
+        [favouritesList]='filters.favouritesList'
         (action)='action.next($event)'></app-resto>
+        <!--[isFavourite]='isFavourite(resto.qname)'-->
 </div>
 
 <div *ngIf='!top5'>
@@ -25,6 +32,7 @@
     <app-resto
         *ngFor='let resto of restos'
         [resto]='resto'
-        [isFavourite]='isFavourite(resto.qname)'
+        [favouritesList]='filters.favouritesList'
         (action)='action.next($event)'></app-resto>
+        <!--[isFavourite]='isFavourite(resto.qname)'-->
 </div>

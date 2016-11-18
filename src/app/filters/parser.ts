@@ -1,23 +1,23 @@
 
-import { Filters } from '../reducers/filters';
-import { initFilters } from '../reducers/filters_reducer';
+import { FormFilters } from '../reducers/filters';
+import { defaultFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
-export function fromUrl(urlString: string): Filters {
+export function fromUrl(urlString: string): FormFilters {
     console.log('fromUrl', urlString);
     switch (urlString) {
         case 'close':
-            return Object.assign({}, initFilters, {close: true});
+            return Object.assign({}, defaultFilters, {close: true});
         case 'favourites':
-            return Object.assign({}, initFilters, {favourites: true});
+            return Object.assign({}, defaultFilters, {favourites: true});
         case undefined:
-            return Object.assign({}, initFilters);
+            return Object.assign({}, defaultFilters);
         case null:
-            return Object.assign({}, initFilters);
+            return Object.assign({}, defaultFilters);
         default:
             return urlString.split('_')
                     .map(parser)
-                    .reduce( flattener, Object.assign({}, initFilters) );
+                    .reduce( flattener, Object.assign({}, defaultFilters) );
     }
 }
 
