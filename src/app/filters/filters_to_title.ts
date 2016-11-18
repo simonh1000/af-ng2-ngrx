@@ -4,6 +4,8 @@ import { Dictionary } from './dictionary';
 export function filter_to_title(state: Filters): string {
     if (state.close) {
         return 'Closest restaurants';
+    } else if (state.favourites) {
+        return 'Favourites';
     } else {
         let titles = stateToTitles(state);
 
@@ -29,7 +31,7 @@ function rotmFilter(): string {
 }
 
 function search(tgt: string): string[] {
-    return (tgt !== '') ? [`Search results for: ${tgt}`] : [];
+    return (tgt !== null && tgt !== '') ? [`Search results for: ${tgt}`] : [];
 }
 
 // Cuisine filter

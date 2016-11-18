@@ -7,4 +7,6 @@ export interface Filters {
     midrange: boolean;
     finedining: boolean;
     close: boolean;
+    favourites: boolean;
+    favouritesList: string[]
 }

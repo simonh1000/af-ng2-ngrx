@@ -1,18 +1,21 @@
-  <app-resto
+  <app-resto *ngIf='selectedResto | async'
       class='selected-resto'
       [resto]='selectedResto | async'
+      [isFavourite]='isFavourite(resto.qname)'
       (action)='action.next($event)'
       [@selectedResto]='selectedRestoState'></app-resto>
 
 <div *ngIf='top5'>
     <h3>restaurant of the month!</h3>
-    <app-resto
+    <app-resto *ngIf='rotm.qname'
         [resto]='rotm' 
+        [isFavourite]='isFavourite(rotm.qname)'
         (action)='action.next($event)'></app-resto>
     <h3>current top 5 restaurants!</h3>
     <app-resto
         *ngFor='let resto of rotms'
         [resto]='resto'
+        [isFavourite]='isFavourite(resto.qname)'
         (action)='action.next($event)'></app-resto>
 </div>
 
@@ -22,5 +25,6 @@
     <app-resto
         *ngFor='let resto of restos'
         [resto]='resto'
+        [isFavourite]='isFavourite(resto.qname)'
         (action)='action.next($event)'></app-resto>
 </div>

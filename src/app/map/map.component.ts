@@ -242,7 +242,7 @@ export class MapComponent implements OnInit, OnChanges {
             case 13: radius = 100; break;
             case 12: radius = 160; break;
             case 11: radius = 210; break;
-            case 10: radius = 240; break;
+            case 10: radius = 280; break;
         }
 
         return new google.maps.Circle({

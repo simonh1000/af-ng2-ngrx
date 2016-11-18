@@ -6,6 +6,8 @@ import { Resto } from '../reducers/resto';
 
 type ScoreFunction = (Resto) => number;
 
+
+// Add scroe for being a favourite?
 export function scorer(filters: Filters) {
     let scorers = stateToScorer(filters);
 

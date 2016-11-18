@@ -5,13 +5,13 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { WindowRef } from './services/window.ref';
-// import { GoogleAPI } from './map-loader.service';
 import { GoogleMapsLoader } from './map/map-loader.service';
-
+import { StorageService } from './services/storage.service';
 
 import { Resto } from './reducers/resto';
 import { AppState } from './reducers/state';
 import { initFilters, NEW_FILTERS, GET_CLOSE } from './reducers/filters_reducer';
+import { CACHED_FAVOURITES } from './reducers/favourites_reducer';
 import { Filters } from './reducers/filters';
 import { DATA } from './reducers/restos_reducer';
 import { MAP_READY, MAP_CODE_READY } from './reducers/map_reducer';
@@ -20,7 +20,7 @@ import { GetDataService } from './services/get-data.service';
 import { GeoService } from './services/geo.service';
 import { MaybePoint } from './reducers/geo';
 
-import { filter_restos2 } from './filters/apply_filters';
+import { filter_restos } from './filters/apply_filters';
 import { toUrl } from './filters/encoder';
 import { fromUrl } from './filters/parser';
 
@@ -39,7 +39,9 @@ export class AppComponent {
     constructor(public location: PlatformLocation,
                 public store: Store<AppState>,
                 private window: WindowRef,
-                private data: GetDataService, private geo: GeoService) {
+                private data: GetDataService, 
+                private geo: GeoService,
+                private storage: StorageService) {
 
         // googleApi.loadAPI.then(res => console.log('map.conponent', res));
         GoogleMapsLoader.load()
@@ -52,6 +54,11 @@ export class AppComponent {
         .catch(err => {
             console.error(err);
         });
+
+        this.store.dispatch({
+            type: CACHED_FAVOURITES,
+            payload: this.storage.getCache()
+        })
 
         // Get database
         this.data.getData()
@@ -83,7 +90,7 @@ export class AppComponent {
             Observable.combineLatest(
                 this.store.select('restos'),
                 this.store.select('filters'),
-                (rs : Resto[], fs) => filter_restos2(rs, fs));
+                (rs : Resto[], fs) => filter_restos(rs, fs));
 
         this.filters =
             this.store.select(state => state.filters)
@@ -93,12 +100,15 @@ export class AppComponent {
                 .do( (filters: Filters) => {
                     // this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
                     this.location.pushState({}, '', toUrl(filters));
+                    this.storage.setCache(filters.favouritesList);
                 } );
 
         this.myLocation =
             this.store.select(state => state.myLocation);
+
         this.selectedRestoIndex =
             this.store.select(state => state.selectedRestoIndex);
+
         this.mapReady =
             this.store.select(state => state.mapReady);
 

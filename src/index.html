@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Afapp</title>
-  <base href="/app/">
+  <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -16,7 +16,7 @@
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-          .register('/sw.js')
+          .register('/assets/sw.js')
           .then( registration => {
               console.log('ServiceWorker registration successful with scope:', registration.scope);                        
           }).catch( err => {

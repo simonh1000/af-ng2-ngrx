@@ -3,6 +3,8 @@ import { Filters } from '../reducers/filters';
 export function toUrl(filters: Filters): string {
     if (filters.close) {
         return 'close';
+    } else if (filters.favourites) {
+        return 'favourites';
     } else {
         let encoders = [search, cuisine, location, price];
         return flatten(encoders.map(fn => fn(filters)))

@@ -22,6 +22,7 @@
 		<span *ngIf='resto.booking' class="visible-xs-inline afbutton booknow" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
 		</span>
+		<button (click)="toggleFavourite()" class="favourite" [ngClass]='{"favourited": isFavourite}'>♥</button>
 	</div>
 
 	<p class='comment basker'>

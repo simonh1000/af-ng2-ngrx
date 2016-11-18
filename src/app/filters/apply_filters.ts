@@ -5,42 +5,21 @@ import { AppState } from '../reducers/state';
 import { Resto } from '../reducers/resto';
 import { scorer } from './scorer';
 
-// export function filter_restos(state: AppState): Resto[] {
-//     // console.log('filter_restos', state);
-//     if (state.filters.close) {
-//         return state.restos
-//             .sort((r1, r2) => r1.distance - r2.distance)
-//             .slice(0, 10);
-//     } else {
-//         let filters = stateToFilters(state.filters);
-//         let scoreFn = scorer(state.filters);
+export function filter_restos(restos: Resto[], filters: Filters): Resto[] {
+    return filter_restos2(restos, filters)
+        .map(addIndex);
+}
 
-//         if (filters.length === 0) {         // ROTM
-//             return state.restos
-//                 .filter(rotmFilter)
-//                 .map( r => {
-//                     return Object.assign(r, {score: scoreFn(r)});
-//                 })
-//                 .sort((r1, r2) => r2.score - r1.score);
-//         } else {                            // other filters
-//             return state.restos
-//                 .filter(resto => filters.every(fn => fn(resto)))
-//                 .map( r => {
-//                     return Object.assign(r, {score: scoreFn(r)});
-//                 })
-//                 .sort( (r1, r2) => r2.score - r1.score )
-//                 .slice(0, 20);
-//         }
-//     }
-// }
-
-export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
+function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
     // console.log('filters', filters);
     if (filters.close) {
         return restos
             .sort((r1, r2) => r1.distance - r2.distance)
-            .slice(0, 10)
-            .map(addIndex);
+            .slice(0, 10);
+    } if (filters.favourites) {
+        return restos
+            .filter(r => filters.favouritesList.indexOf(r.qname) !== -1)
+            .sort((r1, r2) => r1.distance - r2.distance);
     } else {
         let filterFns = stateToFilters(filters);
         let scoreFn = scorer(filters);
@@ -51,8 +30,7 @@ export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
                 .map( r => {
                     return Object.assign(r, {score: scoreFn(r)});
                 })
-                .sort((r1, r2) => r2.score - r1.score)
-                .map(addIndex);
+                .sort((r1, r2) => r2.score - r1.score);
         } else {                            // other filters
             return restos
                 .filter(resto => filterFns.every(fn => fn(resto)))
@@ -60,8 +38,7 @@ export function filter_restos2(restos: Resto[], filters: Filters): Resto[] {
                     return Object.assign(r, {score: scoreFn(r)});
                 })
                 .sort( (r1, r2) => r2.score - r1.score )
-                .slice(0, 20)
-                .map(addIndex);
+                .slice(0, 20);
         }
     }
 }
@@ -85,6 +62,7 @@ function rotmFilter(r: Resto): boolean {
     return r.recommendation >= 8;
 }
 
+// function favourites()
 // Cuisine filter
 function cuisine(tgt: string): ((Resto) => boolean)[] {
     if (tgt === 'all cuisines') {
@@ -131,13 +109,41 @@ function price_filter(state: Filters, key: string): ((Resto) => boolean)[] {
     }
     if (state[key]) {
         return [ resto => resto.price === ii ];
-        // return [ resto => resto.price === ii && resto.recommendation > 0 ];
-        // return [ resto => resto.price === ii && (resto.recommendation & 4) === 4 ];
     } else {
         return [];
     }
 }
 
 function search(search: String): ((Resto) => boolean)[] {
-    return (typeof search === 'undefined' || search === '') ? [] : [ r => r.rname.toLowerCase().indexOf(search.toLowerCase()) !== -1 ];
+    return (search === null || search === '') ? [] : [ r => r.rname.toLowerCase().indexOf(search.toLowerCase()) !== -1 ];
 }
+
+// export function filter_restos(state: AppState): Resto[] {
+//     // console.log('filter_restos', state);
+//     if (state.filters.close) {
+//         return state.restos
+//             .sort((r1, r2) => r1.distance - r2.distance)
+//             .slice(0, 10);
+//     } else {
+//         let filters = stateToFilters(state.filters);
+//         let scoreFn = scorer(state.filters);
+
+//         if (filters.length === 0) {         // ROTM
+//             return state.restos
+//                 .filter(rotmFilter)
+//                 .map( r => {
+//                     return Object.assign(r, {score: scoreFn(r)});
+//                 })
+//                 .sort((r1, r2) => r2.score - r1.score);
+//         } else {                            // other filters
+//             return state.restos
+//                 .filter(resto => filters.every(fn => fn(resto)))
+//                 .map( r => {
+//                     return Object.assign(r, {score: scoreFn(r)});
+//                 })
+//                 .sort( (r1, r2) => r2.score - r1.score )
+//                 .slice(0, 20);
+//         }
+//     }
+// }
+

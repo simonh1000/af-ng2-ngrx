@@ -1,4 +1,3 @@
-
 import { Resto } from './resto';
 import { Filters } from './filters';
 import { MaybePoint } from './geo';
@@ -9,4 +8,5 @@ export interface AppState {
     selectedRestoIndex: Array<number>;
     mapReady: number;
     myLocation: MaybePoint;
+    favourites: Array<string>;
 }

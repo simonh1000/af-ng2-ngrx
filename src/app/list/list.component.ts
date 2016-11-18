@@ -34,7 +34,6 @@ import { filter_to_title } from '../filters/filters_to_title';
 export class ListComponent implements OnChanges, OnInit {
     @Input() restos: Resto[];
     @Input() filters: Filters;
-    // @Input() selectedRestoIndex: number;
     @Input() selectedRestoIndex: Observable<number[]>;
     @Output() action = new EventEmitter();
 
@@ -73,11 +72,15 @@ export class ListComponent implements OnChanges, OnInit {
     }
 
     ngOnChanges(changes) {
-        this.top5 = toUrl(this.filters) === '';
-        if (this.top5 && this.restos.length > 0) {
+        this.top5 = (toUrl(this.filters) === '' && this.restos.length > 0);
+        if (this.top5) {
             this.rotm = this.restos[0];
             this.rotms = this.restos.slice(1);
         }
         this.title = filter_to_title(this.filters);
+    }
+
+    isFavourite(qname) {
+        return this.filters.favouritesList.indexOf(qname) > -1;
     }
 }

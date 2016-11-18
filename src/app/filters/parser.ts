@@ -4,10 +4,12 @@ import { initFilters } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
 export function fromUrl(urlString: string): Filters {
-    // console.log('fromUrl', urlString);
+    console.log('fromUrl', urlString);
     switch (urlString) {
         case 'close':
             return Object.assign({}, initFilters, {close: true});
+        case 'favourites':
+            return Object.assign({}, initFilters, {favourites: true});
         case undefined:
             return Object.assign({}, initFilters);
         case null:
