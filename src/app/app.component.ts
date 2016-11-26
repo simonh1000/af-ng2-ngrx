@@ -42,17 +42,35 @@ export class AppComponent {
                 private geo: GeoService,
                 private storage: StorageService) {
 
-        // googleApi.loadAPI.then(res => console.log('map.conponent', res));
         GoogleMapsLoader.load()
-        .then(res => {
-            console.log('GoogleMapsLoader.load.then', res);
-            this.store.dispatch({
-                type: MAP_CODE_READY
+            .then(res => {
+                console.log('[GoogleMapsLoader] Sending action to create DOM container', res);
+                this.store.dispatch({
+                    type: MAP_CODE_READY
+                })
             })
-        })
-        .catch(err => {
-            console.error(err);
-        });
+            .catch(err => {
+                console.error(err);
+            });
+
+        // Get the URL location
+        console.log(this.location.pathname);
+        let filterString = this.location.pathname.split('/').slice(2)[0];
+        console.log(filterString);
+        if (filterString) {
+            this.store.dispatch(fromUrl(filterString));
+            // let parsedFilter = fromUrl(filterString);
+            // if (parsedFilter['close']) {
+            //     this.store.dispatch({
+            //         type: GET_CLOSE
+            //     });
+            // } else {
+            //     this.store.dispatch({
+            //         type: NEW_FILTERS,
+            //         payload: fromUrl(filterString)
+            //     });
+            // }
+        }
 
         this.store.dispatch({
             type: CACHED_FAVOURITES,
@@ -68,22 +86,6 @@ export class AppComponent {
                 });
             });
 
-        // Get the URL location
-        let filterString = this.location.pathname.split('/').slice(2)[0];
-        if (filterString) {
-            let parsedFilter = fromUrl(filterString);
-            if (parsedFilter['close']) {
-                this.store.dispatch({
-                    type: GET_CLOSE
-                });
-            } else {
-                this.store.dispatch({
-                    type: NEW_FILTERS,
-                    payload: fromUrl(filterString)
-                });
-            }
-        }
-
         // combines restos (i.e. distances) with filters
         this.restos_list =
             Observable.combineLatest(
@@ -97,9 +99,9 @@ export class AppComponent {
                 // resent, overwriting any changes user has made on filters menu
                 // .distinctUntilChanged()
                 .do( (filters: Filters) => {
-                    console.log(filters);
-                    // this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
-                    this.location.pushState({}, '', toUrl(filters));
+                    // console.log(filters);
+                    this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
+                    // this.location.pushState({}, '', toUrl(filters));
                     // console.log('storing favourites', filters.favouritesList)
                     this.storage.setCache(filters.favouritesList);
                 } );

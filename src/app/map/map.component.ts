@@ -62,9 +62,10 @@ export class MapComponent implements OnInit, OnChanges {
         if (this.mapReady < 2) {
             return;
         }
+        // console.log('map.ngOnChanges', changes);
+
         // When the map is ready draw markers and location if available
         if (changes['mapReady']&& changes['mapReady'].currentValue === 2) {
-            // console.log('mapReady - draw markers and location');
             if (this.mapReady && this.restos.length > 0) {
                 this.drawAll();
                 this.fitMap(this.markers);
@@ -73,69 +74,65 @@ export class MapComponent implements OnInit, OnChanges {
             return;
         }
 
-        if (this.mapReady === 2) {
-            // console.log('map ngOnChanges', changes);
+        // If location changed, then update myLocation
+        // AND ignore changes to this.restos
+        if (changes['location']) {
+            return this.handleLocation();
+        }
 
-            // If location changed, then update myLocation
-            // AND ignore changes to this.restos
-            if (changes['location']) {
-                return this.handleLocation();
+        // If selectedResto changed,...
+        if (changes['selectedRestoIndex'] && changes['restos'] === undefined) {
+            return this.redrawSelected();
+        }
+
+        if (changes['restos']) {
+            if (changes['restos'].currentValue.length === 0 && changes['restos'].previousValue.length !== 0) {
+                this.markers.forEach(m => m.setMap(null));
+                this.markers = [];
+                return;
             }
 
-            // If selectedResto changed,...
-            if (changes['selectedRestoIndex'] && changes['restos'] === undefined) {
-                return this.redrawSelected();
+            if (changes['restos'].currentValue.length !== 0 && changes['restos'].previousValue.length === 0) {
+                this.drawAll();
+                return this.fitMap(this.markers);
             }
 
-            if (changes['restos']) {
-                if (changes['restos'].currentValue.length === 0 && changes['restos'].previousValue.length !== 0) {
-                    this.markers.forEach(m => m.setMap(null));
-                    this.markers = [];
-                    return;
-                }
-                if (changes['restos'].currentValue.length !== 0 && changes['restos'].previousValue.length === 0) {
-                    this.drawAll();
-                    return this.fitMap(this.markers);
-                }
+            // If we have changes to restos, we want to know whether the qnames have changed,
+            // or just the 'open' / 'distance' fields
+            let changedRestos =
+                changes['restos'].currentValue
+                    .reduce((acc, r, idx) => {
+                        if (changes['restos'].previousValue[idx] === null || 
+                            (changes['restos'].previousValue[idx] && 
+                                r.qname !== changes['restos'].previousValue[idx].qname)) {
+                            return [idx, ...acc];
+                        } else { return acc; }
+                    }, []);
+            // console.log(changedRestos);
 
-                // ignore changes in .open
-                // If we have changes to restos, we want to know whether the qnames have changed,
-                // or just the 'open' / 'distance' fields
-                let changedRestos =
-                    changes['restos'].currentValue
-                        .reduce((acc, r, idx) => {
-                            if (changes['restos'].previousValue[idx] === null || 
-                                (changes['restos'].previousValue[idx] && 
-                                 r.qname !== changes['restos'].previousValue[idx].qname)) {
-                                return [idx, ...acc];
-                            } else { return acc; }
-                        }, []);
-                // console.log(changedRestos);
-
-                if (changedRestos.length > 0) {
-                    this.drawAll();
-                    // When there are no results, we should not fitBounds
-                    if (this.restos.length > 0) {
-                        this.fitMap(this.markers);
-                    }
+            if (changedRestos.length > 0) {
+                this.drawAll();
+                // When there are no results, we should not fitBounds
+                if (this.restos.length > 0) {
+                    this.fitMap(this.markers);
                 }
             }
         }
     }
 
     redrawSelected() {
-        // if (change.previousValue === null) {
+        // if no previous selectedResto, then just turn on current one
         if (this.selectedRestoIndex[1] === null) {
-            // set currentValue marker to highlighted
             return this.drawOne(this.selectedRestoIndex[0]);
         }
-        // if (change.currentValue === null) {
+        // There was a previous selectedResto
+        // if no current selectedResto, then turn off previous
         if (this.selectedRestoIndex[0] === null) {
-            // Remove highlighting from previous
             return this.drawOne(this.selectedRestoIndex[1]);
         }
-        // this.drawOne(change.previousValue);
-        // this.drawOne(change.currentValue);
+
+        // Previous and current are set
+        // turn off old, turn on new
         this.drawOne(this.selectedRestoIndex[1]);
         this.drawOne(this.selectedRestoIndex[0]);
     }

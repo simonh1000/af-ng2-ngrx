@@ -6,10 +6,8 @@ export class StorageService {
   constructor() { }
 
   getCache() {
-    // let cache = localStorage.getItem('favourites') || "";
-    // return cache.split(",").filter(x => x !== "");
-    console.log(localStorage.getItem('favourites'));
     let cache = localStorage.getItem('favourites') || "[]";
+    // console.log(cache);
     return JSON.parse(cache);
   }
 

@@ -1,6 +1,6 @@
 import { ActionReducer, Action } from '@ngrx/store';
 
-import { NEW_FILTERS, GET_CLOSE } from './filters_reducer';
+import { NEW_FILTERS, GET_CLOSE, GET_FAVOURITES } from './filters_reducer';
 
 export const SELECT_RESTO = 'SELECT_RESTO';
 
@@ -16,6 +16,8 @@ export function selectedReducer(state: Array<number> = [null, null], action: Act
         case NEW_FILTERS:
             return [null, state[0]];
         case GET_CLOSE:
+            return [null, state[0]];
+        case GET_FAVOURITES:
             return [null, state[0]];
 
         default:

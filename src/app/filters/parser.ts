@@ -1,23 +1,39 @@
+import { Action } from '@ngrx/store';
 
 import { FormFilters } from '../reducers/filters';
-import { defaultFilters } from '../reducers/filters_reducer';
+import { defaultFilters, NEW_FILTERS, GET_CLOSE, GET_FAVOURITES } from '../reducers/filters_reducer';
 import { Dictionary } from './dictionary';
 
-export function fromUrl(urlString: string): FormFilters {
+export function fromUrl(urlString: string): Action {
     console.log('fromUrl', urlString);
     switch (urlString) {
         case 'close':
-            return Object.assign({}, defaultFilters, {close: true});
+            // return Object.assign({}, defaultFilters, {close: true});
+            return { type: GET_CLOSE }
         case 'favourites':
-            return Object.assign({}, defaultFilters, {favourites: true});
+            return { type: GET_FAVOURITES }
+            // return Object.assign({}, defaultFilters, {favourites: true});
         case undefined:
-            return Object.assign({}, defaultFilters);
+            return {
+                    type: NEW_FILTERS,
+                    payload: Object.assign({}, defaultFilters)
+                };
         case null:
-            return Object.assign({}, defaultFilters);
+            return {
+                    type: NEW_FILTERS,
+                    payload: Object.assign({}, defaultFilters)
+                };
         default:
-            return urlString.split('_')
+            const parsedString = urlString.split('_')
                     .map(parser)
-                    .reduce( flattener, Object.assign({}, defaultFilters) );
+                    .reduce( flattener, Object.assign({}, defaultFilters) )
+            return {
+                    type: NEW_FILTERS,
+                    payload: parsedString
+                };
+            // return urlString.split('_')
+            //         .map(parser)
+            //         .reduce( flattener, Object.assign({}, defaultFilters) );
     }
 }
 

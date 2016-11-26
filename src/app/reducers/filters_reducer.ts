@@ -28,7 +28,7 @@ export const initFilters: Filters = Object.assign({favouritesList: []}, defaultF
 // export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
 
 export function filtersReducer(state: Filters = initFilters, action: Action) {
-    console.log('Reducer:', state, action);
+    console.log('filtersReducer:', action, state);
     switch (action.type) {
         case NEW_FILTERS:
             // remove close filter when new ones set

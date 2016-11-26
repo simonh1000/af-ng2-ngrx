@@ -1,28 +1,5 @@
 @import '../../variables';
 
-// $screen-sm: 768px;
-// $screen-lg: 980px;
-
-// $gray-base:              #000 !default;
-// $gray:                   lighten($gray-base, 33.5%) !default; // #555
-
-// $body-bg:               white !default;
-// $text-color:            $gray-base !default; // changed from gray-dark
-// // Grid settings
-// $main-sm-columns:       12;
-// $sidebar-sm-columns:    4;
-
-// // Colors
-// $brand-primary:			rgb(90,48,77);    // purple #5a304d
-// $brand-primary-muted1:  rgb(170,148,161); // mid-purple #aa94a1
-// $brand-primary-muted2:	rgb(206,194,200); // light-purple
-
-// $brand-secondary: 		rgb(66,138,71);   // afgreen #428a47;
-// $front-green:			rgb(233,233,224); // muted green for front page
-
-// $afradius:				10px;
-
-// $v-rhythm:              20px;
 
 .searchBtnContainer {
     position: absolute;
@@ -83,7 +60,7 @@
     .reverse {
         background-color: white;
         color: $brand-primary;
-        width: 100%;
+        /*width: 100%;*/
         text-align: left;
     }
     .radio-inline {
@@ -92,6 +69,10 @@
             vertical-align: sub;
             margin-left: 2px;
         }
+    }
+    .controls {
+        display: flex;
+        justify-content: space-around;
     }
 }
 
@@ -112,7 +93,11 @@
                 text-align: center;
             }
         }
-    //     // Use default Bootstrap font to get better text alignment on select
+        .reverse {
+            background-color: $brand-primary;
+            color: white;
+        }
+        // Use default Bootstrap font to get better text alignment on select
         .form-control {
             font-family: helvetica;
         }

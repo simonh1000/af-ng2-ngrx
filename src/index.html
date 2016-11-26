@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Afapp</title>
-  <base href="/">
+  <base href="/recommendations">
 
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -14,15 +14,15 @@
       console.log('ga', a1, a2, a3, a4, a5);
     }
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-          .register('/assets/sw.js')
-          .then( registration => {
-              console.log('ServiceWorker registration successful with scope:', registration.scope);                        
-          }).catch( err => {
-              console.log('ServiceWorker registration failed: ', err);
-          });
-    }
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker
+    //       .register('/assets/sw.js')
+    //       .then( registration => {
+    //           console.log('ServiceWorker registration successful with scope:', registration.scope);                        
+    //       }).catch( err => {
+    //           console.log('ServiceWorker registration failed: ', err);
+    //       });
+    // }
   </script>
 
   <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->

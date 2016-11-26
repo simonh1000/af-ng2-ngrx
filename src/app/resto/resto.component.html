@@ -6,7 +6,7 @@
 			({{cuisines[resto.cuisine].name}}<span *ngIf='resto.distance'>, {{resto.distance | number:'1.1-1'}}km</span>)
 		</span>
 		<span *ngIf='resto.recommendation > 0' class='recommended basker hidden-xs'>AF&nbsp;recommended</span>
-		
+
 		<span *ngIf='resto.booking' class="hidden-xs afbutton pull-right" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
 		</span>
@@ -19,10 +19,18 @@
 		<span class='price'>
 			{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
 		</span>
+		<!--<button (click)="toggleFavourite()" class="favourite" [ngClass]='{"favourited": isFavourite()}'>♥</button>-->
+		<span (click)="toggleFavourite()" class="favourite">
+			<svg class="heart" viewBox="0 0 32 29.6" [ngClass]='{"favourited": isFavourite()}'>
+			<path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+			</svg> 
+			</span>
+		<!--<span *ngIf='isFavourite()' (click)="toggleFavourite()" class="favourite">♥</span>-->
+
 		<span *ngIf='resto.booking' class="visible-xs-inline afbutton booknow" (click)='trackOutboundLink("SeatMe_link")'>
 			book now
 		</span>
-		<button (click)="toggleFavourite()" class="favourite" [ngClass]='{"favourited": isFavourite()}'>♥</button>
 	</div>
 
 	<p class='comment basker'>
@@ -41,19 +49,19 @@
 
 			<span *ngIf='resto.tel'>
 				<span class='hidden-xs'> / </span>
-				<a class='telno' href='tel:{{resto.tel}}'>{{resto.tel}}</a>
+			<a class='telno' href='tel:{{resto.tel}}'>{{resto.tel}}</a>
 			</span>
 
 			<span class='links'>
 				<span *ngIf='resto.tel && resto.website'> / </span>
 
-				<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
+			<span *ngIf='resto.website' class='website' (click)='trackOutboundLink("resto_website", resto.website)'>website</span>
 
-				<!--<span *ngIf='resto.booking' class="visible-xs-inline">
+			<!--<span *ngIf='resto.booking' class="visible-xs-inline">
 					/ <span class='booknow' (click)='trackOutboundLink("SeatMe_link", resto.booking)'>book now</span>
 				</span>-->
 
-				<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
+			<span *ngIf='resto.link'> / <a href='.{{resto.link}}' target='_self' class='bold'>read&nbsp;full&nbsp;review!</a>
 				</span>
 			</span>
 		</div>

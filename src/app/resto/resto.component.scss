@@ -26,18 +26,29 @@ h4 {
     // display: flex;
     // justify-content: space-between;
     font-size: 18px;
-    .price {
-        margin-left: 15px;
+    span {
+        margin-right: 15px;
+        &.feint {
+            margin-right: 0;
+        }
+    }
+    .favourite {
+        width: 20px;
+        /*color: $brand-primary;*/
+        cursor: pointer;
+        display: inline-block;
+        .heart {
+            max-width: 100%;
+            fill: none;
+            stroke: $brand-primary;
+            padding: 2px;
+            &.favourited {
+                fill: $brand-primary;
+            }
+        }
     }
     .booknow {
-        margin-left: 15px;
         font-size: 16px;
-    }
-}
-.favourite {
-    background-color: $brand-primary-muted1;
-    &.favourited {
-        background-color: $brand-primary;
     }
 }
 

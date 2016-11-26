@@ -15,12 +15,11 @@ export class GoogleMapsLoader {
 
                 // Set callback for when google maps is loaded.
                 window['__onGoogleLoaded'] = (ev) => {
-                    console.log('__onGoogleLoaded', ev);
                     resolve('google maps api loaded');
                 };
 
                 // Add script tag to load google maps, which then triggers the callback, which resolves the promise with windows.google.maps.
-                console.log('GoogleMapsLoader inserting script');
+                console.log('[GoogleMapsLoader] Inserting script');
                 let node = document.createElement('script');
                 node.src = url;
                 node.type = 'text/javascript';
