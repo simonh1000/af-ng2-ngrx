@@ -105,6 +105,8 @@ export class FiltersComponent implements OnInit, OnChanges {
             finedining: this.priceControl['finedining'].value
         })
     }
+
+    // Isolates form elements from this.filters because copying names, not objects
     filters2form(f: Filters): void {
         this.searchControl.setValue(f.search);
         this.cuisineControl.setValue(f.cuisine);
@@ -113,5 +115,4 @@ export class FiltersComponent implements OnInit, OnChanges {
         this.priceControl['midrange'].setValue(f.midrange);
         this.priceControl['finedining'].setValue(f.finedining);
     }
-
 }

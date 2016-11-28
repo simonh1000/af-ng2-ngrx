@@ -32,7 +32,7 @@ export class AppComponent {
     restos_list: Observable<Resto[]>;  // the filtered list
     filters: Observable<Filters>;
     myLocation: Observable<MaybePoint>;
-    selectedRestoIndex: Observable<number[]>;
+    selectedQName: Observable<string[]>;
     mapReady: Observable<number>;
 
     constructor(public location: PlatformLocation,
@@ -109,8 +109,8 @@ export class AppComponent {
         this.myLocation =
             this.store.select(state => state.myLocation);
 
-        this.selectedRestoIndex =
-            this.store.select(state => state.selectedRestoIndex);
+        this.selectedQName =
+            this.store.select(state => state.selectedQName);
 
         this.mapReady =
             this.store.select(state => state.mapReady);

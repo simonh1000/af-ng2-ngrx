@@ -38,7 +38,7 @@ import { StorageService } from './services/storage.service';
     StoreModule.provideStore({
       restos: restosReducer,
       filters : filtersReducer,
-      selectedRestoIndex: selectedReducer,
+      selectedQName: selectedReducer,
       mapReady: mapReducer,
       myLocation: geoReducer,
     }),

@@ -28,7 +28,7 @@
       *ngIf='(mapReady | async) > 0'
       class='rhs'
       [restos]='restos_list | async'
-      [selectedRestoIndex]='selectedRestoIndex | async'
+      [selectedQName]='selectedQName | async'
       [location]='myLocation | async'
       [mapReady]='mapReady | async'
       (action)='store.dispatch($event)'></app-map>
@@ -37,5 +37,5 @@
 <app-resto-list
     [restos]='restos_list | async'
     [filters]='filters | async'
-    [selectedRestoIndex]='selectedRestoIndex'
+    [selectedQName]='selectedQName'
     (action)='store.dispatch($event)'></app-resto-list>

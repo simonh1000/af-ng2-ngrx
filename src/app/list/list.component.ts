@@ -14,7 +14,7 @@ import { filter_to_title } from '../filters/filters_to_title';
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
     animations: [
-        trigger('selectedResto', [
+        trigger('selectedRestoState', [
             state('gone', style({
                 height: '0'
             })),
@@ -25,7 +25,7 @@ import { filter_to_title } from '../filters/filters_to_title';
                 height: '*',
                 opacity: '1'
             })),
-            transition('gone <=> load', animate('500ms')),
+            transition('gone <=> load', animate('300ms')),
             transition('gone => gone', animate(0)),
             transition('* => *', animate('300ms'))
         ])
@@ -34,7 +34,7 @@ import { filter_to_title } from '../filters/filters_to_title';
 export class ListComponent implements OnChanges, OnInit {
     @Input() restos: Resto[];
     @Input() filters: Filters;
-    @Input() selectedRestoIndex: Observable<number[]>;
+    @Input() selectedQName: Observable<string[]>;
     @Output() action = new EventEmitter();
 
     top5: boolean;
@@ -48,28 +48,50 @@ export class ListComponent implements OnChanges, OnInit {
     constructor() {  }
 
     ngOnInit() {
-        this.selectedRestoState = 'gone';
         // Animations 
+        this.selectedRestoState = 'gone';
         
         this.selectedResto =
-            this.selectedRestoIndex
+            this.selectedQName
                 // .distinct(arr => arr[0])
-                // this.selectedRestoState = (curr && prev) ? 'unload' : 'gone' )
+
                 .do( ([curr, prev]) => {
-                    // console.log([curr, prev]);
-                    if (curr === null) { 
-                        // console.log('curr == null => "gone"');
-                        return this.selectedRestoState = 'gone' 
+                    if (curr === null) {
+                        return 
+                        // return this.selectedRestoState = 'gone' 
                     }
                     if (prev !== null && curr !== prev) { 
-                        // console.log('prev && curr !== prev ==> unload');
                         return this.selectedRestoState = 'unload' ;
                     }
                 })
-                .delay(500)
-                .do ( ([curr, _prev]) => this.selectedRestoState = (curr !== null) ? 'load' : 'gone' )
-                .map( ([curr, _prev]) => this.restos[curr] );
-    }
+                .delay(300)
+                .do ( ([curr, _prev]) => {
+                     return this.selectedRestoState = (curr === null) ? 'gone' : 'load';
+
+                    // if (curr !== null) 
+                    //     this.selectedRestoState = 'load';
+                })
+                .map( ([curr, _prev]) => {
+                    let candidate = this.restos.filter(r => r.qname === curr)
+                    return (candidate.length > 0) ? candidate[0] : null;
+                });
+  
+        // this.selectedResto =
+        //     this.selectedRestoIndex
+        //         .do( ([curr, prev]) => {
+        //             if (curr === null) { 
+        //                 return this.selectedRestoState = 'gone' 
+        //             }
+        //             if (prev !== null && curr !== prev) { 
+        //                 return this.selectedRestoState = 'unload' ;
+        //             }
+        //         })
+        //         .delay(500)
+        //         .do ( ([curr, _prev]) => this.selectedRestoState = (curr !== null) ? 'load' : 'gone' )
+        //         .map( ([curr, _prev]) => this.restos[curr] );
+
+
+}
 
     ngOnChanges(changes) {
         this.top5 = (toUrl(this.filters) === '' && this.restos.length > 0);

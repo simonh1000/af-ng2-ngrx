@@ -37,3 +37,4 @@ ignore
 src/app/services/mock*
 src/assets/css
 src/assets/restos-af2015.json
+.vscode

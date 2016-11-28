@@ -23,7 +23,8 @@ h4 {
     }
 }
 .scores {
-    // display: flex;
+    display: flex;
+    align-items: center;
     // justify-content: space-between;
     font-size: 18px;
     span {
@@ -34,18 +35,21 @@ h4 {
     }
     .favourite {
         width: 20px;
-        /*color: $brand-primary;*/
+        margin-right: 15px;
         cursor: pointer;
-        display: inline-block;
-        .heart {
-            max-width: 100%;
-            fill: none;
+        /*color: $brand-primary;*/
+        // display: inline-block;
+        // .heart {
+            // max-width: 100%;
+        fill: none;
+        stroke: $brand-primary-muted1;
+        stroke-width: 2px;
+        padding: 2px;
+        &.favourited {
             stroke: $brand-primary;
-            padding: 2px;
-            &.favourited {
-                fill: $brand-primary;
-            }
+            fill: $brand-primary;
         }
+        // }
     }
     .booknow {
         font-size: 16px;

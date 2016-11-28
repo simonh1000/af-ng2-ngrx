@@ -1,11 +1,11 @@
-  <div *ngIf='selectedResto | async'>
+<div *ngIf='selectedResto | async'>
     <app-resto
         class='selected-resto'
         [resto]='selectedResto | async'
         [favouritesList]='filters.favouritesList'
         (action)='action.next($event)'
-        [@selectedResto]='selectedRestoState'></app-resto>
-  </div>
+        [@selectedRestoState]='selectedRestoState'></app-resto>
+</div>
 
 <div *ngIf='top5'>
     <h3>restaurant of the month!</h3>

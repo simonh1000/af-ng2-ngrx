@@ -1,4 +1,3 @@
-// filters.ts
 import { ActionReducer, Action } from '@ngrx/store';
 import { FormFilters, Filters } from './filters';
 
@@ -25,10 +24,10 @@ export const defaultFilters: FormFilters = {
 export const initFilters: Filters = Object.assign({favouritesList: []}, defaultFilters);
 
 // deepFreeze(initFilters);
-// export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
 
+// export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
 export function filtersReducer(state: Filters = initFilters, action: Action) {
-    console.log('filtersReducer:', action, state);
+    // console.log('filtersReducer:', action, state);
     switch (action.type) {
         case NEW_FILTERS:
             // remove close filter when new ones set
