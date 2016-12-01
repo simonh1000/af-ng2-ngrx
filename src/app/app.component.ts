@@ -12,6 +12,7 @@ import { Resto } from './reducers/resto';
 import { AppState } from './reducers/state';
 import { defaultFilters, NEW_FILTERS, GET_CLOSE, CACHED_FAVOURITES } from './reducers/filters_reducer';
 import { Filters } from './reducers/filters';
+import { Notices, INITIAL_NOTICES } from './reducers/notices_reducer';
 import { DATA } from './reducers/restos_reducer';
 import { MAP_READY, MAP_CODE_READY } from './reducers/map_reducer';
 
@@ -34,6 +35,7 @@ export class AppComponent {
     myLocation: Observable<MaybePoint>;
     selectedQName: Observable<string[]>;
     mapReady: Observable<number>;
+    favouritesOverlay: Observable<boolean>;
 
     constructor(public location: PlatformLocation,
                 public store: Store<AppState>,
@@ -77,6 +79,11 @@ export class AppComponent {
             payload: this.storage.getCache()
         })
 
+        this.store.dispatch({
+            type: INITIAL_NOTICES,
+            payload: this.storage.getNotices()
+        })
+
         // Get database
         this.data.getData()
             .subscribe(data => {
@@ -103,8 +110,17 @@ export class AppComponent {
                     this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
                     // this.location.pushState({}, '', toUrl(filters));
                     // console.log('storing favourites', filters.favouritesList)
-                    this.storage.setCache(filters.favouritesList);
-                } );
+                    this.storage.persist('filters', filters.favouritesList);
+                });
+
+        this.favouritesOverlay =
+            this.store.select(state => state.notices)
+                .distinct()
+                .do( (notices: Notices) => {
+                    console.log('persist notices', notices)
+                    this.storage.persist('notices', notices);
+                })
+                .map(notices => !notices.favouritesOverlayDismissed);
 
         this.myLocation =
             this.store.select(state => state.myLocation);

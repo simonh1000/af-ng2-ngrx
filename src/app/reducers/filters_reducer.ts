@@ -25,12 +25,11 @@ export const initFilters: Filters = Object.assign({favouritesList: []}, defaultF
 
 // deepFreeze(initFilters);
 
-// export const filtersReducer: ActionReducer<Filters> = (state: Filters = Object.assign({}, initFilters), action: Action) => {
 export function filtersReducer(state: Filters = initFilters, action: Action) {
     // console.log('filtersReducer:', action, state);
     switch (action.type) {
         case NEW_FILTERS:
-            // remove close filter when new ones set
+            // remove close & favourites filters when new ones set
             return Object.assign({}, state, action.payload, {close: false, favourites: false});
 
         case GET_CLOSE:

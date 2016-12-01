@@ -1,9 +1,16 @@
 @import '../../variables';
 
-
+.heart {
+    width: 20px;
+    stroke: $brand-primary;
+    fill: $brand-primary;    
+}
 .searchBtnContainer {
-    position: absolute;
+    // position: absolute;
     margin-top: -30px;
+    height: 25px;
+    display: flex !important;
+    justify-content: space-between;
 }
 .criteria {
     overflow-y: hidden;

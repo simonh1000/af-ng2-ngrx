@@ -1,7 +1,7 @@
 /* tslint:disable:no-bitwise */
 
 import { Filters } from '../reducers/filters';
-import { AppState } from '../reducers/state';
+// import { AppState } from '../reducers/state';
 import { Resto } from '../reducers/resto';
 import { scorer } from './scorer';
 

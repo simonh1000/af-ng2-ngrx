@@ -5,13 +5,21 @@ export class StorageService {
 
   constructor() { }
 
+  persist(key, val) {
+    return localStorage.setItem(key, JSON.stringify(val));
+  }
+
   getCache() {
     let cache = localStorage.getItem('favourites') || "[]";
-    // console.log(cache);
     return JSON.parse(cache);
   }
 
   setCache(fs) {
-    return localStorage.setItem('favourites', JSON.stringify(fs));
+    return this.persist('favourites', fs);
+  }
+
+  getNotices() {
+    let cache = localStorage.getItem('notices') || "{}";
+    return JSON.parse(cache);    
   }
 }

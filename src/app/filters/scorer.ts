@@ -1,8 +1,8 @@
 /* tslint:disable:no-bitwise */
 
 import { Filters } from '../reducers/filters';
-import { AppState } from '../reducers/state';
 import { Resto } from '../reducers/resto';
+// import { AppState } from '../reducers/state';
 
 type ScoreFunction = (Resto) => number;
 

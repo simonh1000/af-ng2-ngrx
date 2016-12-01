@@ -18,6 +18,7 @@ import { mapReducer } from './reducers/map_reducer';
 import { selectedReducer } from './reducers/selected_reducer';
 import { filtersReducer } from './reducers/filters_reducer';
 import { geoReducer } from './reducers/geo_reducer';
+import { noticesReducer } from './reducers/notices_reducer';
 
 import { WindowRef } from './services/window.ref';
 import { GetDataService } from './services/get-data.service';
@@ -41,6 +42,7 @@ import { StorageService } from './services/storage.service';
       selectedQName: selectedReducer,
       mapReady: mapReducer,
       myLocation: geoReducer,
+      notices: noticesReducer
     }),
     FormsModule,
     ReactiveFormsModule,

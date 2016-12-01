@@ -39,3 +39,8 @@
     [filters]='filters | async'
     [selectedQName]='selectedQName'
     (action)='store.dispatch($event)'></app-resto-list>
+
+<div *ngIf='favouritesOverlay | async' class="favourites-overlay">
+  instructions
+  <button (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Dismiss</button>
+</div>
