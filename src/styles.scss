@@ -5,13 +5,15 @@ select {
     font-size: 50px;
 }
 
-.favourites-overlay {
-    position: fixed;
-    bottom: 0;
-    z-index: 1000;
-    background-color: #aaa;
-    width: 100%;
-    padding: 15px;
+.afbutton.reverse {
+    background-color: white;
     color: $brand-primary;
-    margin-left: -15px;
+    /*width: 100%;*/
+    text-align: left;
+}
+
+.overlay {
+    background-color: rgba($brand-primary, 0.8);
+    color: white;
+    padding: 0 $v-rhythm;
 }

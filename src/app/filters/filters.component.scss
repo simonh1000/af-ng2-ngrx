@@ -1,16 +1,27 @@
 @import '../../variables';
 
 .heart {
-    width: 20px;
-    stroke: $brand-primary;
-    fill: $brand-primary;    
+    width: 18px;
+    stroke: white;
+    fill: $brand-primary;
+    stroke-width: 3px;
+    padding: 3px;
 }
 .searchBtnContainer {
     // position: absolute;
     margin-top: -30px;
     height: 25px;
-    display: flex !important;
+    display: flex;
     justify-content: space-between;
+
+    .afbutton {
+        span.icon {
+            font-style: initial;
+            margin-right: 3px;
+        }
+        font-weight: 400;
+        display: flex;
+    }
 }
 .criteria {
     overflow-y: hidden;
@@ -19,10 +30,6 @@
     border-radius: $afradius;
     z-index: 10;
     // width: 80%;
-    background-color: rgba($brand-primary, 0.8);
-    color: white;
-    padding: 0 $v-rhythm;
-
     max-height: 28em;
     transition-property: max-height;
     transition-duration: 1.3s;
@@ -85,6 +92,9 @@
 
 
 @media (min-width: $screen-sm) {
+    .searchBtnContainer {
+        display: none;
+    }
     .criteria {
         position: inherit;
         background-color: inherit;

@@ -1,27 +1,32 @@
-<div class='searchBtnContainer visible-xs'>
-    <button class='afbutton' (click)='overlay=!overlay'>search criteria</button>
+<div class='searchBtnContainer'>
+    <button class='afbutton' (click)='overlay=!overlay'>
+        <span class="icon">🔎</span>search
+    </button>
 
-    <svg class="favourite heart" viewBox="0 0 32 29.6" (click)='getFavourites($event)'>
-        <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" />
-    </svg>
+    <button class='afbutton' (click)='getFavourites($event)'>
+        <span class="icon">
+            <svg class="favourite heart" viewBox="0 0 32 29.6">
+            <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+        c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" /></svg>
+        </span>
+        favourites
+    </button>
 
-    <button class='afbutton' (click)='overlay=!overlay'>popular searches</button>
+    <button *ngIf='this.location.length > 0' class='afbutton' (click)='getClose()'>
+        <span class="icon">◎</span>nearby
+    </button>
 </div>
 
-<div class='criteria closed' [ngClass]='{"closed": !overlay}'>
+<div class='criteria overlay closed' [ngClass]='{"closed": !overlay}'>
 
-    <div class='close-by-button' *ngIf='this.location.length > 0'>
+    <!--<div class='close-by-button' *ngIf='this.location.length > 0'>
         <button class='afbutton' (click)='getClose()'>What's close?</button>
-        <!--<span class='afbutton reverse visible-xs-inline' (click)='getClose()'>What's close?</span>
-        <span class='afbutton hidden-xs' (click)='getClose()'>What's close?</span>-->
-    </div>
+    </div>-->
 
     <form>
         <div class='form-group'>
             <label class=' control-label'>search by name</label>
             <div class='input-group'>
-                <!--<input type='text' [(ngModel)]='filters.search' name='search' class='form-control'>-->
                 <input type='text' [formControl]='searchControl' #ss name='search-form' class='form-control'>
                 <span class='input-group-btn'>
                     <!--<button type='button' class='btn btn-default' (click)='setSearch("")'>⌫</button>-->
@@ -33,7 +38,6 @@
         <div class='form-group'>
             <label class=' control-label'>search by location</label>
             <select [formControl]='locationControl' name='location' class='form-control'>
-            <!--<select [(ngModel)]='filters.location' name='location' class='form-control'>-->
                 <option *ngFor='let area of areas' [value]='area.key'>
                     {{area.name}}
                 </option>
@@ -43,7 +47,6 @@
         <div class='form-group'>
             <label class=' control-label'>search by cuisine</label>
             <select [formControl]='cuisineControl' name='cuisine' class='form-control'>
-            <!--<select [(ngModel)]='filters.cuisine' name='cuisine' class='form-control'>-->
                 <option *ngFor='let c of cuisines' [value]='c.key'>
                     {{c.name}}
                 </option>
@@ -63,10 +66,8 @@
 
         <div class='controls'>
             <label class='sr-only'>find me a restaurant</label>
-            <!--<button class='afbutton reverse visible-xs-inline' (click)='setCriteria($event)'>find me a restaurant!</button>
-            <button class='afbutton hidden-xs' (click)='setCriteria($event)'>find me a restaurant!</button>-->
             <button class='afbutton reverse' (click)='setCriteria($event)'>find me a restaurant!</button>
-            <button class='afbutton reverse' (click)='getFavourites($event)'>Favourites</button>
+            <!--<button class='afbutton reverse' (click)='getFavourites($event)'>Favourites</button>-->
         </div>
     </form>
 </div>

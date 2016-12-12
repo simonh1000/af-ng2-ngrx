@@ -16,22 +16,30 @@
   </div>
 </div>
 
-<div id="filter-map" class='af-layout'>
-  <app-filters
-      class='lhs'
-      [filters]='filters | async'
-      [location]='myLocation | async'
-      (action)='store.dispatch($event)'>
-  </app-filters>
+<div id="filter-map-container">
+  <div *ngIf='favouritesOverlay | async' class="overlay favourites-overlay">
+    <p>Search for restaurants by price, location or type of cuisine.</p>
+    <p>Add restaurants to your favourites by clicking ❤️ and return to them any time by using the favourites button.</p>
+    <button class='afbutton reverse' (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Dismiss</button>
+  </div>
 
-  <app-map
-      *ngIf='(mapReady | async) > 0'
-      class='rhs'
-      [restos]='restos_list | async'
-      [selectedQName]='selectedQName | async'
-      [location]='myLocation | async'
-      [mapReady]='mapReady | async'
-      (action)='store.dispatch($event)'></app-map>
+  <div id="filter-map" class='af-layout'>
+    <app-filters
+        class='lhs'
+        [filters]='filters | async'
+        [location]='myLocation | async'
+        (action)='store.dispatch($event)'>
+    </app-filters>
+
+    <app-map
+        *ngIf='(mapReady | async) > 0'
+        class='rhs'
+        [restos]='restos_list | async'
+        [selectedQName]='selectedQName | async'
+        [location]='myLocation | async'
+        [mapReady]='mapReady | async'
+        (action)='store.dispatch($event)'></app-map>
+  </div>
 </div>
 
 <app-resto-list
@@ -40,7 +48,6 @@
     [selectedQName]='selectedQName'
     (action)='store.dispatch($event)'></app-resto-list>
 
-<div *ngIf='favouritesOverlay | async' class="favourites-overlay">
-  instructions
-  <button (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Dismiss</button>
-</div>
+<footer>
+  <button (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>instructions</button>
+</footer>

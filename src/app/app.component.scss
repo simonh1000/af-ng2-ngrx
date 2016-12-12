@@ -1,25 +1,4 @@
-$screen-sm: 768px;
-$screen-lg: 980px;
-
-$gray-base:              #000 !default;
-$gray:                   lighten($gray-base, 33.5%) !default; 
-
-$body-bg:               white !default;
-$text-color:            $gray-base !default;
-
-$main-sm-columns:       12;
-$sidebar-sm-columns:    4;
-
-$brand-primary:			rgb(90,48,77);    
-$brand-primary-muted1:  rgb(170,148,161); 
-$brand-primary-muted2:	rgb(206,194,200); 
-
-$brand-secondary: 		rgb(66,138,71);  
-$front-green:			rgb(233,233,224);
-
-$afradius:				10px;
-
-$v-rhythm:              20px;
+@import '../variables';
 
 .quick-links {
     ul {
@@ -53,6 +32,17 @@ $v-rhythm:              20px;
         display: block;
     }
 }
+#filter-map-container {
+    position: relative;
+    .favourites-overlay {
+        position: absolute;
+        top: 20px;
+        z-index: 1000;
+        width: 100%;
+        padding: 15px;
+    }
+}
+
 #filter-map {
     margin-top: 40px;
 }
@@ -64,7 +54,12 @@ app-resto-list {
 
 @media (min-width: $screen-sm) {
 
-    #filter-map {
+    #filter-map-container {
+        .favourites-overlay {
+            position: initial;
+        }
+    }
+   #filter-map {
         margin-top: 5px;
     }
     .af-layout {
