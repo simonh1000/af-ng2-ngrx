@@ -46,7 +46,7 @@ export class AppComponent {
 
         GoogleMapsLoader.load()
             .then(res => {
-                console.log('[GoogleMapsLoader] Sending action to create DOM container', res);
+                // console.log('[GoogleMapsLoader] Sending action to create DOM container', res);
                 this.store.dispatch({
                     type: MAP_CODE_READY
                 })
@@ -56,22 +56,10 @@ export class AppComponent {
             });
 
         // Get the URL location
-        console.log(this.location.pathname);
         let filterString = this.location.pathname.split('/').slice(2)[0];
-        console.log(filterString);
+        // console.log(filterString);
         if (filterString) {
             this.store.dispatch(fromUrl(filterString));
-            // let parsedFilter = fromUrl(filterString);
-            // if (parsedFilter['close']) {
-            //     this.store.dispatch({
-            //         type: GET_CLOSE
-            //     });
-            // } else {
-            //     this.store.dispatch({
-            //         type: NEW_FILTERS,
-            //         payload: fromUrl(filterString)
-            //     });
-            // }
         }
 
         this.store.dispatch({
@@ -117,7 +105,7 @@ export class AppComponent {
             this.store.select(state => state.notices)
                 .distinct()
                 .do( (notices: Notices) => {
-                    console.log('persist notices', notices)
+                    // console.log('persist notices', notices)
                     this.storage.persist('notices', notices);
                 })
                 .map(notices => !notices.favouritesOverlayDismissed);

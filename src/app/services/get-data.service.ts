@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import {Http, Response} from '@angular/http';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 
@@ -13,7 +13,7 @@ export class GetDataService {
   constructor(private http: Http) { }
 
   getData(): Observable<any> {
-    console.log('Downloading data from', environment.dataServer);
+    // console.log('Downloading data from', environment.dataServer);
     return this.http.get(environment.dataServer)
       .map(this.extractData);
 
@@ -23,8 +23,8 @@ export class GetDataService {
     // });
   }
   private extractData(res: Response) {
-      let body = res.json();
-      return body || { };
-    }
+    let body = res.json();
+    return body || {};
+  }
 
 }

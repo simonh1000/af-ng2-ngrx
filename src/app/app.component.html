@@ -2,16 +2,16 @@
   <h4>popular searches</h4>
   <div class='af-layout'>
       <ul class='lhs'>
-        <li><span (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
+        <li><span class="hidden-xs" (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
         <li><span (click)='quickLink({budget: true})'>Top budget restaurants</span></li>
-        <li><span (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
+        <li><span class="hidden-xs" (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
         <li><span (click)='quickLink({finedining: true})'>Top fine dining restaurants</span></li>
       </ul>
       <ul class='rhs'>
         <li><span (click)='quickLink({cuisine: "dutch"})'>Best Dutch restaurants</span></li>
-        <li><span (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
+        <li><span class="hidden-xs" (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
         <li><span (click)='quickLink({cuisine: "surinamese"})'>Best Surinamese restaurants</span></li>
-        <li><span (click)='quickLink({cuisine: "asian"})'>Best Asian restaurants</span></li>
+        <li><span class="hidden-xs" (click)='quickLink({cuisine: "asian"})'>Best Asian restaurants</span></li>
       </ul>
   </div>
 </div>
@@ -19,8 +19,8 @@
 <div id="filter-map-container">
   <div *ngIf='favouritesOverlay | async' class="overlay favourites-overlay">
     <p>Search for restaurants by price, location or type of cuisine.</p>
-    <p>Add restaurants to your favourites by clicking ❤️ and return to them any time by using the favourites button.</p>
-    <button class='afbutton reverse' (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Dismiss</button>
+    <p>Add restaurants to your favourites by clicking ♥ and return to them any time by using the favourites button.</p>
+    <button class='afbutton reverse' (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Close</button>
   </div>
 
   <div id="filter-map" class='af-layout'>
@@ -48,6 +48,6 @@
     [selectedQName]='selectedQName'
     (action)='store.dispatch($event)'></app-resto-list>
 
-<footer>
+<!--<footer>
   <button (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>instructions</button>
-</footer>
+</footer>-->

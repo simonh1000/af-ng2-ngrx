@@ -19,7 +19,7 @@ export class GoogleMapsLoader {
                 };
 
                 // Add script tag to load google maps, which then triggers the callback, which resolves the promise with windows.google.maps.
-                console.log('[GoogleMapsLoader] Inserting script');
+                // console.log('[GoogleMapsLoader] Inserting script');
                 let node = document.createElement('script');
                 node.src = url;
                 node.type = 'text/javascript';

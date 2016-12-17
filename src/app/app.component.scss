@@ -40,6 +40,7 @@
         z-index: 1000;
         width: 100%;
         padding: 15px;
+        border-radius: $afradius;
     }
 }
 
@@ -56,8 +57,14 @@ app-resto-list {
 
     #filter-map-container {
         .favourites-overlay {
-            position: initial;
-        }
+            top: 50px;
+            z-index: 1000;
+            width: 300px;
+            padding: 15px;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+       }
     }
    #filter-map {
         margin-top: 5px;

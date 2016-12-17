@@ -93,7 +93,8 @@
 
 @media (min-width: $screen-sm) {
     .searchBtnContainer {
-        display: none;
+        margin-top: 0;
+        padding-right: 20px;
     }
     .criteria {
         position: inherit;
