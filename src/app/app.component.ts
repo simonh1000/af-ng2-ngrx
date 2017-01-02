@@ -105,7 +105,7 @@ export class AppComponent {
             this.store.select(state => state.notices)
                 .distinct()
                 .do( (notices: Notices) => {
-                    // console.log('persist notices', notices)
+                    console.log('persist notices', notices)
                     this.storage.persist('notices', notices);
                 })
                 .map(notices => !notices.favouritesOverlayDismissed);

@@ -19,8 +19,10 @@
             font-style: initial;
             margin-right: 3px;
         }
-        font-weight: 400;
         display: flex;
+        justify-content: center;
+        min-width: 85px;
+        font-weight: 800;
     }
 }
 .criteria {
