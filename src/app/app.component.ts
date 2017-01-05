@@ -92,13 +92,12 @@ export class AppComponent {
             this.store.select(state => state.filters)
                 // This line needed as otherwise change in geolocation triggers state to be 
                 // resent, overwriting any changes user has made on filters menu
-                // .distinctUntilChanged()
+                .distinctUntilChanged()
                 .do( (filters: Filters) => {
                     // console.log(filters);
                     this.location.pushState({}, '', '/recommendations/' + toUrl(filters));
-                    // this.location.pushState({}, '', toUrl(filters));
                     // console.log('storing favourites', filters.favouritesList)
-                    this.storage.persist('filters', filters.favouritesList);
+                    this.storage.setFavourites(filters.favouritesList);
                 });
 
         this.favouritesOverlay =
