@@ -162,6 +162,11 @@ export const Dictionary: IDictionary = {
             'suffix': ' restaurants',
             'recs': 1
         },
+        'vegetarian': {
+            'name': 'Vegetarian',
+            'suffix': ' restaurants',
+            'recs': 1
+        },
         'vietnamese': {
             'name': 'Vietnamese',
             'suffix': ' restaurants',
