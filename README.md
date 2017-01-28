@@ -11,4 +11,5 @@ ng build --prod --aot
 ## NPM Helpers
 
 npm install --save @types/google-maps
-npm install @ngrx/core @ngrx/store --save
+npm install --save @ngrx/core @ngrx/store
+npm install --save "web-animations-js"
