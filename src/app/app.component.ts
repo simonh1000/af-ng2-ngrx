@@ -4,6 +4,7 @@ import { PlatformLocation } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import { environment } from '../environments/environment';
 import { WindowRef } from './services/window.ref';
 import { GoogleMapsLoader } from './map/map-loader.service';
 import { StorageService } from './services/storage.service';
@@ -36,6 +37,7 @@ export class AppComponent {
     selectedQName: Observable<string[]>;
     mapReady: Observable<number>;
     favouritesOverlay: Observable<boolean>;
+    advertImgUri: string = environment.imgPath + 'restaurant_reservation.jpg';
 
     constructor(public location: PlatformLocation,
                 public store: Store<AppState>,
@@ -129,4 +131,6 @@ export class AppComponent {
             payload: filters
         });
     }
+
+    
 }

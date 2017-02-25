@@ -1,5 +1,15 @@
 @import '../variables';
 
+.top-section {
+    display: flex;
+    .advert {
+        font-size: 30px;
+        color: white;
+        img {
+            width: 100%;
+        }
+    }
+}
 .quick-links {
     ul {
         list-style-type: none;
@@ -13,6 +23,21 @@
         color: $brand-secondary;
         text-decoration: underline;
         cursor: pointer;
+    }
+}
+
+#filter-map-container {
+    position: relative;
+    .favourites-overlay {
+        position: absolute;
+        top: 20px;
+        z-index: 1000;
+        width: 100%;
+        padding: 15px;
+        border-radius: $afradius;
+        background-color: rgba($brand-primary, 0.8);
+        color: white;
+        padding: 0 $v-rhythm;
     }
 }
 
@@ -32,17 +57,6 @@
         display: block;
     }
 }
-#filter-map-container {
-    position: relative;
-    .favourites-overlay {
-        position: absolute;
-        top: 20px;
-        z-index: 1000;
-        width: 100%;
-        padding: 15px;
-        border-radius: $afradius;
-    }
-}
 
 #filter-map {
     margin-top: 40px;
@@ -54,8 +68,22 @@ app-resto-list {
 }
 
 @media (min-width: $screen-sm) {
+    .af-layout {
+        flex-direction: initial;
 
+        .lhs {
+            width: 320px;
+        }
+        .rhs {
+            width: 300px;
+            flex-grow: 1;
+            flex-shrink: 0;
+        }
+    }
     #filter-map-container {
+        app-filters {
+            padding-top: 15px;
+        }
         .favourites-overlay {
             top: 50px;
             z-index: 1000;
@@ -68,19 +96,5 @@ app-resto-list {
     }
    #filter-map {
         margin-top: 5px;
-    }
-    .af-layout {
-        flex-direction: initial;
-
-        .lhs {
-            width: 320px;
-        }
-        app-filters {
-            padding-top: 15px;
-        }
-        .rhs {
-            width: 300px;
-            flex-grow: 1;
-        }
     }
 }

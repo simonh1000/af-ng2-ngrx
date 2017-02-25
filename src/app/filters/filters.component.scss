@@ -36,6 +36,9 @@
     transition-property: max-height;
     transition-duration: 1.3s;
     transition-timing-function: ease;
+    background-color: rgba($brand-primary, 0.8);
+    color: white;
+    padding: 0 $v-rhythm;
 
     &.closed {
         // display: block;

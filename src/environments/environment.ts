@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  dataServer: '/assets/restos-af2015.json'
+  dataServer: '/assets/restos-af2015.json',
+  imgPath: "/assets/"
 };

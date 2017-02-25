@@ -1,18 +1,21 @@
-<div class="quick-links">
-  <h4>popular searches</h4>
-  <div class='af-layout'>
-      <ul class='lhs'>
-        <li><span class="hidden-xs" (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
-        <li><span (click)='quickLink({budget: true})'>Top budget restaurants</span></li>
-        <li><span class="hidden-xs" (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
-        <li><span (click)='quickLink({finedining: true})'>Top fine dining restaurants</span></li>
-      </ul>
-      <ul class='rhs'>
-        <li><span (click)='quickLink({cuisine: "dutch"})'>Best Dutch restaurants</span></li>
-        <li><span class="hidden-xs" (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
-        <li><span (click)='quickLink({cuisine: "surinamese"})'>Best Surinamese restaurants</span></li>
-        <li><span class="hidden-xs" (click)='quickLink({cuisine: "asian"})'>Best Asian restaurants</span></li>
-      </ul>
+<div class='top-section af-layout'>
+  <div class='quick-links lhs'>
+    <h4>popular searches</h4>
+    <ul>
+      <li><span class="hidden-xs" (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
+      <li><span (click)='quickLink({budget: true})'>Top budget restaurants</span></li>
+      <li><span class="hidden-xs" (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
+      <li><span (click)='quickLink({finedining: true})'>Top fine dining restaurants</span></li>
+      <li><span (click)='quickLink({cuisine: "dutch"})'>Best Dutch restaurants</span></li>
+      <li><span class="hidden-xs" (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
+      <li><span (click)='quickLink({cuisine: "surinamese"})'>Best Surinamese restaurants</span></li>
+      <li><span class="hidden-xs" (click)='quickLink({cuisine: "asian"})'>Best Asian restaurants</span></li>
+    </ul>
+  </div>
+  <div class='advert rhs'>
+    <a href="http://www.couverts.nl/reserveren/?tt=18978_12_267622_&r=https%3A%2F%2Fen.couverts.nl%2F" target="_blank">
+      <img src="{{advertImgUri}}" alt="">
+    </a>
   </div>
 </div>
 
