@@ -1,3 +1,4 @@
+@import '../../variables';
 #map {
     display: block;
     width: 100%;
@@ -5,12 +6,10 @@
 }
 
 
-@media (min-width: 640px) {
-
-#map {
-    // display: block;
-    // width: 400px;
-    height: 400px;
-}
-
+@media (min-width: $screen-sm) {
+    #map {
+        // display: block;
+        // width: 400px;
+        height: 100%;
+    }
 }

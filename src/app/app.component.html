@@ -1,55 +1,42 @@
-<div class='top-section af-layout'>
-  <div class='quick-links lhs'>
-    <h4>popular searches</h4>
-    <ul>
-      <li><span class="hidden-xs" (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
-      <li><span (click)='quickLink({budget: true})'>Top budget restaurants</span></li>
-      <li><span class="hidden-xs" (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
-      <li><span (click)='quickLink({finedining: true})'>Top fine dining restaurants</span></li>
-      <li><span (click)='quickLink({cuisine: "dutch"})'>Best Dutch restaurants</span></li>
-      <li><span class="hidden-xs" (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
-      <li><span (click)='quickLink({cuisine: "surinamese"})'>Best Surinamese restaurants</span></li>
-      <li><span class="hidden-xs" (click)='quickLink({cuisine: "asian"})'>Best Asian restaurants</span></li>
-    </ul>
-  </div>
-  <div class='advert rhs'>
-    <a href="http://www.couverts.nl/reserveren/?tt=18978_12_267622_&r=https%3A%2F%2Fen.couverts.nl%2F" target="_blank">
-      <img src="{{advertImgUri}}" alt="">
-    </a>
-  </div>
-</div>
-
 <div id="filter-map-container">
-  <div *ngIf='favouritesOverlay | async' class="overlay favourites-overlay">
-    <p>Search for restaurants by price, location or type of cuisine.</p>
-    <p>Add restaurants to your favourites by clicking ♥ and return to them any time by using the favourites button.</p>
-    <button class='afbutton reverse' (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Close</button>
-  </div>
 
-  <div id="filter-map" class='af-layout'>
-    <app-filters
-        class='lhs'
-        [filters]='filters | async'
-        [location]='myLocation | async'
-        (action)='store.dispatch($event)'>
-    </app-filters>
+    <div *ngIf='favouritesOverlay | async' class="overlay favourites-overlay">
+        <p>Search for restaurants by price, location or type of cuisine.</p>
+        <p>Add restaurants to your favourites by clicking ♥ and return to them any time by using the favourites button.</p>
+        <button class='afbutton reverse' (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>Close</button>
+    </div>
 
-    <app-map
-        *ngIf='(mapReady | async) > 0'
-        class='rhs'
-        [restos]='restos_list | async'
-        [selectedQName]='selectedQName | async'
-        [location]='myLocation | async'
-        [mapReady]='mapReady | async'
-        (action)='store.dispatch($event)'></app-map>
-  </div>
+    <div class="lhs">
+        <div class='quick-links'>
+            <h4>popular searches</h4>
+            <ul>
+                <li><span class="hidden-xs" (click)='quickLink({})'>Top 5 restaurants in Amsterdam</span></li>
+                <li><span (click)='quickLink({budget: true})'>Top budget restaurants</span></li>
+                <li><span class="hidden-xs" (click)='quickLink({midrange: true})'>Top mid-range restaurants</span></li>
+                <li><span (click)='quickLink({finedining: true})'>Top fine dining restaurants</span></li>
+                <li><span (click)='quickLink({cuisine: "dutch"})'>Best Dutch restaurants</span></li>
+                <li><span class="hidden-xs" (click)='quickLink({cuisine: "indonesian"})'>Best Indonesian restaurants</span></li>
+                <li><span (click)='quickLink({cuisine: "surinamese"})'>Best Surinamese restaurants</span></li>
+            </ul>
+        </div>
+
+        <!--<div id="filter-map" class='af-layout'>-->
+        <app-filters [filters]='filters | async' [location]='myLocation | async' (action)='store.dispatch($event)'>
+        </app-filters>
+    </div>
+
+    <app-map *ngIf='(mapReady | async) > 0' class='rhs' [restos]='restos_list | async' [selectedQName]='selectedQName | async'
+        [location]='myLocation | async' [mapReady]='mapReady | async' (action)='store.dispatch($event)'></app-map>
+        <!--</div>-->
 </div>
 
-<app-resto-list
-    [restos]='restos_list | async'
-    [filters]='filters | async'
-    [selectedQName]='selectedQName'
-    (action)='store.dispatch($event)'></app-resto-list>
+<div class='advert'>
+    <a href="http://www.couverts.nl/reserveren/?tt=18978_12_267622_AFbannerNL&r=%2F" target="_blank">
+        <img src="{{advertImgUri}}" alt="">
+    </a>
+</div>
+
+<app-resto-list [restos]='restos_list | async' [filters]='filters | async' [selectedQName]='selectedQName' (action)='store.dispatch($event)'></app-resto-list>
 
 <!--<footer>
   <button (click)='store.dispatch({type:"DISMISS_FAVOURITES"})'>instructions</button>

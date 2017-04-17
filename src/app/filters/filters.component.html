@@ -3,7 +3,7 @@
         <span class="icon">🔎</span>search
     </button>
 
-    <button class='afbutton' (click)='getFavourites($event)'>
+    <button class='afbutton visible-xs' (click)='getFavourites($event)'>
         <span class="icon">
             <svg class="favourite heart" viewBox="0 0 32 29.6">
             <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
@@ -12,17 +12,12 @@
         favourites
     </button>
 
-    <button *ngIf='this.location.length > 0' class='afbutton' (click)='getClose()'>
+    <button *ngIf='this.location.length > 0' class='afbutton visible-xs' (click)='getClose()'>
         <span class="icon">◎</span>nearby
     </button>
 </div>
 
 <div class='criteria overlay closed' [ngClass]='{"closed": !overlay}'>
-
-    <!--<div class='close-by-button' *ngIf='this.location.length > 0'>
-        <button class='afbutton' (click)='getClose()'>What's close?</button>
-    </div>-->
-
     <form>
         <div class='form-group'>
             <label class=' control-label'>search by name</label>
@@ -67,7 +62,19 @@
         <div class='controls'>
             <label class='sr-only'>find me a restaurant</label>
             <button class='afbutton reverse' (click)='setCriteria($event)'>find me a restaurant!</button>
-            <!--<button class='afbutton reverse' (click)='getFavourites($event)'>Favourites</button>-->
+
+            <button class='afbutton hidden-xs' (click)='getFavourites($event)'>
+                <span class="icon">
+                    <svg class="favourite heart" viewBox="0 0 32 29.6">
+                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" /></svg>
+                </span>
+                favourites
+            </button>
+
+            <button *ngIf='this.location.length > 0' class='afbutton hidden-xs' (click)='getClose()'>
+                <span class="icon">◎</span>&nbsp;nearby
+            </button>
         </div>
     </form>
 </div>

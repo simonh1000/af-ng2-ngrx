@@ -1,15 +1,25 @@
 @import '../variables';
 
-.top-section {
+#filter-map-container {
     display: flex;
-    .advert {
-        font-size: 30px;
+    flex-direction: column;
+    position: relative;
+    .favourites-overlay {
+        position: absolute;
+        top: 157px;
+        z-index: 1000;
+        width: 100%;
+        padding: 10px;
+        border-radius: $afradius;
+        background-color: rgba($brand-primary, 0.8);
         color: white;
-        img {
-            width: 100%;
+        font-weight: 800;
+        p {
+            margin-bottom: 15px;
         }
     }
 }
+
 .quick-links {
     ul {
         list-style-type: none;
@@ -26,40 +36,15 @@
     }
 }
 
-#filter-map-container {
+app-filters {
+    display: block;
     position: relative;
-    .favourites-overlay {
-        position: absolute;
-        top: 20px;
-        z-index: 1000;
-        width: 100%;
-        padding: 15px;
-        border-radius: $afradius;
-        background-color: rgba($brand-primary, 0.8);
-        color: white;
-        padding: 0 $v-rhythm;
-    }
 }
-
-.af-layout {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    .rhs {
-        display: block;
+.advert {
+    margin-top: 5px;
+    img {
         width: 100%;
     }
-    app-map {
-        background-color: #aaa;
-    }
-    app-filters {
-        margin-top: -3px;
-        display: block;
-    }
-}
-
-#filter-map {
-    margin-top: 40px;
 }
 
 app-resto-list {
@@ -68,33 +53,22 @@ app-resto-list {
 }
 
 @media (min-width: $screen-sm) {
-    .af-layout {
-        flex-direction: initial;
-
-        .lhs {
-            width: 320px;
-        }
-        .rhs {
-            width: 300px;
-            flex-grow: 1;
-            flex-shrink: 0;
-        }
-    }
     #filter-map-container {
-        app-filters {
-            padding-top: 15px;
+        flex-direction: row;
+        align-items: stretch;
+        .lhs {
+            flex: 0 0 370px;
+        }
+        app-map {
+            flex: 1 1;
         }
         .favourites-overlay {
-            top: 50px;
-            z-index: 1000;
-            width: 300px;
+            top: 235px;
+            width: 350px;
             padding: 15px;
-            left: 50%;
-            -webkit-transform: translateX(-50%);
-            transform: translateX(-50%);
+            left: 0;
+            // -webkit-transform: translateX(-50%);
+            // transform: translateX(-50%);
        }
-    }
-   #filter-map {
-        margin-top: 5px;
     }
 }

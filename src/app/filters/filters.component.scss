@@ -9,10 +9,11 @@
 }
 .searchBtnContainer {
     // position: absolute;
-    margin-top: -30px;
-    height: 25px;
+    // margin-top: -30px;
+    // height: 25px;
     display: flex;
     justify-content: space-between;
+    padding-bottom: 5px;
 
     .afbutton {
         span.icon {
@@ -28,6 +29,7 @@
 .criteria {
     overflow-y: hidden;
     position: absolute; // floats on top of map
+    top: 30px;
     margin-top: 3px;
     border-radius: $afradius;
     z-index: 10;
@@ -102,7 +104,7 @@
         padding-right: 20px;
     }
     .criteria {
-        position: inherit;
+        position: initial;
         background-color: inherit;
         color: #222;
         padding-left: 0;

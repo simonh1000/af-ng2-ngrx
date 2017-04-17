@@ -37,7 +37,7 @@ export class AppComponent {
     selectedQName: Observable<string[]>;
     mapReady: Observable<number>;
     favouritesOverlay: Observable<boolean>;
-    advertImgUri: string = environment.imgPath + 'restaurant_reservation.jpg';
+    advertImgUri: string = environment.imgPath + 'restaurant_reservation2.jpg';
 
     constructor(public location: PlatformLocation,
                 public store: Store<AppState>,
