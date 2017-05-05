@@ -68,7 +68,8 @@ export class MapComponent implements OnInit, OnChanges {
     *      - mapready: use to draw markers
     *      - location: redraw location
     */
-    ngOnChanges(changes: { changes: SimpleChange }): void {
+    // ngOnChanges(changes: { changes: SimpleChange }): void {
+    ngOnChanges(changes): void {
         if (this.mapReady < 2) {
             return;
         }

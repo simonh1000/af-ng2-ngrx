@@ -1,5 +1,5 @@
 @import './variables';
-@import './dev';
+// @import './dev';
 
 select {
     font-size: 50px;
@@ -8,7 +8,5 @@ select {
 .afbutton.reverse {
     background-color: white;
     color: $brand-primary;
-    /*width: 100%;*/
     text-align: left;
 }
-

@@ -1,5 +1,5 @@
 import {
-    Component, OnChanges, OnInit, SimpleChanges,
+    Component, OnInit, OnChanges, SimpleChanges,
     Input, Output, EventEmitter
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -69,7 +69,7 @@ export class FiltersComponent implements OnInit, OnChanges {
         this.searchControl.setValue(s);
     }
 
-    setCriteria($event: Event) {
+    setCriteria() {
         this.overlay = false;
         sendAnalytics(this.filters);
 
