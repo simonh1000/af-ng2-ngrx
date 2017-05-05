@@ -1,14 +1,21 @@
 # Afapp
 
-## Demoed at [NG Europe 2016](https://www.youtube.com/watch?v=_HiLfC-3g60)
+As demoed at [NG Europe 2016](https://www.youtube.com/watch?v=_HiLfC-3g60)
 
+## Dev environment 
+
+ng serve 
+
+## Build commands 
+
+ng build --env=dev
 ng build --env=staging
-
-ng build --prod
 
 ng build --prod --aot
 
-## NPM Helpers
+## NPM
+
+In addition to the standard dependencies of the angular-cli, you also need:
 
 npm install --save @types/google-maps
 npm install --save @ngrx/core @ngrx/store
