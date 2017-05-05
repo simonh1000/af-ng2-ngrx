@@ -7,9 +7,9 @@ import { NEW_FILTERS, GET_CLOSE, GET_FAVOURITES, REMOVE_FAVOURITE } from './filt
 export const SELECT_RESTO = 'SELECT_RESTO';
 
 export function selectedReducer(state: Array<string> = [null, null], action: Action) {
+    // console.log("selectedRestoReducer", state, action);
     switch (action.type) {
         case SELECT_RESTO:
-            // console.log(state, action);
             if (action.payload === state[0]) {
                 return [null, state[0]]
             } else {

@@ -43,15 +43,19 @@ export class RestoComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-      this.fullStars = Array(Math.floor( this.resto.rating / 2 )).fill(1);
-      this.halfStars = Array(this.resto.rating % 2).fill(1);
-      this.emptyStars = Array(Math.floor( (10 - this.resto.rating) / 2)).fill(1);
+      if (this.resto) {
+        this.fullStars = Array(Math.floor( this.resto.rating / 2 )).fill(1);
+        this.halfStars = Array(this.resto.rating % 2).fill(1);
+        this.emptyStars = Array(Math.floor( (10 - this.resto.rating) / 2)).fill(1);
+      }
   }
 
   ngOnChanges(changes) {
-      this.fullStars = Array(Math.floor( this.resto.rating / 2 )).fill(1);
-      this.halfStars = Array(this.resto.rating % 2).fill(1);
-      this.emptyStars = Array(Math.floor( (10 - this.resto.rating) / 2)).fill(1);
+      if (this.resto) {
+        this.fullStars = Array(Math.floor( this.resto.rating / 2 )).fill(1);
+        this.halfStars = Array(this.resto.rating % 2).fill(1);
+        this.emptyStars = Array(Math.floor( (10 - this.resto.rating) / 2)).fill(1);
+      }
   }
 
   toAlphaIndex(i) {
