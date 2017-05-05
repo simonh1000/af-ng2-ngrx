@@ -13,17 +13,20 @@
 	</h4>
 
 	<div class='scores'>
-		<span class='rating'>
-			{{'★'.repeat(resto.rating)}}<span class='feint'>{{'★'.repeat(5 - resto.rating)}}</span>
-		</span>
-		<span class='price'>
+		<div class='rating'>
+			<span class="star-icon full" *ngFor="let idx of fullStars">☆</span>
+			<span class="star-icon half" *ngFor="let idx of halfStars">☆</span>
+			<span class="star-icon" *ngFor="let idx of emptyStars">☆</span>
+		</div>
+
+		<div class='price'>
 			{{'€'.repeat(resto.price)}}<span class='feint'>{{'€'.repeat(3 - resto.price)}}</span>
-		</span>
+		</div>
 		<!--<button (click)="toggleFavourite()" class="favourite" [ngClass]='{"favourited": isFavourite()}'>♥</button>-->
-			<svg (click)="toggleFavourite()" class="favourite heart" viewBox="0 0 32 29.6" [ngClass]='{"favourited": isFavourite()}'>
+		<svg (click)="toggleFavourite()" class="favourite heart" viewBox="0 0 32 29.6" [ngClass]='{"favourited": isFavourite()}'>
 			<path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
 	c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-			</svg> 
+		</svg> 
 
 		<span *ngIf='resto.booking' class="visible-xs-inline afbutton booknow" (click)='trackOutboundLink("SeatMe_link")'>
 			book now

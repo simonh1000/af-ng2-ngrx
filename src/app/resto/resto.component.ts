@@ -1,6 +1,6 @@
 declare var ga: any;
 
-import { Component, Input, Output, EventEmitter, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, trigger, state, style, transition, animate } from '@angular/core';
 
 import { WindowRef } from '../services/window.ref';
 import { Resto } from '../reducers/resto';
@@ -27,16 +27,31 @@ import { ADD_FAVOURITE, REMOVE_FAVOURITE } from '../reducers/filters_reducer';
     ])
   ]
 })
-export class RestoComponent {
+export class RestoComponent implements OnInit, OnChanges {
   @Input() resto: Resto;
   // @Input() isFavourite: boolean;
   @Input() favouritesList: string[];
   @Output() action = new EventEmitter();
   cuisines: Object = Dictionary.cuisines;
   areas: Object;
+  fullStars: Array<number>;
+  halfStars: Array<number>;
+  emptyStars: Array<number>;
 
   constructor(private winRef: WindowRef) {
     this.areas = Dictionary.areas;
+  }
+
+  ngOnInit() {
+      this.fullStars = Array(Math.floor( this.resto.rating / 2 )).fill(1);
+      this.halfStars = Array(this.resto.rating % 2).fill(1);
+      this.emptyStars = Array(Math.floor( (10 - this.resto.rating) / 2)).fill(1);
+  }
+
+  ngOnChanges(changes) {
+      this.fullStars = Array(Math.floor( this.resto.rating / 2 )).fill(1);
+      this.halfStars = Array(this.resto.rating % 2).fill(1);
+      this.emptyStars = Array(Math.floor( (10 - this.resto.rating) / 2)).fill(1);
   }
 
   toAlphaIndex(i) {
@@ -60,5 +75,4 @@ export class RestoComponent {
   isFavourite() {
     return this.favouritesList.indexOf(this.resto.qname) > -1;
   }
-
 }
